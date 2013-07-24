@@ -1,0 +1,9 @@
+Package: luess
+Type: Package
+Title: Estimation of Ecosystem Services from LPJmL Model Output
+Version: 0.1
+Date: 2013-07-24
+Author: Rene Sachse <rene.sachse@uni-potsdam.de>
+Maintainer: Rene Sachse <rene.sachse@uni-potsdam.de>
+Description: Estimation of Ecosystem Services from LPJmL Model Output
+License: GPL (>= 2)
