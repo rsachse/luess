@@ -8,6 +8,6 @@
   ecosystem services from LPJmL model output.
 }
 \author{
-  Rene Sachse <rene.sachse
+  Rene Sachse <rene.sachse@uni-potsdam.de>
 }
 

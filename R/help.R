@@ -5,6 +5,6 @@
 #'
 #' @docType package
 #' @name luess
-#' @author Rene Sachse <rene.sachse@uni-potsdam.de>
+#' @author Rene Sachse <rene.sachse@@uni-potsdam.de>
 #' @aliases luess luess-package
 NULL
