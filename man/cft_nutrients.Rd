@@ -3,8 +3,9 @@
 \alias{cft_nutrients}
 \title{Nutritional composition and dry weight of crop functional types}
 \description{
-  Nutritional composition and dry weight of crop functional
-  types
+  The data set provides kcal per g WW, g protein per g WW,
+  g fat per g WW and DW/WW [\%] for the 16 crop functional
+  types.
 }
 \references{
   See FAO (2001) and

@@ -9,6 +9,9 @@
 #' @aliases luess luess-package
 NULL
 #' Nutritional composition and dry weight of crop functional types
+#' 
+#' The data set provides kcal per g WW, g protein per g WW, g fat 
+#' per g WW and DW/WW [\%] for the 16 crop functional types.
 #'
 #' @name cft_nutrients
 #' @docType data
