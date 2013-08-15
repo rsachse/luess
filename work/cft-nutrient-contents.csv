@@ -1,17 +1,17 @@
 cft_nr;cft;description;kcal_per_g_WW;g_protein_per_g_WW;g_fat_per_g_WW;percent_DW
-1;    Temperate cereals;"(wheat, rye, barley; wheat)";3,34;0,122;0,023;88
-2;    Rice;"(paddy rice; rice)";2,8;0,06;0,014;87
-3;    Maize;"(maize for food; maize)";3,56;0,095;0,043;88
-4;    Tropical cereals;"(millet, sorghum; millet)";3,4;0,097;0,03;88
-5;    Pulses;"(pulses; field peas)";3,41;0,221;0,017;90
-6;    Temperate roots;"(sugar beet; sugar beet)";0,7;0,013;0,001;24
-7;    Tropical roots;"(cassava; cassava)";1,09;0,009;0,002;35
-8;    Sunflower ;"(sunflower; sunflower)";3,08;0,123;0,268;93
-9;    Soybean;"(soybean; soybean)";3,35;0,38;0,18;91
-10;    Groundnuts;"(groundnuts; groundnuts)";4,14;0,187;0,359;94
-11;    Rapeseed;"(rapeseed; rapeseed)";4,94;0,196;0,45;92
-12;    Sugarcane;(sugarcane: sugarcane);0,3;0,002;0;27
-13;    others;"(potatoes, oil palm, citrus, date palm, grapes/vine, cotton, cocoa, coffee, other perennial crops, other annual crops; managed grassland)";1,5;0,024;0,078;49
-14;    managed grasslands;"(pastures; managed grasslands)";0;0;0;100
-15;    bio-energy grass;;0;0;0;100
-16;    bio-energy tree;;0;0;0;100
+1;Temperate cereals;"(wheat, rye, barley; wheat)";3,34;0,122;0,023;88
+2;Rice;"(paddy rice; rice)";2,8;0,06;0,014;87
+3;Maize;"(maize for food; maize)";3,56;0,095;0,043;88
+4;Tropical cereals;"(millet, sorghum; millet)";3,4;0,097;0,03;88
+5;Pulses;"(pulses; field peas)";3,41;0,221;0,017;90
+6;Temperate roots;"(sugar beet; sugar beet)";0,7;0,013;0,001;24
+7;Tropical roots;"(cassava; cassava)";1,09;0,009;0,002;35
+8;Sunflower ;"(sunflower; sunflower)";3,08;0,123;0,268;93
+9;Soybean;"(soybean; soybean)";3,35;0,38;0,18;91
+10;Groundnuts;"(groundnuts; groundnuts)";4,14;0,187;0,359;94
+11;Rapeseed;"(rapeseed; rapeseed)";4,94;0,196;0,45;92
+12;Sugarcane;(sugarcane: sugarcane);0,3;0,002;0;27
+13;others;"(potatoes, oil palm, citrus, date palm, grapes/vine, cotton, cocoa, coffee, other perennial crops, other annual crops; managed grassland)";1,5;0,024;0,078;49
+14;managed grasslands;"(pastures; managed grasslands)";0;0;0;100
+15;bio-energy grass;;0;0;0;100
+16;bio-energy tree;;0;0;0;100

@@ -8,3 +8,4 @@ Author: Rene Sachse <rene.sachse@uni-potsdam.de>
 Maintainer: Rene Sachse <rene.sachse@uni-potsdam.de>
 Description: Estimation of Ecosystem Services from LPJmL Model Output
 License: GPL (>= 2)
+LazyData: yes 
