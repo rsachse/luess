@@ -1,9 +1,23 @@
 library(luess)
-CLUlonglat <- transform_asciigrid("N:/Dropbox/OPERA/CLUMondo/datastructure/land_systems.asc")
+CLUlonglat <- transform_asciigrid("land_systems.asc")
 lpjgrid    <- generate_grid()
 system.time(
-  out      <- resample_grid(CLUlonglat, lpjgrid, cells=40000:41000)
+  out      <- resample_grid(CLUlonglat, lpjgrid, cells=40000:40100)
 )
+
+
+lc <- coordinates(lpjgrid)
+ll <- getCoordinates(degree=TRUE, order="lpj")
+
+pos_in_input <- array(data=NA,dim=length(ll)/2)
+for (c in 1:(length(ll)/2)){
+  print(c)
+  x_temp <- which(lc[,1]==ll[c,1] ,arr.ind=TRUE)
+  y_temp <- which(lc[,2]==ll[c,2],arr.ind=TRUE)
+  pos_in_input[c] <- intersect(x_temp,y_temp)
+}
+  
+
 
 
 system.time(
