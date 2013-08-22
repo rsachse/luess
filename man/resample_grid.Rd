@@ -2,7 +2,8 @@
 \alias{resample_grid}
 \title{Resampling of a high resolution grid for further use with a grid of coarser resolution}
 \usage{
-  resample_grid(grid_hr, grid_lr, cells = NULL)
+  resample_grid(grid_hr, grid_lr, cells = NULL,
+    datacolumn = 1)
 }
 \arguments{
   \item{grid_hr}{SpatialPointsDataFrame containing the
@@ -15,9 +16,12 @@
   \item{cells}{Only calculations for these cells will be
   returned (e.g. if these are cells with landcover). If
   \code{NULL} values for all cells will be calculated.}
+
+  \item{datacolumn}{integer specifing which column of the
+  SpaitalPointsDataFrame contains the data of interest}
 }
 \value{
-  data frame containing...
+  list containing ...
 }
 \description{
   The function reads a high resolution grid from an ascii
