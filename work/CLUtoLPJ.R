@@ -17,8 +17,9 @@ for (c in 1:(length(ll)/2)){
   pos_in_input[c] <- intersect(x_temp,y_temp)
 }
   
+plot(coordinates(lpjgrid)[pos_in_input,], col="green", pch=".")
 
-
+save(pos_in_input, file="pos_in_input.RData")
 
 system.time(
   out      <- resample_grid(CLUlonglat, lpjgrid)
