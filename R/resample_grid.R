@@ -30,21 +30,27 @@ resample_grid <- function(grid_hr, grid_lr, cells=NULL, datacolumn=1){
     cells     <- unique(res)
   }
   #print(cells)
-  out <- outlc <- outlcall <- list()
+  out <- outlc <- outlcall <- vector("list",length(cells))
+  uniquelu      <- sort(unique(grid_hr@data[,datacolumn]))
   for(i in 1:length(cells)){
     print(paste("aggregating land use systems for cell", i, "of", length(cells)))
-    thecell       <- cells[i]
-    CLUcells      <- which(res == thecell)
+    #thecell       <- cells[i]
+    CLUcells      <- which(res == cells[i])
     #print(paste("id=",id))
     out[i]        <- list(grid_hr@data[CLUcells, datacolumn])
-    outlc[i]      <- list(table(out[[i]]))
-    uniquelu      <- sort(unique(grid_hr@data[,datacolumn]))
-    #print(length(uniquelu))
-    lufrac        <- numeric(length(uniquelu))
-    idLU          <- as.integer(unlist(dimnames(outlc[[i]])))+1
-    lufrac[idLU]  <- outlc[[i]]/sum(outlc[[i]])
-    outlcall[i]   <- list(lufrac)
-  }
+  }    
+  outlc      <- lapply(out, table)
+  outlcall   <- lapply(
+    outlc, 
+    function(x,uniquelu){
+      #x             <- table(out) 
+      idLU          <- as.integer(unlist(dimnames(x)))+1
+      lufrac        <- numeric(length(uniquelu))
+      lufrac[idLU]  <- x/sum(x)
+      return(lufrac)
+    }, 
+    uniquelu=uniquelu
+  )
   return(
     list(
       cells=cells, 
