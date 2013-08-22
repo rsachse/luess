@@ -2,7 +2,7 @@ library(luess)
 CLUlonglat <- transform_asciigrid("N:/Dropbox/OPERA/CLUMondo/datastructure/land_systems.asc")
 lpjgrid    <- generate_grid()
 system.time(
-  out      <- resample_grid(CLUlonglat, lpjgrid, cells=40000:40100)
+  out      <- resample_grid(CLUlonglat, lpjgrid, cells=40000:41000)
 )
 
 
