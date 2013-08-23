@@ -53,5 +53,10 @@ NULL
 #'
 #' @name CLUtoLPJ2040
 #' @docType data
+#' @references A full documentation of the data can be found in: 
+#' Van Asselen, S., Verburg, P.H. (2012) A Land System representation 
+#' for global assessments and land-use modeling. Global Change Biology. 
+#' DOI: 10.1111/j.1365-2486.2012.02759.x.
+#' 
 #' @keywords LPJmL, grid cells, grid, CLUMondo 
 NULL

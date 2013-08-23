@@ -36,7 +36,14 @@ id <- which(hh < 1)
 plot(coordinates(mygrid), pch=".")
 points(CLUlonglat, col="green", pch=".")
 points(lpj_short_outgrid[id,], col="red", pch=16)
+######
 
+nrc  <- sapply(CLUtoLPJ2040$hrcells, length)
+coor <- cbind(CLUtoLPJ2040$xcoord, CLUtoLPJ2040$ycoord)
+gridPlot(values=nrc,coordinates=coor,res=0.5,plot=TRUE)
+
+
+######
 
 lc <- coordinates(lpjgrid)
 ll <- getCoordinates(degree=TRUE, order="lpj")
