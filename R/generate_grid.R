@@ -11,9 +11,7 @@
 #' @param cells.dim integer; vector with number of cells in each dimension
 #' 
 #' @param proj4 A character string of projection arguments; 
-#' the arguments must be entered exactly as in the PROJ.4 documentation; 
-#' if the projection is unknown, use as.character(NA), it may be missing 
-#' or an empty string of zero length and will then set to the missing value.
+#' the arguments must be entered exactly as in the PROJ.4 documentation
 #' 
 #' @return Returns a SpatialGrid.
 #'

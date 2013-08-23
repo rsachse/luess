@@ -2,8 +2,40 @@ library(luess)
 CLUlonglat <- transform_asciigrid("land_systems.asc")
 lpjgrid    <- generate_grid()
 system.time(
-  out      <- resample_grid(CLUlonglat, lpjgrid, cells=40000:40100)
+  out      <- resample_grid(CLUlonglat, lpjgrid, cells=lpj_short_clupos)
 )
+
+hrc <- out$hrcells
+hh <- sapply(hrc, length)
+
+hist(hh)
+
+id <- which(hh > 47)
+plot(coordinates(mygrid), pch=".")
+points(CLUlonglat, col="green", pch=".")
+points(lpj_short_outgrid[id,], col="red", pch=16)
+
+plot(coordinates(mygrid), pch=15, xlim=c(-53.5,-55), ylim=c(-1.5,-0))
+points(CLUlonglat, col="green", pch=15)
+points(lpj_short_outgrid[id,], col="red", pch=16)
+abline(v=c(-53.5,-54,-54.5, -55))
+abline(h=c(0,-0.5,-1,-1.5))
+
+id <- which(hh < 5)
+plot(coordinates(mygrid), pch=".")
+points(CLUlonglat, col="green", pch=".")
+points(lpj_short_outgrid[id,], col="red", pch=16)
+
+plot(coordinates(mygrid), pch=15, xlim=c(4,6), ylim=c(59,63))
+abline(h=seq(59,63,0.5))
+abline(v=seq(4,6,0.5))
+points(CLUlonglat, col="green", pch=15)
+points(lpj_short_outgrid[id,], col="red", pch=16)
+
+id <- which(hh < 1)
+plot(coordinates(mygrid), pch=".")
+points(CLUlonglat, col="green", pch=".")
+points(lpj_short_outgrid[id,], col="red", pch=16)
 
 
 lc <- coordinates(lpjgrid)

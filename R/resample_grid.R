@@ -25,26 +25,15 @@
 #' @seealso \code{\link[sp]{over} in package \pkg{sp}}
 resample_grid <- function(grid_hr, grid_lr, cells=NULL, datacolumn=1){
   res         <- over(geometry(grid_hr), grid_lr)
-  #print(res)
   if(is.null(cells)){
     cells     <- unique(res)
   }
-  #print(cells)
   out <- outlc <- outlcall <- vector("list",length(cells))
   uniquelu      <- sort(unique(grid_hr@data[,datacolumn]))
-  #for(i in 1:length(cells)){
-  #  print(paste("aggregating land use systems for cell", i, "of", length(cells)))
-  #  #thecell       <- cells[i]
-  #  CLUcells      <- which(res == cells[i])
-  #  #print(paste("id=",id))
-  #  out[i]        <- list(grid_hr@data[CLUcells, datacolumn])
-  #} 
   out        <- lapply(
     cells, 
     function(x,res, datacolumn, grid_hr){
       print(paste("processing cell", x-min(cells),"of", max(cells)-min(cells)))
-      #print(x)
-      #print(max(x))
       CLUcells <- which(res == x)
       out      <- grid_hr@data[CLUcells, datacolumn]
       return(out)
@@ -55,7 +44,6 @@ resample_grid <- function(grid_hr, grid_lr, cells=NULL, datacolumn=1){
   outlcall   <- lapply(
     outlc, 
     function(x,uniquelu){
-      #x             <- table(out) 
       idLU          <- as.integer(unlist(dimnames(x)))+1
       lufrac        <- numeric(length(uniquelu))
       lufrac[idLU]  <- x/sum(x)
@@ -65,13 +53,13 @@ resample_grid <- function(grid_hr, grid_lr, cells=NULL, datacolumn=1){
   )
   return(
     list(
-      cells=cells, 
-      xcoord=coordinates(grid_lr)[cells,1], 
-      ycoord=coordinates(grid_lr)[cells,2],
-      hrcells=out,
-      hrvalues=outlc,
-      luid=uniquelu,
-      lufrac=outlcall
+      cells    = cells, 
+      xcoord   = coordinates(grid_lr)[cells,1], 
+      ycoord   = coordinates(grid_lr)[cells,2],
+      hrcells  = out,
+      hrvalues = outlc,
+      luid     = uniquelu,
+      lufrac   = outlcall
     )
   )
 }
