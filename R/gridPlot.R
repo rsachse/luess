@@ -3,9 +3,9 @@
 #' The function arranges data for plots of color maps of georeferenced data points.
 #' The plot can also be produced by this function.
 #' 
-#' @param values, numeric vector; values to be plotted at each set of coordinates
+#' @param values numeric vector; values to be plotted at each set of coordinates
 #'  
-#' @param coordinates, matrix, array or data.frame with 2 dimensions providing longitudes and lattitudes
+#' @param coordinates matrix, array or data.frame with 2 dimensions providing longitudes and lattitudes
 #' 
 #' @param res numeric; resolution of the grid
 #'  
@@ -29,7 +29,7 @@
 #' 
 #' @param ylim numeric vector of 2; range of y-axis
 #' 
-#' @param ... further arguments passed to \code{image2D()}
+#' @param ... further arguments passed to \code{\link[plot3D]{image2D}}
 #' 
 #' @return Returns a list with \code{x} x-coordinates, \code{y} y-coordinates 
 #' and and matrix \code{z} containing the data values. If \code{plot==TRUE} also
@@ -54,7 +54,8 @@
 #'  res=0.5,
 #'  plot=TRUE,
 #'  axes=TRUE,
-#'  col=rev(mySpectral(50)), mar=c(5,4,4,10)#rev(myPalette(50)), 
+#'  col=rev(mySpectral(50)),#rev(myPalette(50)), 
+#'  mar=c(5,4,4,10) 
 #')
 gridPlot <- function(
   values, 

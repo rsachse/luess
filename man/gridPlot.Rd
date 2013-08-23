@@ -9,10 +9,10 @@
     ylim = c(-60, 90), ...)
 }
 \arguments{
-  \item{values,}{numeric vector; values to be plotted at
+  \item{values}{numeric vector; values to be plotted at
   each set of coordinates}
 
-  \item{coordinates,}{matrix, array or data.frame with 2
+  \item{coordinates}{matrix, array or data.frame with 2
   dimensions providing longitudes and lattitudes}
 
   \item{res}{numeric; resolution of the grid}
@@ -40,7 +40,8 @@
 
   \item{ylim}{numeric vector of 2; range of y-axis}
 
-  \item{...}{further arguments passed to \code{image2D()}}
+  \item{...}{further arguments passed to
+  \code{\link[plot3D]{image2D}}}
 }
 \value{
   Returns a list with \code{x} x-coordinates, \code{y}
@@ -65,7 +66,8 @@ img <- gridPlot(
  res=0.5,
  plot=TRUE,
  axes=TRUE,
- col=rev(mySpectral(50)), mar=c(5,4,4,10)#rev(myPalette(50)),
+ col=rev(mySpectral(50)),#rev(myPalette(50)),
+ mar=c(5,4,4,10)
 )
 }
 \author{
