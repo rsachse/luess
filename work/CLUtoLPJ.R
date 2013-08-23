@@ -2,12 +2,17 @@ library(luess)
 CLUlonglat <- transform_asciigrid("land_systems.asc")
 lpjgrid    <- generate_grid()
 system.time(
-  out      <- resample_grid(CLUlonglat, lpjgrid, cells=lpj_short_clupos)
+  out      <- resample_grid(CLUlonglat, lpjgrid, cells=40000:40100)#lpj_short_clupos)
 )
 
 hrc <- out$hrcells
 hh <- sapply(hrc, length)
 
+hist(hh)
+######
+
+hrc <- CLUtoLPJ2040$hrcells
+hh <- sapply(hrc, length)
 hist(hh)
 
 id <- which(hh > 47)

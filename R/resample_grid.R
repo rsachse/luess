@@ -24,16 +24,17 @@
 #'
 #' @seealso \code{\link[sp]{over} in package \pkg{sp}}
 resample_grid <- function(grid_hr, grid_lr, cells=NULL, datacolumn=1){
+  print("Resampling grid, this may take a while!")
   res         <- over(geometry(grid_hr), grid_lr)
   if(is.null(cells)){
     cells     <- unique(res)
   }
-  out <- outlc <- outlcall <- vector("list",length(cells))
-  uniquelu      <- sort(unique(grid_hr@data[,datacolumn]))
-  out        <- lapply(
+  uniquelu    <- sort(unique(grid_hr@data[,datacolumn]))
+  out         <- lapply(
     cells, 
     function(x,res, datacolumn, grid_hr){
-      print(paste("processing cell", x-min(cells),"of", max(cells)-min(cells)))
+      #print(paste("processing cell", x-min(cells),"of", max(cells)-min(cells)))
+      #(paste("processing cell", x))
       CLUcells <- which(res == x)
       out      <- grid_hr@data[CLUcells, datacolumn]
       return(out)
@@ -51,6 +52,7 @@ resample_grid <- function(grid_hr, grid_lr, cells=NULL, datacolumn=1){
     }, 
     uniquelu=uniquelu
   )
+  print("Re-sampling finished.")
   return(
     list(
       cells    = cells, 
