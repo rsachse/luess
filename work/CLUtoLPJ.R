@@ -2,8 +2,10 @@ library(luess)
 CLUlonglat <- transform_asciigrid("land_systems.asc")
 lpjgrid    <- generate_grid()
 system.time(
-  out      <- resample_grid(CLUlonglat, lpjgrid, cells=40000:40100)#lpj_short_clupos)
+  out      <- resample_grid(CLUlonglat, lpjgrid, cells=lpj_short_clupos)
 )
+
+#40000:40100)#
 
 hrc <- out$hrcells
 hh <- sapply(hrc, length)
@@ -51,11 +53,11 @@ gridPlot(values=nrc,coordinates=coor,res=0.5,plot=TRUE)
 ######
 
 coor    <- cbind(CLUtoLPJ2040$xcoord, CLUtoLPJ2040$ycoord)
-forest  <- sapply(CLUtoLPJ2040$lufrac, function(x){x[19]})
-periurb <- sapply(CLUtoLPJ2040$lufrac, function(x){x[29]})
-urban   <- sapply(CLUtoLPJ2040$lufrac, function(x){x[30]})
-natgrass<- sapply(CLUtoLPJ2040$lufrac, function(x){x[24]})
-cropint <- sapply(CLUtoLPJ2040$lufrac, function(x){x[9]})
+forest  <- CLUtoLPJ2040$lufrac[19,] #sapply(CLUtoLPJ2040$lufrac, function(x){x[19]})
+periurb <- CLUtoLPJ2040$lufrac[29,] #sapply(CLUtoLPJ2040$lufrac, function(x){x[29]})
+urban   <- CLUtoLPJ2040$lufrac[30,] #sapply(CLUtoLPJ2040$lufrac, function(x){x[30]})
+natgrass<- CLUtoLPJ2040$lufrac[24,] #sapply(CLUtoLPJ2040$lufrac, function(x){x[24]})
+cropint <- CLUtoLPJ2040$lufrac[9,] #sapply(CLUtoLPJ2040$lufrac, function(x){x[9]})
 
 purb     <- colorRampPalette(brewer.pal(9, "PuRd"))
 reds     <- colorRampPalette(c("gray", brewer.pal(9, "Reds")))
@@ -65,7 +67,8 @@ img_forest  <- gridPlot(values=forest, coordinates=coor, res=0.5, plot=TRUE, mai
 img_periurb <- gridPlot(values=periurb, coordinates=coor, res=0.5, plot=TRUE, main="Fraction of Peri Urban", col=purb(1000))
 img_urban   <- gridPlot(values=urban, coordinates=coor, res=0.5, plot=TRUE, main="Fraction of Urban", col=reds(1000))
 img_natgrass<- gridPlot(values=natgrass, coordinates=coor, res=0.5, plot=TRUE, main="fraction of natural grassland")
-img_cropint <- gridPlot(values=cropint, coordinates=coor, res=0.5, plot=TRUE, main="fraction of natural grassland", col=oranges(1000))
+img_cropint <- gridPlot(values=cropint, coordinates=coor, res=0.5, plot=TRUE, main="fraction of intensive cropland", col=oranges(1000))
+
 
 
 
