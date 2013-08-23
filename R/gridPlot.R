@@ -25,6 +25,10 @@
 #' 
 #' @param mar numeric vector of 4, margins for the plot \code{c(bottom, left, top, right)}
 #' 
+#' @param xlim numeric vector of 2; range of x-axis
+#' 
+#' @param ylim numeric vector of 2; range of y-axis
+#' 
 #' @param ... further arguments passed to \code{image2D()}
 #' 
 #' @return Returns a list with \code{x} x-coordinates, \code{y} y-coordinates 
@@ -64,6 +68,8 @@ gridPlot <- function(
   axes=TRUE,
   cex=2.5,
   mar=c(5,4,4,6),
+  xlim = c(-180,180),
+  ylim = c(-60,90),
   ...
 ){
   ncell     <- length(coordinates[,1])

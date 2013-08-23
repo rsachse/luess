@@ -5,7 +5,8 @@
   gridPlot(values, coordinates, res = 0.5, main = "",
     clab = "", col = terrain.colors(1000)[1000:1],
     plot = TRUE, addcountries = FALSE, axes = TRUE,
-    cex = 2.5, mar = c(5, 4, 4, 6), ...)
+    cex = 2.5, mar = c(5, 4, 4, 6), xlim = c(-180, 180),
+    ylim = c(-60, 90), ...)
 }
 \arguments{
   \item{values,}{numeric vector; values to be plotted at
@@ -34,6 +35,10 @@
 
   \item{mar}{numeric vector of 4, margins for the plot
   \code{c(bottom, left, top, right)}}
+
+  \item{xlim}{numeric vector of 2; range of x-axis}
+
+  \item{ylim}{numeric vector of 2; range of y-axis}
 
   \item{...}{further arguments passed to \code{image2D()}}
 }
