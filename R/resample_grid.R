@@ -42,7 +42,7 @@ resample_grid <- function(grid_hr, grid_lr, cells=NULL, datacolumn=1){
     res=res, datacolumn=datacolumn, grid_hr=grid_hr
   )
   outlc      <- lapply(out, table)
-  outlcall   <- lapply(
+  outlcall   <- sapply(
     outlc, 
     function(x,uniquelu){
       idLU          <- as.integer(unlist(dimnames(x)))+1

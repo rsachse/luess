@@ -50,6 +50,27 @@ gridPlot(values=nrc,coordinates=coor,res=0.5,plot=TRUE)
 
 ######
 
+coor    <- cbind(CLUtoLPJ2040$xcoord, CLUtoLPJ2040$ycoord)
+forest  <- sapply(CLUtoLPJ2040$lufrac, function(x){x[19]})
+periurb <- sapply(CLUtoLPJ2040$lufrac, function(x){x[29]})
+urban   <- sapply(CLUtoLPJ2040$lufrac, function(x){x[30]})
+natgrass<- sapply(CLUtoLPJ2040$lufrac, function(x){x[24]})
+cropint <- sapply(CLUtoLPJ2040$lufrac, function(x){x[9]})
+
+purb     <- colorRampPalette(brewer.pal(9, "PuRd"))
+reds     <- colorRampPalette(c("gray", brewer.pal(9, "Reds")))
+oranges  <- colorRampPalette(c("gray", brewer.pal(9, "Oranges")))
+
+img_forest  <- gridPlot(values=forest, coordinates=coor, res=0.5, plot=TRUE, main="Fraction of Dense Forest")
+img_periurb <- gridPlot(values=periurb, coordinates=coor, res=0.5, plot=TRUE, main="Fraction of Peri Urban", col=purb(1000))
+img_urban   <- gridPlot(values=urban, coordinates=coor, res=0.5, plot=TRUE, main="Fraction of Urban", col=reds(1000))
+img_natgrass<- gridPlot(values=natgrass, coordinates=coor, res=0.5, plot=TRUE, main="fraction of natural grassland")
+img_cropint <- gridPlot(values=cropint, coordinates=coor, res=0.5, plot=TRUE, main="fraction of natural grassland", col=oranges(1000))
+
+
+
+######
+
 lc <- coordinates(lpjgrid)
 ll <- getCoordinates(degree=TRUE, order="lpj")
 
