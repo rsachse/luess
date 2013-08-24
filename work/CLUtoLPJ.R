@@ -63,11 +63,11 @@ purb     <- colorRampPalette(brewer.pal(9, "PuRd"))
 reds     <- colorRampPalette(c("gray", brewer.pal(9, "Reds")))
 oranges  <- colorRampPalette(c("gray", brewer.pal(9, "Oranges")))
 
-img_forest  <- gridPlot(values=forest, coordinates=coor, res=0.5, plot=TRUE, main="Fraction of Dense Forest")
-img_periurb <- gridPlot(values=periurb, coordinates=coor, res=0.5, plot=TRUE, main="Fraction of Peri Urban", col=purb(1000))
-img_urban   <- gridPlot(values=urban, coordinates=coor, res=0.5, plot=TRUE, main="Fraction of Urban", col=reds(1000))
-img_natgrass<- gridPlot(values=natgrass, coordinates=coor, res=0.5, plot=TRUE, main="fraction of natural grassland")
-img_cropint <- gridPlot(values=cropint, coordinates=coor, res=0.5, plot=TRUE, main="fraction of intensive cropland", col=oranges(1000))
+img_forest  <- gridPlot(values=forest, coordinates=coor, res=0.5, plot=TRUE, main="Fraction of Dense Forest", mar=c(5,4,4,8))
+img_periurb <- gridPlot(values=periurb, coordinates=coor, res=0.5, plot=TRUE, main="Fraction of Peri Urban", col=purb(1000), mar=c(5,4,4,8))
+img_urban   <- gridPlot(values=urban, coordinates=coor, res=0.5, plot=TRUE, main="Fraction of Urban", col=reds(1000), mar=c(5,4,4,8))
+img_natgrass<- gridPlot(values=natgrass, coordinates=coor, res=0.5, plot=TRUE, main="fraction of natural grassland", mar=c(5,4,4,8))
+img_cropint <- gridPlot(values=cropint, coordinates=coor, res=0.5, plot=TRUE, main="fraction of intensive cropland", col=oranges(1000), mar=c(5,4,4,8))
 
 
 
