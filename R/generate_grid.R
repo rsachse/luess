@@ -24,7 +24,7 @@
 generate_grid <- function(
   cellcentre.offset=c(-179.75,-55.75), 
   cellsize=c(0.5,0.5), 
-  cells.dim=c(720,279),
+  cells.dim=c(720,280),
   proj4="+proj=longlat"
 ){
   y       <- GridTopology(cellcentre.offset, cellsize, cells.dim)

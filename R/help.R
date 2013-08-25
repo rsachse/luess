@@ -60,3 +60,26 @@ NULL
 #' 
 #' @keywords LPJmL, grid cells, grid, CLUMondo 
 NULL
+#' Coordinates of LPJmL input grid cells identical to new output grid cells.
+#' 
+#' The data provides coordinates of LPJmL input and output grid cells.
+#' It includes 67420 cells with land use information.
+#'
+#' @name lpj_ingrid
+#' @docType data
+#' @keywords LPJmL, grid cells, grid 
+NULL
+#' Assignment of CLUMondo Land Use Systems to LPJmL Grid Cells for the year 2040
+#' 
+#' The data includes assignments of CLUMondoy Land Use Systems of the year 2040 
+#' to new LPJmL grid, containing 67420 cells.
+#'
+#' @name CLUtoLPJ2040long
+#' @docType data
+#' @references A full documentation of the data can be found in: 
+#' Van Asselen, S., Verburg, P.H. (2012) A Land System representation 
+#' for global assessments and land-use modeling. Global Change Biology. 
+#' DOI: 10.1111/j.1365-2486.2012.02759.x.
+#' 
+#' @keywords LPJmL, grid cells, grid, CLUMondo 
+NULL

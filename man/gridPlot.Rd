@@ -59,15 +59,15 @@ coor <- cbind(CLUtoLPJ2040$xcoord, CLUtoLPJ2040$ycoord)
 mySpectral <- colorRampPalette(c(brewer.pal(11, "Spectral"), "navy"))
 myPalette  <- colorRampPalette(c(brewer.pal(11, "RdYlBu"), "darkblue"))
 img <- gridPlot(
- values=nrc,
- coordinates=coor,
- main="CLUMondo Grid Cells per LPJ cell",
- clab="",
- res=0.5,
- plot=TRUE,
- axes=TRUE,
- col=rev(mySpectral(50)),#rev(myPalette(50)),
- mar=c(5,4,4,10)
+  values=nrc,
+  coordinates=coor,
+  main="CLUMondo Grid Cells per LPJ cell",
+  clab="",
+  res=0.5,
+  plot=TRUE,
+  axes=TRUE,
+  col=rev(mySpectral(50)),#rev(myPalette(50)),
+  mar=c(5,4,4,10)
 )
 }
 \author{
