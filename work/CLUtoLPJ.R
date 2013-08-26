@@ -101,6 +101,7 @@ img_natgrass<- gridPlot(values=natgrass, coordinates=coor, res=0.5, plot=TRUE, m
 
 
 img_cropint <- gridPlot(values=cropint, coordinates=coor, res=0.5, plot=TRUE, main="fraction of intensive cropland", col=oranges(1000), mar=c(5,4,4,8), xlim=c(-15,15), ylim=c(45,65))
+img_forest  <- gridPlot(values=forest, main="Fraction of Dense Forest b", mar=c(5,4,4,8))
 
 
 

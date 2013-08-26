@@ -2,10 +2,11 @@
 \alias{gridPlot}
 \title{Plotting of grids, maps and contours.}
 \usage{
-  gridPlot(values, coordinates, res = 0.5, main = "",
-    clab = "", col = terrain.colors(1000)[1000:1],
-    plot = TRUE, addcountries = FALSE, axes = TRUE,
-    cex = 2.5, mar = c(5, 4, 4, 6), xlim = c(-180, 180),
+  gridPlot(values, coordinates = lpj_ingrid, res = 0.5,
+    main = "", clab = "",
+    col = terrain.colors(1000)[1000:1], plot = TRUE,
+    addcountries = FALSE, axes = TRUE, cex = 2.5,
+    mar = c(5, 4, 4, 6), xlim = c(-180, 180),
     ylim = c(-60, 90), colkey = TRUE, ...)
 }
 \arguments{
@@ -87,11 +88,11 @@ purb     <- colorRampPalette(brewer.pal(9, "PuRd"))
 reds     <- colorRampPalette(c("gray", brewer.pal(9, "Reds")))
 oranges  <- colorRampPalette(c("gray", brewer.pal(9, "Oranges")))
 
-img_forest  <- gridPlot(values=forest, coordinates=coor, res=0.5, plot=TRUE, main="Fraction of Dense Forest", mar=c(5,4,4,8))
-img_periurb <- gridPlot(values=periurb, coordinates=coor, res=0.5, plot=TRUE, main="Fraction of Peri Urban", col=purb(1000), mar=c(5,4,4,8))
-img_urban   <- gridPlot(values=urban, coordinates=coor, res=0.5, plot=TRUE, main="Fraction of Urban", col=reds(1000), mar=c(5,4,4,8))
-img_natgrass<- gridPlot(values=natgrass, coordinates=coor, res=0.5, plot=TRUE, main="fraction of natural grassland", mar=c(5,4,4,8))
-img_cropint <- gridPlot(values=cropint, coordinates=coor, res=0.5, plot=TRUE, main="fraction of intensive cropland", col=oranges(1000), mar=c(5,4,4,8))
+img_forest  <- gridPlot(values=forest, main="Fraction of Dense Forest", mar=c(5,4,4,8))
+img_periurb <- gridPlot(values=periurb, main="Fraction of Peri Urban", col=purb(1000), mar=c(5,4,4,8))
+img_urban   <- gridPlot(values=urban, main="Fraction of Urban", col=reds(1000), mar=c(5,4,4,8))
+img_natgrass<- gridPlot(values=natgrass, main="fraction of natural grassland", mar=c(5,4,4,8))
+img_cropint <- gridPlot(values=cropint,  main="fraction of intensive cropland", col=oranges(1000), mar=c(5,4,4,8))
 }
 \author{
   Rene Sachse \email{rene.sachse@uni-potsdam.de}
