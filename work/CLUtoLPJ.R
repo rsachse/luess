@@ -11,7 +11,11 @@ CLUtoLPJ2040long <- out
 
 
 ###### plot CLU dense forest
+
+## global
 spplot(CLUlonglat, pch=".")
+
+## africa zoom
 spplot(CLUlonglat, pch=".",xlim=c(-10,30), ylim=c(-20,20))
 
 ######
