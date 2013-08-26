@@ -1,3 +1,4 @@
+## aggregate CLUMondo map
 library(luess)
 CLUlonglat <- transform_asciigrid("land_systems.asc")
 lpjgrid    <- generate_grid()
@@ -8,8 +9,7 @@ CLUtoLPJ2040long <- out
 #save(CLUtoLPJ2040long, file="../data/CLUtoLPJ2040long.rda")
 
 
-######
-
+###### identify lpj-cells in aggregated CLUMondo grid
 cluagg_grid <- generate_grid()
 lpj_long_clupos <- matchInputGrid(coordinates(cluagg_grid), lpj_ingrid)
 #save(lpj_long_clupos, file="../data/lpj_long_clupos.rda")
@@ -21,16 +21,15 @@ lpj_short_clupos <- matchInputGrid(coordinates(cluagg_grid), lpj_short_outgrid)
 
 ######
 
-
-
 #40000:40100)#
 
 hrc <- out$hrcells
 hh <- sapply(hrc, length)
 
 hist(hh)
-######
 
+
+###### zoom into overlapping grids of LPJ and CLUMondo
 hrc <- CLUtoLPJ2040$hrcells
 hh <- sapply(hrc, length)
 hist(hh)
@@ -68,14 +67,13 @@ coor <- cbind(CLUtoLPJ2040$xcoord, CLUtoLPJ2040$ycoord)
 gridPlot(values=nrc,coordinates=coor,res=0.5,plot=TRUE)
 
 
-######
-
+###### validation plots for aggregated CLUMondo output to 0.5° cells
 coor    <- cbind(CLUtoLPJ2040long$xcoord, CLUtoLPJ2040long$ycoord)
-forest  <- CLUtoLPJ2040long$lufrac[19,] #sapply(CLUtoLPJ2040$lufrac, function(x){x[19]})
-periurb <- CLUtoLPJ2040long$lufrac[29,] #sapply(CLUtoLPJ2040$lufrac, function(x){x[29]})
-urban   <- CLUtoLPJ2040long$lufrac[30,] #sapply(CLUtoLPJ2040$lufrac, function(x){x[30]})
-natgrass<- CLUtoLPJ2040long$lufrac[24,] #sapply(CLUtoLPJ2040$lufrac, function(x){x[24]})
-cropint <- CLUtoLPJ2040long$lufrac[9,] #sapply(CLUtoLPJ2040$lufrac, function(x){x[9]})
+forest  <- CLUtoLPJ2040long$lufrac[19,] 
+periurb <- CLUtoLPJ2040long$lufrac[29,] 
+urban   <- CLUtoLPJ2040long$lufrac[30,] 
+natgrass<- CLUtoLPJ2040long$lufrac[24,] 
+cropint <- CLUtoLPJ2040long$lufrac[9,] 
 
 purb     <- colorRampPalette(brewer.pal(9, "PuRd"))
 reds     <- colorRampPalette(c("gray", brewer.pal(9, "Reds")))
@@ -90,7 +88,7 @@ img_cropint <- gridPlot(values=cropint, coordinates=coor, res=0.5, plot=TRUE, ma
 
 
 
-######
+###### testing
 
 lc <- coordinates(lpjgrid)
 ll <- getCoordinates(degree=TRUE, order="lpj")
