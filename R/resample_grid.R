@@ -23,6 +23,9 @@
 #' @keywords regridding, warping, aggregation, LPJmL, CLUMondo
 #'
 #' @seealso \code{\link[sp]{over} in package \pkg{sp}}
+#' 
+#' @examples
+#' out <- resample_grid(CLUlonglat, generate_grid(), cells=lpj_long_clupos)
 resample_grid <- function(grid_hr, grid_lr, cells=NULL, datacolumn=1){
   print("Resampling grid, this may take a while!")
   res         <- over(geometry(grid_hr), grid_lr)

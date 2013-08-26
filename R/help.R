@@ -46,6 +46,15 @@ NULL
 #' @docType data
 #' @keywords LPJmL, grid cells, grid, CLUMondo 
 NULL
+#' Positions of LPJmL output grid cells in the input grid
+#' 
+#' The data provides positions of LPJmL output grid cells within the input grid used for 
+#' CLUMondo coupling. It includes 67420 land cells of the new LPJmL version.
+#'
+#' @name lpj_long_clupos
+#' @docType data
+#' @keywords LPJmL, grid cells, grid, CLUMondo 
+NULL
 #' Assignment of CLUMondo Land Use Systems to LPJmL Grid Cells for the year 2040
 #' 
 #' The data includes assignments of CLUMondoy Land Use Systems of the year 2040 

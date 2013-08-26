@@ -15,7 +15,8 @@
 
   \item{cells}{Only calculations for these cells will be
   returned (e.g. if these are cells with landcover). If
-  \code{NULL} values for all cells will be calculated.}
+  \code{NULL} values for all cells with available data will
+  be calculated.}
 
   \item{datacolumn}{integer specifing which column of the
   SpaitalPointsDataFrame contains the data of interest}
@@ -28,6 +29,9 @@
   grid file, reprojects it and calculates the fractions of
   how much unique orginal pixel types are covered by the
   coarser grid cells
+}
+\examples{
+out <- resample_grid(CLUlonglat, generate_grid(), cells=lpj_long_clupos)
 }
 \author{
   Rene Sachse \email{rene.sachse@uni-potsdam.de}

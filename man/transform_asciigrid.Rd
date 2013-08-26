@@ -22,7 +22,7 @@
   The function reads a map from ASCII grid files and
   performs spatial transformation to other projections. In
   most cases no regular grid results after reprojction,
-  therefore the output in is a SpatialPointsDataFrame.
+  therefore the output is a SpatialPointsDataFrame.
 }
 \author{
   Rene Sachse \email{rene.sachse@uni-potsdam.de}
