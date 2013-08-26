@@ -54,6 +54,7 @@
   by this function.
 }
 \examples{
+## count CLUMondo cells in aggregated 0.5° cells of LPJ
 nrc  <- sapply(CLUtoLPJ2040long$hrcells, length)
 coor <- cbind(CLUtoLPJ2040long$xcoord, CLUtoLPJ2040long$ycoord)
 mySpectral <- colorRampPalette(c(brewer.pal(11, "Spectral"), "navy"))
@@ -70,6 +71,7 @@ img <- gridPlot(
   mar=c(5,4,4,10)
 )
 
+## show some aggregated CLUMondo data
 coor    <- cbind(CLUtoLPJ2040long$xcoord, CLUtoLPJ2040long$ycoord)
 forest  <- CLUtoLPJ2040long$lufrac[19,]
 periurb <- CLUtoLPJ2040long$lufrac[29,]
