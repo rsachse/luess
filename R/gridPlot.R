@@ -115,7 +115,7 @@ gridPlot <- function(
             xlab="",ylab="",
             axes=axes,cex.main=cex,colkey=FALSE,
             col=col,
-            main=main,clab="",
+            main=main,clab="",xlim=xlim, ylim=ylim,
             #cex.axis=cex,
             ...
     )

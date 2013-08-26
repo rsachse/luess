@@ -30,6 +30,8 @@ hist(hh)
 
 
 ###### zoom into overlapping grids of LPJ and CLUMondo
+mygrid <- lpjgrid
+
 hrc <- CLUtoLPJ2040$hrcells
 hh <- sapply(hrc, length)
 hist(hh)
@@ -83,7 +85,9 @@ img_forest  <- gridPlot(values=forest, coordinates=coor, res=0.5, plot=TRUE, mai
 img_periurb <- gridPlot(values=periurb, coordinates=coor, res=0.5, plot=TRUE, main="Fraction of Peri Urban", col=purb(1000), mar=c(5,4,4,8))
 img_urban   <- gridPlot(values=urban, coordinates=coor, res=0.5, plot=TRUE, main="Fraction of Urban", col=reds(1000), mar=c(5,4,4,8))
 img_natgrass<- gridPlot(values=natgrass, coordinates=coor, res=0.5, plot=TRUE, main="fraction of natural grassland", mar=c(5,4,4,8))
-img_cropint <- gridPlot(values=cropint, coordinates=coor, res=0.5, plot=TRUE, main="fraction of intensive cropland", col=oranges(1000), mar=c(5,4,4,8))
+
+
+img_cropint <- gridPlot(values=cropint, coordinates=coor, res=0.5, plot=TRUE, main="fraction of intensive cropland", col=oranges(1000), mar=c(5,4,4,8), xlim=c(-15,15), ylim=c(45,65))
 
 
 
