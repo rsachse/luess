@@ -6,14 +6,15 @@
     clab = "", col = terrain.colors(1000)[1000:1],
     plot = TRUE, addcountries = FALSE, axes = TRUE,
     cex = 2.5, mar = c(5, 4, 4, 6), xlim = c(-180, 180),
-    ylim = c(-60, 90), ...)
+    ylim = c(-60, 90), colkey = TRUE, ...)
 }
 \arguments{
   \item{values}{numeric vector; values to be plotted at
   each set of coordinates}
 
   \item{coordinates}{matrix, array or data.frame with 2
-  dimensions providing longitudes and lattitudes}
+  dimensions providing longitudes and lattitudes. Need to
+  have regular distances according to \code{res}.}
 
   \item{res}{numeric; resolution of the grid}
 
@@ -39,6 +40,9 @@
   \item{xlim}{numeric vector of 2; range of x-axis}
 
   \item{ylim}{numeric vector of 2; range of y-axis}
+
+  \item{colkey}{logical, whether or not a colorkey should
+  be added to the plot}
 
   \item{...}{further arguments passed to
   \code{\link[plot3D]{image2D}}}

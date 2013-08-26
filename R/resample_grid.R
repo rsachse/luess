@@ -11,7 +11,7 @@
 #' @param grid_lr SpatialGrid of the new grid
 #' 
 #' @param cells Only calculations for these cells will be returned (e.g. if these are cells
-#' with landcover). If \code{NULL} values for all cells will be calculated.   
+#' with landcover). If \code{NULL} values for all cells with available data will be calculated.   
 #' 
 #' @param datacolumn integer specifing which column of the SpaitalPointsDataFrame contains the
 #' data of interest

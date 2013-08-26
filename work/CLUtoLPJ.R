@@ -1,12 +1,21 @@
 ## aggregate CLUMondo map
 library(luess)
 CLUlonglat <- transform_asciigrid("land_systems.asc")
+#save(CLUlonglat, file="../data/CLUlonglat.rda")
 lpjgrid    <- generate_grid()
 system.time(
   out      <- resample_grid(CLUlonglat, lpjgrid, cells=lpj_long_clupos)
 )
 CLUtoLPJ2040long <- out
 #save(CLUtoLPJ2040long, file="../data/CLUtoLPJ2040long.rda")
+
+
+###### plot CLU dense forest
+spplot(CLUlonglat, pch=".")
+spplot(CLUlonglat, pch=".",xlim=c(-10,30), ylim=c(-20,20))
+
+######
+
 
 
 ###### identify lpj-cells in aggregated CLUMondo grid
@@ -112,23 +121,6 @@ save(pos_in_input, file="pos_in_input.RData")
 system.time(
   out      <- resample_grid(CLUlonglat, lpjgrid)
 )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

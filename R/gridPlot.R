@@ -5,7 +5,8 @@
 #' 
 #' @param values numeric vector; values to be plotted at each set of coordinates
 #'  
-#' @param coordinates matrix, array or data.frame with 2 dimensions providing longitudes and lattitudes
+#' @param coordinates matrix, array or data.frame with 2 dimensions providing longitudes and lattitudes. 
+#' Need to have regular distances according to \code{res}. 
 #' 
 #' @param res numeric; resolution of the grid
 #'  
@@ -28,6 +29,8 @@
 #' @param xlim numeric vector of 2; range of x-axis
 #' 
 #' @param ylim numeric vector of 2; range of y-axis
+#' 
+#' @param colkey logical, whether or not a colorkey should be added to the plot
 #' 
 #' @param ... further arguments passed to \code{\link[plot3D]{image2D}}
 #' 
@@ -79,17 +82,18 @@
 gridPlot <- function(
   values, 
   coordinates, 
-  res=0.5, 
-  main="", 
-  clab="", 
-  col=terrain.colors(1000)[1000:1], 
-  plot=TRUE, 
-  addcountries=FALSE, 
-  axes=TRUE,
-  cex=2.5,
-  mar=c(5,4,4,6),
-  xlim = c(-180,180),
-  ylim = c(-60,90),
+  res          = 0.5, 
+  main         = "", 
+  clab         = "", 
+  col          = terrain.colors(1000)[1000:1], 
+  plot         = TRUE, 
+  addcountries = FALSE, 
+  axes         = TRUE,
+  cex          = 2.5,
+  mar          = c(5,4,4,6),
+  xlim         = c(-180,180),
+  ylim         = c(-60,90),
+  colkey       = TRUE,
   ...
 ){
   ncell     <- length(coordinates[,1])
@@ -123,14 +127,16 @@ gridPlot <- function(
       data(wrld_simpl)
       plot(wrld_simpl,add = T, lwd = 1.2)
     }
-    colkey(
-      col,
-      c(min(img,na.rm=TRUE),max(img,na.rm=TRUE)), 
-      clab, 
-      add=TRUE, 
-      cex.clab=cex, 
-      cex.axis=cex
-    )
+    if(colkey==TRUE){
+      colkey(
+        col,
+        c(min(img,na.rm=TRUE),max(img,na.rm=TRUE)), 
+        clab, 
+        add=TRUE, 
+        cex.clab=cex, 
+        cex.axis=cex
+      )
+    }
   }
   return(
     list(
