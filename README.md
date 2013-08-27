@@ -9,7 +9,7 @@ It is intended to add further functionality to translate CLUMondo land use syste
 returning ready to use LPJmL input files.
 
 The main purpose of the package will be to provide functions to derive and quantify ecosystem services from LPJmL model
-output after driving it using translated CLUMondo model output.
+output after driving LPJmL using translated CLUMondo model output.
 
 
 Install the package
