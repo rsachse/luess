@@ -16,9 +16,11 @@
 #' @keywords grid, positions, grid cells, LPJ, LPJml, CLUMondo
 #' 
 #' @examples
-#' mygrid       <- generate_grid()
-#' pos_in_input <- matchInputGrid(coordinates(mygrid), lpj_short_outgrid)
-#' plot(coordinates(mygrid)[pos_in_input,], col="green", pch=".")
+#' \dontrun{
+#'   mygrid       <- generate_grid()
+#'   pos_in_input <- matchInputGrid(coordinates(mygrid), lpj_short_outgrid)
+#'   plot(coordinates(mygrid)[pos_in_input,], col="green", pch=".")
+#' } 
 matchInputGrid <- function(grid.in, grid.out){
   nn <- length(grid.out)/2
   pos_in_input <- array(data=NA,dim=nn)

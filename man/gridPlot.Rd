@@ -7,7 +7,7 @@
     col = terrain.colors(1000)[1000:1], plot = TRUE,
     addcountries = FALSE, axes = TRUE, cex = 2.5,
     mar = c(5, 4, 4, 6), xlim = c(-180, 180),
-    ylim = c(-60, 90), colkey = TRUE, ...)
+    ylim = c(-60, 90), zlim = NULL, colkey = TRUE, ...)
 }
 \arguments{
   \item{values}{numeric vector; values to be plotted at
@@ -41,6 +41,10 @@
   \item{xlim}{numeric vector of 2; range of x-axis}
 
   \item{ylim}{numeric vector of 2; range of y-axis}
+
+  \item{zlim}{numeric vector of 2; range of values. If
+  \code{NULL} zlim is calculated automatically by
+  \code{range(values)}.}
 
   \item{colkey}{logical, whether or not a colorkey should
   be added to the plot}

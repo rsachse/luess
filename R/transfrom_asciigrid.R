@@ -10,6 +10,8 @@
 #' 
 #' @param proj4_output character string; projection arguments for the Spatial Data returned
 #' 
+#' @param plotresult logical; switch to plot the resulting grid
+#'  
 #' @return returns a SpatialPointsDataFrame in most cases
 #'
 #' @author Rene Sachse \email{rene.sachse@@uni-potsdam.de}

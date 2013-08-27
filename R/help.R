@@ -106,3 +106,12 @@ NULL
 #' 
 #' @keywords grid cells, grid, CLUMondo 
 NULL
+#' Artificial Landu Use Systems Map for testing purposes
+#' 
+#' The SpatialPointsDataFrame includeds cells with 6 different artificial
+#' land use systems and is used for testing and validation purposes.
+#'
+#' @name smallarea
+#' @docType data
+#' @keywords grid cells, grid, CLUMondo 
+NULL

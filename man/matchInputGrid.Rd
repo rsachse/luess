@@ -24,9 +24,11 @@
   grid.
 }
 \examples{
-mygrid       <- generate_grid()
-pos_in_input <- matchInputGrid(coordinates(mygrid), lpj_short_outgrid)
-plot(coordinates(mygrid)[pos_in_input,], col="green", pch=".")
+\dontrun{
+  mygrid       <- generate_grid()
+  pos_in_input <- matchInputGrid(coordinates(mygrid), lpj_short_outgrid)
+  plot(coordinates(mygrid)[pos_in_input,], col="green", pch=".")
+}
 }
 \author{
   Rene Sachse \email{rene.sachse@uni-potsdam.de}

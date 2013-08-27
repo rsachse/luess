@@ -30,6 +30,9 @@
 #' 
 #' @param ylim numeric vector of 2; range of y-axis
 #' 
+#' @param zlim numeric vector of 2; range of values. If \code{NULL} zlim is calculated
+#' automatically by \code{range(values)}.
+#' 
 #' @param colkey logical, whether or not a colorkey should be added to the plot
 #' 
 #' @param ... further arguments passed to \code{\link[plot3D]{image2D}}
@@ -93,6 +96,7 @@ gridPlot <- function(
   mar          = c(5,4,4,6),
   xlim         = c(-180,180),
   ylim         = c(-60,90),
+  zlim         = NULL,
   colkey       = TRUE,
   ...
 ){
@@ -105,6 +109,9 @@ gridPlot <- function(
   grid_ilat <- as.integer((grid_y-ext_lat[1])/res + 1.01)
   grid_nrow <- (ext_lat[2]-ext_lat[1])/res+1
   grid_ncol <- (ext_lon[2]-ext_lon[1])/res+1  
+  if(is.null(zlim)==TRUE){
+    zlim <- range(values, na.rm=TRUE)
+  }
   img <- array(data=NA, dim=c(grid_nrow,grid_ncol))
   for(c in 1:ncell){
     img[grid_ilat[c], grid_ilon[c]] <- values[c]
@@ -120,6 +127,7 @@ gridPlot <- function(
             axes=axes,cex.main=cex,colkey=FALSE,
             col=col,
             main=main,clab="",xlim=xlim, ylim=ylim,
+            zlim=zlim,
             #cex.axis=cex,
             ...
     )
@@ -130,7 +138,7 @@ gridPlot <- function(
     if(colkey==TRUE){
       colkey(
         col,
-        c(min(img,na.rm=TRUE),max(img,na.rm=TRUE)), 
+        zlim,#c(min(img,na.rm=TRUE),max(img,na.rm=TRUE)), 
         clab, 
         add=TRUE, 
         cex.clab=cex, 

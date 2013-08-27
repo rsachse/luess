@@ -31,7 +31,18 @@
   coarser grid cells
 }
 \examples{
-out <- resample_grid(CLUlonglat, generate_grid(), cells=lpj_long_clupos)
+\dontrun{
+  out <- resample_grid(CLUlonglat, generate_grid(), cells=lpj_long_clupos)
+}
+spplot(smallarea)
+grid_lr <- generate_grid(cellcentre.offset=c(-179.75, -59.75))
+out     <- resample_grid(smallarea, grid_lr)
+coor    <- cbind(out$xcoord, out$ycoord)
+par(mfrow=c(3,2))
+for(i in 1:6){
+  img     <- out$lufrac[i,]
+  img1    <- gridPlot(values=img, coordinates=coor, main=paste("Fraction Type",i,"Land Use"), zlim=c(0,1), mar=c(5,4,4,8), xlim=c(128,150), ylim=c(-60,-50))
+}
 }
 \author{
   Rene Sachse \email{rene.sachse@uni-potsdam.de}

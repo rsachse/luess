@@ -27,12 +27,17 @@
   The function generates a Spatial Grid. Default values
   provide a grid fitting to the LPJ model requirements.
 }
+\examples{
+lpjgrid <- generate_grid()
+lpj_coord <- coordinates(lpjgrid)
+plot(lpjgrid)
+}
 \author{
   Rene Sachse \email{rene.sachse@uni-potsdam.de}
 }
 \seealso{
   \code{\link[sp]{GridTopology}, \link[sp]{SpatialGrid},
-  \link[sp]{CRS}} in package \pkg{sp}
+  \link[sp]{CRS}} in package \pkg
 }
 \keyword{grid}
 \keyword{LPJmL,}

@@ -20,7 +20,12 @@
 #' @keywords LPJmL, grid
 #'
 #' @seealso \code{\link[sp]{GridTopology}, \link[sp]{SpatialGrid}, \link[sp]{CRS}} 
-#' in package \pkg{sp}
+#' in package \pkg
+#' 
+#' @examples
+#' lpjgrid <- generate_grid()
+#' lpj_coord <- coordinates(lpjgrid)
+#' plot(lpjgrid)
 generate_grid <- function(
   cellcentre.offset=c(-179.75,-55.75), 
   cellsize=c(0.5,0.5), 

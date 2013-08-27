@@ -14,6 +14,9 @@
 
   \item{proj4_output}{character string; projection
   arguments for the Spatial Data returned}
+
+  \item{plotresult}{logical; switch to plot the resulting
+  grid}
 }
 \value{
   returns a SpatialPointsDataFrame in most cases

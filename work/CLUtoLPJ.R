@@ -1,3 +1,18 @@
+#### mini example
+library(luess)
+grid_hr <- transform_asciigrid("smallarea.asc") 
+smallarea <- grid_hr
+#save(smallarea, file="../data/smallarea.rda")
+spplot(grid_hr)
+grid_lr <- generate_grid(cellcentre.offset=c(-179.75, -59.75))
+out     <- resample_grid(grid_hr, grid_lr)
+coor    <- cbind(out$xcoord, out$ycoord)
+
+par(mfrow=c(3,2))
+for(i in 1:6){
+  img     <- out$lufrac[i,] 
+  img1    <- gridPlot(values=img,coordinates=coor, main=paste("Fraction Type",i,"Land Use"), zlim=c(0,1), mar=c(5,4,4,8), xlim=c(128,150), ylim=c(-60,-50))
+}
 ## aggregate CLUMondo map
 library(luess)
 CLUlonglat <- transform_asciigrid("land_systems.asc")
