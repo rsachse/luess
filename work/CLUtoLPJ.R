@@ -119,7 +119,7 @@ img_cropint <- gridPlot(values=cropint, coordinates=coor, res=0.5, plot=TRUE, ma
 img_forest  <- gridPlot(values=forest, main="Fraction of Dense Forest b", mar=c(5,4,4,8))
 
 
-forest  <- CLUtoLPJ2040long$lufrac[8,] 
+forest  <- CLUtoLPJ2040long$lufrac[19,] 
 img_forest  <- gridPlot(values=forest, main="Fraction of Dense Forest b", mar=c(5,4,4,8))
 
 
