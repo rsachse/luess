@@ -1,0 +1,23 @@
+\documentclass[
+  parskip=half,
+  headings=small
+]{scrartcl}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\title{Aggregating CLUMondo grids}
+\author{René Sachse \texttt{resachse@uni-potsdam.de}}
+%\VignetteIndexEntry{Aggregating CLUMondo grids}
+%\VignetteDepends{sp, maptools, RColorBrewer} 
+%\VignetteKeyword{CLUMondo} 
+%\VignetteKeyword{LPJmL} 
+%\VignetteKeyword{grid} 
+%\VignetteKeyword{projection} 
+%\VignetteKeyword{land use} 
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+\maketitle
+\section{Read and transform CLUMondo grids}
+\section{Generate new model grids}
+\section{Match LPJmL grid cells with new model cells}
+\section{Resample transformed CLUMondo data for LPJ cells}
+\end{document}

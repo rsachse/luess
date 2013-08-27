@@ -48,7 +48,7 @@ for(i in 1:6){
   Rene Sachse \email{rene.sachse@uni-potsdam.de}
 }
 \seealso{
-  \code{\link[sp]{over} in package \pkg{sp}}
+  \code{\link[sp]{over}} in package \pkg{sp}
 }
 \keyword{aggregation,}
 \keyword{CLUMondo}

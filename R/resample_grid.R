@@ -22,7 +22,7 @@
 #'
 #' @keywords regridding, warping, aggregation, LPJmL, CLUMondo
 #'
-#' @seealso \code{\link[sp]{over} in package \pkg{sp}}
+#' @seealso \code{\link[sp]{over}} in package \pkg{sp}
 #' 
 #' @examples
 #' \dontrun{
