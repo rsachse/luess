@@ -18,8 +18,8 @@ The package depends on the R add-on packages: sp, rgdal, maptools, plot3D, RColo
 
 	install.packages(c("sp", "rgdal", "maptools", "plot3D", "RColorBrewer"))
 
-You can install the package by using the devtools package. If you don't already have installed it, do it by typing 
-into the R command line:
+You can install the package directly from github by using the devtools package. If you don't already have installed it, 
+do it by typing into the R command line:
 
 	install.packages("devtools")
 	
