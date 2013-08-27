@@ -14,8 +14,15 @@ output after driving it using translated CLUMondo model output.
 
 Install the package
 -----------------------------------------------------------------------------
+You can install the package by using the devtools package. If you don't already have installed it, do it by typing to the R
+command line:
 
+	install.packages("devtools")
+	
+Afterwards you can install luess by typing:
 
+	library(devtools)
+	install_github("luess", username="rsachse")
 
 Documentation
 -----------------------------------------------------------------------------
