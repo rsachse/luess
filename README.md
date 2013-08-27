@@ -20,5 +20,7 @@ Install the package
 Documentation
 -----------------------------------------------------------------------------
 You can get a documentation for all provided data sets and functions by typing
+
 	?luess
+
 in the R command line.
