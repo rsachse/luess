@@ -36,4 +36,5 @@ You can get a documentation for all provided data sets and functions by typing
 	?luess
 
 in the R command line. One package vignette is describing the resampling process of CLUMondo grids:
+	
 	vignette(package="luess")
