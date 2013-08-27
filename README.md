@@ -1,7 +1,7 @@
 luess
 =====
 
-luess is a R package for estimation of ecosystem services based on LPJmL model output. In its early state at the moment
+luess (landuse ecosystem services) is a R package for estimation of ecosystem services based on LPJmL model output. In its early state at the moment
 it provides functions to re-project CLUMondo model output to other geographic projections and to aggregrate CLUMondo 
 grid cells to any other grid.
 
