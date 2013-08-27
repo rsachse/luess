@@ -20,7 +20,7 @@
 #' @keywords LPJmL, grid
 #'
 #' @seealso \code{\link[sp]{GridTopology}, \link[sp]{SpatialGrid}, \link[sp]{CRS}} 
-#' in package \pkg
+#' in package \pkg{sp}
 #' 
 #' @examples
 #' lpjgrid <- generate_grid()
