@@ -9,7 +9,7 @@ It is intended to add further functionality to translate CLUMondo land use syste
 returning ready to use LPJmL input files.
 
 The main purpose of the package will be to provide functions to derive and quantify ecosystem services from LPJmL model
-output after driving it using translated CLUMondo model output.
+output after driving LPJmL using translated CLUMondo model output.
 
 
 Install the package
@@ -18,8 +18,8 @@ The package depends on the R add-on packages: sp, rgdal, maptools, plot3D, RColo
 
 	install.packages(c("sp", "rgdal", "maptools", "plot3D", "RColorBrewer"))
 
-You can install the package directly from github by using the devtools package. If you don't already have installed it, 
-do it by typing into the R command line:
+You can install the package directly from github by using the devtools package. If you don't already have devtools
+installed, type into the R command line:
 
 	install.packages("devtools")
 	
@@ -35,4 +35,4 @@ You can get a documentation for all provided data sets and functions by typing
 	library(luess)
 	?luess
 
-in the R command line. A package vignette is still to be written.
+in the R command line. A package vignette has still to be written.
