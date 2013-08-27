@@ -99,7 +99,7 @@ gridPlot(values=nrc,coordinates=coor,res=0.5,plot=TRUE)
 
 ###### validation plots for aggregated CLUMondo output to 0.5° cells
 coor    <- cbind(CLUtoLPJ2040long$xcoord, CLUtoLPJ2040long$ycoord)
-forest  <- CLUtoLPJ2040long$lufrac[19,] 
+forest  <- CLUtoLPJ2040long$lufrac[18,] 
 periurb <- CLUtoLPJ2040long$lufrac[29,] 
 urban   <- CLUtoLPJ2040long$lufrac[30,] 
 natgrass<- CLUtoLPJ2040long$lufrac[24,] 
@@ -119,6 +119,8 @@ img_cropint <- gridPlot(values=cropint, coordinates=coor, res=0.5, plot=TRUE, ma
 img_forest  <- gridPlot(values=forest, main="Fraction of Dense Forest b", mar=c(5,4,4,8))
 
 
+forest  <- CLUtoLPJ2040long$lufrac[8,] 
+img_forest  <- gridPlot(values=forest, main="Fraction of Dense Forest b", mar=c(5,4,4,8))
 
 
 ###### testing

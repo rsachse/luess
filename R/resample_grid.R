@@ -60,7 +60,7 @@ resample_grid <- function(grid_hr, grid_lr, cells=NULL, datacolumn=1){
     outlc, 
     function(x,uniquelu){
       idLU          <- as.integer(unlist(dimnames(x)))
-      if(any(idLU == 0)){
+      if(any(uniquelu == 0)){
         idLU <- idLU + 1
       }
       lufrac        <- numeric(length(uniquelu))
