@@ -16,7 +16,17 @@
 #' @param datacolumn integer specifing which column of the SpaitalPointsDataFrame contains the
 #' data of interest
 #' 
-#' @return list containing ...
+#' @return List containing 7 slots:
+#' \item{cells}{Vector of integers; cell or point numbers within the original grid}
+#' \item{xcoord}{x coordinates of cell centers}
+#' \item{ycoord}{y coordinates of cell centers}
+#' \item{hrcells}{List with as many numeric vectors as there are cells. Each vector
+#' has the cell values of the original pixels which are to be aggregated in the new bigger grid cells.}
+#' \item{hrvalues}{List with as many tables as there are cells. Each table summarizes the unique original
+#' pixel types within the new low resolution grid cells.}
+#' \item{luid}{Vector of integers naming all unique cell types of the original grid.}
+#' \item{lufrac}{Array of \code{dim=c(length(luid), length(cells))}; gives the fraction of each original 
+#' pixel type per new grid cell within the low resolution grid.}
 #'
 #' @author Rene Sachse \email{rene.sachse@@uni-potsdam.de}
 #'

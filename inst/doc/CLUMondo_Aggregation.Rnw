@@ -4,6 +4,9 @@
 ]{scrartcl}
 \usepackage[utf8x]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage{microtype}
+\addtokomafont{captionlabel}{\footnotesize\sffamily\bfseries} 
+\addtokomafont{caption}{\footnotesize\sffamily}               
 \title{Aggregating CLUMondo grids}
 \author{René Sachse \texttt{resachse@uni-potsdam.de}}
 %\VignetteIndexEntry{Aggregating CLUMondo grids}
@@ -15,9 +18,152 @@
 %\VignetteKeyword{land use} 
 \begin{document}
 \SweaveOpts{concordance=TRUE}
+\setkeys{Gin}{height=0.4\textheight}
 \maketitle
 \section{Read and transform CLUMondo grids}
+First the package \texttt{luess} needs to be loaded. It relies a lot on the 
+functionality of the sp package. The luess package contains lots of sample data. To save time we 
+use this packaged data instead of generating it newly. Therefore, some commands are out-commented.
+<<load_data>>=
+library(luess)
+#CLUlonglat <- transform_asciigrid("land_systems.asc")
+@
+\texttt{transform\_asciigrid} reads CLUMondo output grids and transforms them from Eckert~IV grids to longlat format. The function also could deal with
+any other projections when specified as argument (for that, see the function documentation by typing \texttt{?transform\_asciigrid}).
+
+You can globally inspect the reprojected longlat CLUMondo grid by:
+<<plot_clupix_glob>>=
+#spplot(CLUlonglat, pch=".")
+@
+or zoom into central Africa:
+<<plot_clupix_africa>>=
+#spplot(CLUlonglat, pch=".",xlim=c(-10,30), ylim=c(-20,20))
+@
+Because of the transformation, the grid is not regular anymore. The function therefore, returns a data.frame with spatial points (SpatialPointsDataFrame).
+
 \section{Generate new model grids}
-\section{Match LPJmL grid cells with new model cells}
+LPJmL works with a much lower resolution than CLUMondo. We can generate such an 0.5° grid by using:
+<<gen_grid>>=
+cluagg_grid <- generate_grid()
+@
+
+\section{Match LPJmL grid cells with new grid cells}
+The data set \texttt{lpj\_ingrid} contains the coordinates of the cell centers of the 67420 original grid cells
+used within LPJmL. To figure out, which of the cells of our generated regular grid represent these original cells we can use the 
+function \texttt{matchInputGrid}:
+<<matchgrid>>=
+#lpj_long_clupos <- matchInputGrid(
+#  coordinates(cluagg_grid), 
+#  lpj_ingrid
+#)
+@
+\texttt{lpj\_long\_clupos} than contains the integer numbers (positions) of the original LPJmL cells within our set up low resolution grid.
+
 \section{Resample transformed CLUMondo data for LPJ cells}
+Resampling is performed using function \texttt{over()} internally from package sp. It is determined in which grid cells the cell centers of the
+CLUMondo cells are located. In case a CLUMondo cell center is located within a grid cell, than that complete 
+CLUMondo pixel is assigned to that cell assuming that the majority of the CLUMondo pixel is belonging to that cell anyway. Furthermore, it is counted
+how many CLUMondo pixels of each land use system are located within a grid cell. This number divided by the absolute number of CLUMondo pixels within a grid
+cell provides the fraction of grid cell area this land use system is covering.
+<<resampling>>=
+#CLUtoLPJ2040long <- resample_grid(CLUlonglat, lpj_ingrid, 
+#                    cells=lpj_long_clupos)
+@
+
+Because Eckert IV projection has equivalent areas, but not longlat projection, there are up to 48 CLUMondo pixels within one LPJ grid cell near the equator, while the number of CLUMondo pixels per grid cell is reducing towards the poles or on coasts (Fig.~\ref{fig:cluperlpj} and \ref{fig:gridzoom}). 
+On coasts LPJmL pixels also cover water surface due to their coarser resolution and therefore contain less CLUMondo pixels in these areas.  
+Stripe patterns evolve when pixels
+are systematically assigned to one side, leaving the other side with one pixel less. This might look of importance when looking at covered pixels per cell, but later these numbers are used to calculate covered area fractions. After that calculation, errors due to the assignment of pixels to only one grid cell at grid cell boarders should be reduced strongly.
+\begin{figure}[!h]
+\centering
+<<plot_clupix_in_lpj, fig=TRUE>>=
+nrc  <- sapply(CLUtoLPJ2040long$hrcells, length)
+coor <- cbind(CLUtoLPJ2040long$xcoord, CLUtoLPJ2040long$ycoord)
+mySpectral <- colorRampPalette(c(brewer.pal(11, "Spectral"), "navy"))
+img <- gridPlot(
+  values=nrc,
+  coordinates=coor,
+  main="CLUMondo Grid Cells per LPJ cell",
+  clab="",
+  res=0.5,
+  plot=TRUE,
+  axes=TRUE,
+  col=rev(mySpectral(50)),
+  mar=c(5,4,4,4), cex=1.5
+)
+@
+\caption{Number of CLUMondo pixels within a LPJmL grid cell.\label{fig:cluperlpj}}
+\end{figure}
+
+\setkeys{Gin}{width=0.45\textwidth}
+\begin{figure}[h!]
+\centering
+<<zoom_grid, fig=TRUE, echo=FALSE>>=
+hh <- sapply(CLUtoLPJ2040long$hrcells, length)
+id <- which(hh > 47)
+plot(coordinates(cluagg_grid), pch=15, xlim=c(-53.5,-55), ylim=c(-1.5,-0))
+points(CLUlonglat, col="green", pch=15)
+points(lpj_ingrid[id,], col="red", pch=16)
+abline(v=c(-53.5,-54,-54.5, -55))
+abline(h=c(0,-0.5,-1,-1.5))
+@
+<<zoom_grid_pole, fig=TRUE, echo=FALSE>>=
+id <- which(hh < 5)
+plot(coordinates(cluagg_grid), pch=15, xlim=c(4,6), ylim=c(59,63))
+abline(h=seq(59,63,0.5))
+abline(v=seq(4,6,0.5))
+points(CLUlonglat, col="green", pch=15)
+points(lpj_ingrid[id,], col="red", pch=16)
+@
+\caption{Zoom to the LPJ grid with more than 47 CLUMondo pixel density (left) and less than 5 pixels density (right). 
+Green points: CLUMondo cell centers, Black lines: LPJ grid cells, Red points: LPJ cells with extreme low
+or high number of CLUMondo pixels. \label{fig:gridzoom}}
+\end{figure}
+
+\section{Validation of resampling algorithm}
+Validation can easily be performed by visualization of the resulting aggregated maps and comparing to original maps from: Van Asselen, S., Verburg, P.H. 
+(2012) A Land System representation for global assessments and land-use modeling. Global Change Biology. DOI: 10.1111/j.1365-2486.2012.02759.x.
+
+\setkeys{Gin}{width=0.7\textheight, height=0.4\textheight}
+<<val>>=
+forest  <- CLUtoLPJ2040long$lufrac[19,] 
+periurb <- CLUtoLPJ2040long$lufrac[29,] 
+urban   <- CLUtoLPJ2040long$lufrac[30,] 
+natgrass<- CLUtoLPJ2040long$lufrac[24,] 
+cropint <- CLUtoLPJ2040long$lufrac[9,] 
+
+purb     <- colorRampPalette(brewer.pal(9, "PuRd"))
+reds     <- colorRampPalette(c("gray", brewer.pal(9, "Reds")))
+oranges  <- colorRampPalette(c("gray", brewer.pal(9, "Oranges")))
+@
+
+<<valforest, fig=TRUE, echo=TRUE>>=
+img_forest  <- gridPlot(values=forest,cex=1.5,  
+                        main="Fraction of Dense Forest", 
+                        mar=c(5,4,4,7))
+@
+
+<<valperiurb, fig=TRUE, echo=TRUE>>=
+img_periurb <- gridPlot(values=periurb,cex=1.5,   
+                        main="Fraction of Peri Urban", 
+                        col=purb(1000), mar=c(5,4,4,7))
+@
+
+<<valurb, fig=TRUE, echo=TRUE>>=
+img_urban   <- gridPlot(values=urban, cex=1.5,  
+                        main="Fraction of Urban", 
+                        col=reds(1000), mar=c(5,4,4,7))
+@
+
+<<valgrass, fig=TRUE, echo=TRUE>>=
+img_natgrass<- gridPlot(values=natgrass, cex=1.5,  
+                        main="fraction of natural grassland", 
+                        mar=c(5,4,4,7))
+@
+
+<<valcropint, fig=TRUE, echo=TRUE>>=
+img_cropint <- gridPlot(values=cropint, cex=1.5,  
+                        main="fraction of intensive cropland", 
+                        col=oranges(1000), mar=c(5,4,4,7))
+@
 \end{document}
