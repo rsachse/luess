@@ -45,7 +45,7 @@
 #'
 #' @keywords plot maps
 #'
-#' @seealso \code{\link[plot3D]{image2D} in package \pkg{plot3D}}
+#' @seealso \code{\link[plot3D]{image2D}} in package \pkg{plot3D}
 #' 
 #' @examples
 #' ## count CLUMondo cells in aggregated 0.5° cells of LPJ

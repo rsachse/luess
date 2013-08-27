@@ -102,7 +102,7 @@ img_cropint <- gridPlot(values=cropint,  main="fraction of intensive cropland", 
   Rene Sachse \email{rene.sachse@uni-potsdam.de}
 }
 \seealso{
-  \code{\link[plot3D]{image2D} in package \pkg{plot3D}}
+  \code{\link[plot3D]{image2D}} in package \pkg{plot3D}
 }
 \keyword{maps}
 \keyword{plot}

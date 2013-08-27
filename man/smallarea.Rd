@@ -1,7 +1,7 @@
 \docType{data}
 \name{smallarea}
 \alias{smallarea}
-\title{Artificial Landu Use Systems Map for testing purposes}
+\title{Artificial Land Use Systems Map for Testing Purposes}
 \description{
   The SpatialPointsDataFrame includeds cells with 6
   different artificial land use systems and is used for
