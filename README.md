@@ -30,11 +30,11 @@ Afterwards you can install luess by typing:
 
 Documentation
 -----------------------------------------------------------------------------
-You can get a documentation for all provided data sets and functions by typing
+You can get a documentation for all provided data sets and functions by typing into the R command line:
 	
 	library(luess)
 	?luess
 
-in the R command line. One package vignette is describing the resampling process of CLUMondo grids:
+A package vignette is describing the resampling process of CLUMondo grids:
 	
 	browseVignettes(package="luess")
