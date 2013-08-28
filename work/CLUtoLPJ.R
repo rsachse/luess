@@ -123,6 +123,14 @@ forest  <- CLUtoLPJ2040long$lufrac[19,]
 img_forest  <- gridPlot(values=forest, main="Fraction of Dense Forest b", mar=c(5,4,4,8))
 
 
+###### new output format of resample_grid()
+#forest      <- CLUtoLPJ2040long@data[,19]
+forest      <- attr(CLUtoLPJ2040long, "data")[,19]
+img_forest  <- gridPlot(values=forest, main="Fraction of Dense Forest b", mar=c(5,4,4,8))
+
+
+
+
 ###### testing
 
 lc <- coordinates(lpjgrid)

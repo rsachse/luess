@@ -108,10 +108,9 @@ resample_grid <- function(grid_hr, grid_lr, cells=NULL, datacolumn=1, verbose=FA
       lufrac   = outlcall
     )
   )} else {
-    cc <- SpatialPoints(cbind(coordinates(grid_lr)[cells,1], coordinates(grid_lr)[cells,2]))
-    dd <- SpatialPointsDataFrame(cc, as.data.frame(t(outlcall)))
     cr <- CRSargs(grid_lr@proj4string)
-    dd@proj4string <- CRS(cr)
+    cc <- SpatialPoints(cbind(coordinates(grid_lr)[cells,1], coordinates(grid_lr)[cells,2]), proj4string = CRS(cr))
+    dd <- SpatialPointsDataFrame(cc, as.data.frame(t(outlcall)))
     return(dd)
   }
 }
