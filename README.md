@@ -41,3 +41,5 @@ You can get a documentation for all provided data sets and functions by typing i
 A package vignette is describing the resampling process of CLUMondo grids:
 	
 	browseVignettes(package="luess")
+
+The vignettes can also be found in the directory tree of the package under ./inst/doc/
