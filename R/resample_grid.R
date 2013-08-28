@@ -16,7 +16,15 @@
 #' @param datacolumn integer specifing which column of the SpaitalPointsDataFrame contains the
 #' data of interest
 #' 
-#' @return List containing 7 slots:
+#' @param verbose if \code{TRUE} an arbitrary list with 7 slots is returned providing all intermediate
+#' results. if \code{FALSE} a SpatialPointsDataFrame is returned.
+#' 
+#' @return 
+#' By default an object of class SpatialPointsDataFrame is returned with \code{length(luid)} columns and 
+#' \code{length(cells)} rows. Each column represents an original pixel type. The data specifies the 
+#' fraction this pixel type covers in the new grid cell. 
+#' 
+#' If verbose output is specified a list containing 7 slots is returned:
 #' \item{cells}{Vector of integers; cell or point numbers within the original grid}
 #' \item{xcoord}{x coordinates of cell centers}
 #' \item{ycoord}{y coordinates of cell centers}
@@ -40,14 +48,20 @@
 #' }
 #' spplot(smallarea)
 #' grid_lr <- generate_grid(cellcentre.offset=c(-179.75, -59.75))
+#' 
+#' ##verbose=FALSE
 #' out     <- resample_grid(smallarea, grid_lr)
+#' spplot(out)
+#' 
+#' ##verbose=TRUE
+#' out     <- resample_grid(smallarea, grid_lr, verbose=TRUE)
 #' coor    <- cbind(out$xcoord, out$ycoord)
 #' par(mfrow=c(3,2))
 #' for(i in 1:6){
 #'   img     <- out$lufrac[i,] 
 #'   img1    <- gridPlot(values=img, coordinates=coor, main=paste("Fraction Type",i,"Land Use"), zlim=c(0,1), mar=c(5,4,4,8), xlim=c(128,150), ylim=c(-60,-50))
 #' }
-resample_grid <- function(grid_hr, grid_lr, cells=NULL, datacolumn=1){
+resample_grid <- function(grid_hr, grid_lr, cells=NULL, datacolumn=1, verbose=FALSE){
   print("Resampling grid, this may take a while!")
   res         <- over(geometry(grid_hr), grid_lr)
   if(is.null(cells)){
@@ -80,6 +94,7 @@ resample_grid <- function(grid_hr, grid_lr, cells=NULL, datacolumn=1){
     uniquelu=uniquelu
   )
   print("Re-sampling finished.")
+  if(verbose==TRUE){
   return(
     list(
       cells    = cells, 
@@ -90,6 +105,10 @@ resample_grid <- function(grid_hr, grid_lr, cells=NULL, datacolumn=1){
       luid     = uniquelu,
       lufrac   = outlcall
     )
-  )
+  )} else {
+    cc <- SpatialPoints(cbind(coordinates(grid_lr)[cells,1], coordinates(grid_lr)[cells,2]))
+    dd <- SpatialPointsDataFrame(cc, as.data.frame(t(outlcall)))
+    return(dd)
+  }
 }
 
