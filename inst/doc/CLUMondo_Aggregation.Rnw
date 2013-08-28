@@ -4,7 +4,9 @@
 ]{scrartcl}
 \usepackage[utf8x]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage[section]{placeins}
 \usepackage{microtype}
+\usepackage{hyperref}
 \addtokomafont{captionlabel}{\footnotesize\sffamily\bfseries} 
 \addtokomafont{caption}{\footnotesize\sffamily}               
 \title{Aggregating CLUMondo grids}
@@ -18,18 +20,22 @@
 %\VignetteKeyword{land use} 
 \begin{document}
 \SweaveOpts{concordance=TRUE}
-\setkeys{Gin}{height=0.4\textheight}
+\setkeys{Gin}{width=0.7\textwidth}
 \maketitle
+\tableofcontents
 \section{Read and transform CLUMondo grids}
 First the package \texttt{luess} needs to be loaded. It relies a lot on the 
 functionality of the sp package. The luess package contains lots of sample data. To save time we 
-use this packaged data instead of generating it newly. Therefore, some commands are out-commented.
+use this packaged data instead of generating it from scratch. 
+Therefore, some commands are out-commented.
 <<load_data>>=
 library(luess)
 #CLUlonglat <- transform_asciigrid("land_systems.asc")
 @
-\texttt{transform\_asciigrid} reads CLUMondo output grids and transforms them from Eckert~IV grids to longlat format. The function also could deal with
-any other projections when specified as argument (for that, see the function documentation by typing \texttt{?transform\_asciigrid}).
+\texttt{transform\_asciigrid()} reads CLUMondo output grids and transforms them from Eckert~IV projection 
+(areas equivalent) to longlat format (geographic coordinates, equirectangular projection, plate carrée). 
+The function also could deal with any other projections when specified as argument (for using function 
+arguments, see the function documentation by typing \texttt{?transform\_asciigrid}).
 
 You can globally inspect the reprojected longlat CLUMondo grid by:
 <<plot_clupix_glob>>=
@@ -39,7 +45,23 @@ or zoom into central Africa:
 <<plot_clupix_africa>>=
 #spplot(CLUlonglat, pch=".",xlim=c(-10,30), ylim=c(-20,20))
 @
-Because of the transformation, the grid is not regular anymore. The function therefore, returns a data.frame with spatial points (SpatialPointsDataFrame).
+Because of the transformation, the grid is not regular anymore. The function therefore, returns a 
+data.frame with spatial points (SpatialPointsDataFrame).
+
+The reprojected CLUMondo grid cells perfectly overlap LPJmL grid cells without any systematic 
+offset (Fig.~\ref{fig:clulpjnooff}).
+
+\begin{figure}[tb]
+\centering
+<<clulpj_nooff, fig=TRUE, echo=FALSE, width=7>>=
+plot(lpj_ingrid, pch=15, cex=0.5)
+points(coordinates(CLUlonglat), pch=15, cex=0.1, col="green")
+@
+\caption{Overlay of LPJmL grid cells (black) and re-projected CLUMondo grid cell centers (green). 
+There is no systematic offset indicating valid re-projection. LPJmL grid cells were plotted with 
+bigger points, so that they can be seen under the CLUMondo points. LPJmL grid cells pop out equally 
+into every direction.\label{fig:clulpjnooff}}
+\end{figure}
 
 \section{Generate new model grids}
 LPJmL works with a much lower resolution than CLUMondo. We can generate such an 0.5° grid by using:
@@ -74,9 +96,10 @@ Because Eckert IV projection has equivalent areas, but not longlat projection, t
 On coasts LPJmL pixels also cover water surface due to their coarser resolution and therefore contain less CLUMondo pixels in these areas.  
 Stripe patterns evolve when pixels
 are systematically assigned to one side, leaving the other side with one pixel less. This might look of importance when looking at covered pixels per cell, but later these numbers are used to calculate covered area fractions. After that calculation, errors due to the assignment of pixels to only one grid cell at grid cell boarders should be reduced strongly.
-\begin{figure}[!h]
+
+\begin{figure}[tb]
 \centering
-<<plot_clupix_in_lpj, fig=TRUE>>=
+<<plot_clupix_in_lpj, fig=TRUE, width=7, height=6>>=
 nrc  <- sapply(CLUtoLPJ2040long$hrcells, length)
 coor <- cbind(CLUtoLPJ2040long$xcoord, CLUtoLPJ2040long$ycoord)
 mySpectral <- colorRampPalette(c(brewer.pal(11, "Spectral"), "navy"))
@@ -96,7 +119,7 @@ img <- gridPlot(
 \end{figure}
 
 \setkeys{Gin}{width=0.45\textwidth}
-\begin{figure}[h!]
+\begin{figure}[tb]
 \centering
 <<zoom_grid, fig=TRUE, echo=FALSE>>=
 hh <- sapply(CLUtoLPJ2040long$hrcells, length)
@@ -137,31 +160,31 @@ reds     <- colorRampPalette(c("gray", brewer.pal(9, "Reds")))
 oranges  <- colorRampPalette(c("gray", brewer.pal(9, "Oranges")))
 @
 
-<<valforest, fig=TRUE, echo=TRUE>>=
+<<valforest, fig=TRUE, echo=TRUE, width=7, height=6>>=
 img_forest  <- gridPlot(values=forest,cex=1.5,  
                         main="Fraction of Dense Forest", 
                         mar=c(5,4,4,7))
 @
 
-<<valperiurb, fig=TRUE, echo=TRUE>>=
+<<valperiurb, fig=TRUE, echo=TRUE, width=7, height=6>>=
 img_periurb <- gridPlot(values=periurb,cex=1.5,   
                         main="Fraction of Peri Urban", 
                         col=purb(1000), mar=c(5,4,4,7))
 @
 
-<<valurb, fig=TRUE, echo=TRUE>>=
+<<valurb, fig=TRUE, echo=TRUE, width=7, height=6>>=
 img_urban   <- gridPlot(values=urban, cex=1.5,  
                         main="Fraction of Urban", 
                         col=reds(1000), mar=c(5,4,4,7))
 @
 
-<<valgrass, fig=TRUE, echo=TRUE>>=
+<<valgrass, fig=TRUE, echo=TRUE, width=7, height=6>>=
 img_natgrass<- gridPlot(values=natgrass, cex=1.5,  
                         main="fraction of natural grassland", 
                         mar=c(5,4,4,7))
 @
 
-<<valcropint, fig=TRUE, echo=TRUE>>=
+<<valcropint, fig=TRUE, echo=TRUE, width=7, height=6>>=
 img_cropint <- gridPlot(values=cropint, cex=1.5,  
                         main="fraction of intensive cropland", 
                         col=oranges(1000), mar=c(5,4,4,7))
