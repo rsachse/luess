@@ -5,12 +5,16 @@
 \usepackage[utf8x]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[section]{placeins}
+\usepackage[english]{babel}
+\usepackage{csquotes}
+%\usepackage{booktabs}
+%\usepackage{amsmath}
 \usepackage{microtype}
 \usepackage{hyperref}
 \addtokomafont{captionlabel}{\footnotesize\sffamily\bfseries} 
 \addtokomafont{caption}{\footnotesize\sffamily}               
 \title{Aggregating CLUMondo grids}
-\author{René Sachse \texttt{resachse@uni-potsdam.de}}
+\author{René Sachse \texttt{rene.sachse@uni-potsdam.de}}
 %\VignetteIndexEntry{Aggregating CLUMondo grids}
 %\VignetteDepends{sp, maptools, RColorBrewer} 
 %\VignetteKeyword{CLUMondo} 
@@ -59,8 +63,8 @@ points(coordinates(CLUlonglat), pch=15, cex=0.1, col="green")
 @
 \caption{Overlay of LPJmL grid cells (black) and re-projected CLUMondo grid cell centers (green). 
 There is no systematic offset indicating valid re-projection. LPJmL grid cells were plotted with 
-bigger points, so that they can be seen under the CLUMondo points. LPJmL grid cells pop out equally 
-into every direction.\label{fig:clulpjnooff}}
+bigger points, so that they can be seen under the CLUMondo points. LPJmL grid cells \enquote{pop out} 
+equally in every direction.\label{fig:clulpjnooff}}
 \end{figure}
 
 \section{Generate new model grids}
@@ -70,8 +74,10 @@ cluagg_grid <- generate_grid()
 @
 
 \section{Match LPJmL grid cells with new grid cells}
-The data set \texttt{lpj\_ingrid} contains the coordinates of the cell centers of the 67420 original grid cells
-used within LPJmL. To figure out, which of the cells of our generated regular grid represent these original cells we can use the 
+The data set \texttt{lpj\_ingrid} contains the coordinates of the cell centers of the 67420 original grid 
+cells
+used within LPJmL. To figure out, which of the cells of our generated regular grid represent these 
+original cells we can use the 
 function \texttt{matchInputGrid}:
 <<matchgrid>>=
 #lpj_long_clupos <- matchInputGrid(
@@ -79,23 +85,35 @@ function \texttt{matchInputGrid}:
 #  lpj_ingrid
 #)
 @
-\texttt{lpj\_long\_clupos} than contains the integer numbers (positions) of the original LPJmL cells within our set up low resolution grid.
+\texttt{lpj\_long\_clupos} than contains the integer numbers (positions) of the original LPJmL cells 
+within our set up low resolution grid.
 
 \section{Resample transformed CLUMondo data for LPJ cells}
-Resampling is performed using function \texttt{over()} internally from package sp. It is determined in which grid cells the cell centers of the
-CLUMondo cells are located. In case a CLUMondo cell center is located within a grid cell, than that complete 
-CLUMondo pixel is assigned to that cell assuming that the majority of the CLUMondo pixel is belonging to that cell anyway. Furthermore, it is counted
-how many CLUMondo pixels of each land use system are located within a grid cell. This number divided by the absolute number of CLUMondo pixels within a grid
+Resampling is performed using function \texttt{over()} internally from package sp. It is determined in 
+which grid cells the cell centers of the
+CLUMondo cells are located. In case a CLUMondo cell center is located within a grid cell, than that 
+complete 
+CLUMondo pixel is assigned to that cell assuming that the majority of the CLUMondo pixel is belonging to 
+that cell anyway. Furthermore, it is counted
+how many CLUMondo pixels of each land use system are located within a grid cell. This number divided by 
+the absolute number of CLUMondo pixels within a grid
 cell provides the fraction of grid cell area this land use system is covering.
 <<resampling>>=
 #CLUtoLPJ2040long <- resample_grid(CLUlonglat, lpj_ingrid, 
 #                    cells=lpj_long_clupos)
 @
 
-Because Eckert IV projection has equivalent areas, but not longlat projection, there are up to 48 CLUMondo pixels within one LPJ grid cell near the equator, while the number of CLUMondo pixels per grid cell is reducing towards the poles or on coasts (Fig.~\ref{fig:cluperlpj} and \ref{fig:gridzoom}). 
-On coasts LPJmL pixels also cover water surface due to their coarser resolution and therefore contain less CLUMondo pixels in these areas.  
+Because Eckert IV projection has equivalent areas, but not longlat projection, there are up to 48 
+CLUMondo pixels within one LPJ grid cell near the equator, while the number of CLUMondo pixels per grid 
+cell is reducing towards the poles or on coasts (Fig.~\ref{fig:cluperlpj} and \ref{fig:gridzoom}). 
+On coasts LPJmL pixels also cover water surface due to their coarser resolution and therefore contain 
+less CLUMondo pixels in these areas.  
 Stripe patterns evolve when pixels
-are systematically assigned to one side, leaving the other side with one pixel less. This might look of importance when looking at covered pixels per cell, but later these numbers are used to calculate covered area fractions. After that calculation, errors due to the assignment of pixels to only one grid cell at grid cell boarders should be reduced strongly.
+are systematically assigned to one side, leaving the other side with one pixel less. This might look of 
+importance when looking at covered pixels per cell, but later these numbers are used to calculate covered 
+area fractions. After that calculation, errors due to the assignment of pixels to only one grid cell at 
+grid cell boarders should be reduced strongly. Size of this error compared to different resampling 
+methods has not been investigated any further.
 
 \begin{figure}[tb]
 \centering
@@ -138,14 +156,17 @@ abline(v=seq(4,6,0.5))
 points(CLUlonglat, col="green", pch=15)
 points(lpj_ingrid[id,], col="red", pch=16)
 @
-\caption{Zoom to the LPJ grid with more than 47 CLUMondo pixel density (left) and less than 5 pixels density (right). 
+\caption{Zoom to the LPJ grid with more than 47 CLUMondo pixel density (left) and less than 5 pixels 
+density (right). 
 Green points: CLUMondo cell centers, Black lines: LPJ grid cells, Red points: LPJ cells with extreme low
 or high number of CLUMondo pixels. \label{fig:gridzoom}}
 \end{figure}
 
 \section{Validation of resampling algorithm}
-Validation can easily be performed by visualization of the resulting aggregated maps and comparing to original maps from: Van Asselen, S., Verburg, P.H. 
-(2012) A Land System representation for global assessments and land-use modeling. Global Change Biology. DOI: 10.1111/j.1365-2486.2012.02759.x.
+Validation can easily be performed by visualization of the resulting aggregated maps and comparing to 
+original maps from: Van Asselen, S., Verburg, P.H. 
+(2012) A Land System representation for global assessments and land-use modeling. Global Change Biology. 
+DOI: 10.1111/j.1365-2486.2012.02759.x.
 
 \setkeys{Gin}{width=0.7\textheight, height=0.4\textheight}
 <<val>>=
