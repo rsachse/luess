@@ -52,6 +52,8 @@
 #' ##verbose=FALSE
 #' out     <- resample_grid(smallarea, grid_lr)
 #' spplot(out)
+#' coordinates(out)
+#' attr(out, "data")
 #' 
 #' ##verbose=TRUE
 #' out     <- resample_grid(smallarea, grid_lr, verbose=TRUE)
@@ -108,6 +110,8 @@ resample_grid <- function(grid_hr, grid_lr, cells=NULL, datacolumn=1, verbose=FA
   )} else {
     cc <- SpatialPoints(cbind(coordinates(grid_lr)[cells,1], coordinates(grid_lr)[cells,2]))
     dd <- SpatialPointsDataFrame(cc, as.data.frame(t(outlcall)))
+    cr <- CRSargs(grid_lr@proj4string)
+    dd@proj4string <- CRS(cr)
     return(dd)
   }
 }
