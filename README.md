@@ -27,6 +27,9 @@ Afterwards you can install luess by typing:
 
 	library(devtools)
 	install_github("luess", username="rsachse")
+	
+You also can download the source package or precompiled Windows binary packages 
+from the [github releases page](https://github.com/rsachse/luess/releases).
 
 Documentation
 -----------------------------------------------------------------------------
