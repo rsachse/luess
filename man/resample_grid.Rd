@@ -59,12 +59,12 @@
 \dontrun{
   out <- resample_grid(CLUlonglat, generate_grid(), cells=lpj_long_clupos)
 }
-spplot(smallarea)
+spplot(smallarea, col.regions=terrain.colors(100), colorkey=TRUE)
 grid_lr <- generate_grid(cellcentre.offset=c(-179.75, -59.75))
 
 ##verbose=FALSE
 out     <- resample_grid(smallarea, grid_lr)
-spplot(out)
+spplot(out, col.regions=terrain.colors(100), colorkey=TRUE)
 coordinates(out)
 attr(out, "data")
 
