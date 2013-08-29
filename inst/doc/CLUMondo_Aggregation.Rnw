@@ -210,4 +210,30 @@ img_cropint <- gridPlot(values=cropint, cex=1.5,
                         main="fraction of intensive cropland", 
                         col=oranges(1000), mar=c(5,4,4,7))
 @
+\section{Final remarks about changes in latest package versions}
+\subsection{resample\_grid() output format}
+The function \texttt{resample\_grid()} returns objects of SpatialPointsDataFrame since version v0.16.0. Pixel type fractions data for this output can be accessed and plotted as follows:
+<<plotsp, fig=TRUE>>=
+grid_lr <- generate_grid(cellcentre.offset=c(-179.75, -59.75))
+out     <- resample_grid(smallarea, grid_lr)
+head(attr(out,"data"))
+head(out@data)
+img     <- gridPlot(
+             attr(out, "data")[,1], 
+             coordinates(out), 
+             xlim=c(128,150), 
+             ylim=c(-60,-50), cex=1.5
+           )
+@
+
+<<plotsp2, fig=TRUE>>=
+spplot(out, col.regions=rev(terrain.colors(100)), colorkey=TRUE)
+@
+
+The old output format of the versions before v0.16.0 can be obtained by specifying 
+\texttt{verbose=TRUE}:
+<<verbresample>>=
+out <- resample_grid(smallarea, grid_lr, verbose=TRUE)
+@
+
 \end{document}
