@@ -42,4 +42,5 @@ A package vignette is describing the resampling process of CLUMondo grids:
 	
 	browseVignettes(package="luess")
 
-The vignettes can also be found in the directory tree of the package under ./inst/doc/
+The vignettes can also be found in the directory tree of the package 
+under [./inst/doc/](https://github.com/rsachse/luess/tree/master/inst/doc)
