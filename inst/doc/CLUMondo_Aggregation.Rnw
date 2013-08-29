@@ -23,7 +23,9 @@
 %\VignetteKeyword{projection} 
 %\VignetteKeyword{land use} 
 \begin{document}
-\SweaveOpts{concordance=TRUE}
+%\SweaveOpts{concordance=TRUE}
+\SweaveOpts{concordance=TRUE, pdf=FALSE, png=TRUE, eps=FALSE, width=7, height=6, res=100}
+
 \setkeys{Gin}{width=0.7\textwidth}
 \maketitle
 \tableofcontents
@@ -57,7 +59,7 @@ offset (Fig.~\ref{fig:clulpjnooff}).
 
 \begin{figure}[tb]
 \centering
-<<clulpj_nooff, fig=TRUE, echo=FALSE, width=7>>=
+<<clulpj_nooff, fig=TRUE, echo=FALSE>>=
 plot(lpj_ingrid, pch=15, cex=0.5)
 points(coordinates(CLUlonglat), pch=15, cex=0.1, col="green")
 @
@@ -117,7 +119,7 @@ methods has not been investigated any further.
 
 \begin{figure}[tb]
 \centering
-<<plot_clupix_in_lpj, fig=TRUE, width=7, height=6>>=
+<<plot_clupix_in_lpj, fig=TRUE>>=
 nrc  <- sapply(CLUtoLPJ2040long$hrcells, length)
 coor <- cbind(CLUtoLPJ2040long$xcoord, CLUtoLPJ2040long$ycoord)
 mySpectral <- colorRampPalette(c(brewer.pal(11, "Spectral"), "navy"))
@@ -136,7 +138,7 @@ img <- gridPlot(
 \caption{Number of CLUMondo pixels within a LPJmL grid cell.\label{fig:cluperlpj}}
 \end{figure}
 
-\setkeys{Gin}{width=0.45\textwidth}
+\setkeys{Gin}{width=0.49\textwidth}
 \begin{figure}[tb]
 \centering
 <<zoom_grid, fig=TRUE, echo=FALSE>>=
@@ -148,6 +150,7 @@ points(lpj_ingrid[id,], col="red", pch=16)
 abline(v=c(-53.5,-54,-54.5, -55))
 abline(h=c(0,-0.5,-1,-1.5))
 @
+\hfill
 <<zoom_grid_pole, fig=TRUE, echo=FALSE>>=
 id <- which(hh < 5)
 plot(coordinates(cluagg_grid), pch=15, xlim=c(4,6), ylim=c(59,63))
@@ -168,7 +171,7 @@ original maps from: Van Asselen, S., Verburg, P.H.
 (2012) A Land System representation for global assessments and land-use modeling. Global Change Biology. 
 DOI: 10.1111/j.1365-2486.2012.02759.x.
 
-\setkeys{Gin}{width=0.7\textheight, height=0.4\textheight}
+\setkeys{Gin}{width=0.7\textheight}
 <<val>>=
 forest  <- CLUtoLPJ2040long$lufrac[19,] 
 periurb <- CLUtoLPJ2040long$lufrac[29,] 
@@ -181,31 +184,31 @@ reds     <- colorRampPalette(c("gray", brewer.pal(9, "Reds")))
 oranges  <- colorRampPalette(c("gray", brewer.pal(9, "Oranges")))
 @
 
-<<valforest, fig=TRUE, echo=TRUE, width=7, height=6>>=
+<<valforest, fig=TRUE, echo=TRUE>>=
 img_forest  <- gridPlot(values=forest,cex=1.5,  
                         main="Fraction of Dense Forest", 
                         mar=c(5,4,4,7))
 @
 
-<<valperiurb, fig=TRUE, echo=TRUE, width=7, height=6>>=
+<<valperiurb, fig=TRUE, echo=TRUE>>=
 img_periurb <- gridPlot(values=periurb,cex=1.5,   
                         main="Fraction of Peri Urban", 
                         col=purb(1000), mar=c(5,4,4,7))
 @
 
-<<valurb, fig=TRUE, echo=TRUE, width=7, height=6>>=
+<<valurb, fig=TRUE, echo=TRUE>>=
 img_urban   <- gridPlot(values=urban, cex=1.5,  
                         main="Fraction of Urban", 
                         col=reds(1000), mar=c(5,4,4,7))
 @
 
-<<valgrass, fig=TRUE, echo=TRUE, width=7, height=6>>=
+<<valgrass, fig=TRUE, echo=TRUE>>=
 img_natgrass<- gridPlot(values=natgrass, cex=1.5,  
                         main="fraction of natural grassland", 
                         mar=c(5,4,4,7))
 @
 
-<<valcropint, fig=TRUE, echo=TRUE, width=7, height=6>>=
+<<valcropint, fig=TRUE, echo=TRUE>>=
 img_cropint <- gridPlot(values=cropint, cex=1.5,  
                         main="fraction of intensive cropland", 
                         col=oranges(1000), mar=c(5,4,4,7))
