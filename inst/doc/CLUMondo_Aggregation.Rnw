@@ -24,7 +24,7 @@
 %\VignetteKeyword{land use} 
 \begin{document}
 %\SweaveOpts{concordance=TRUE}
-\SweaveOpts{concordance=TRUE, pdf=FALSE, png=TRUE, eps=FALSE, width=7, height=6, res=100}
+\SweaveOpts{concordance=TRUE, pdf=FALSE, png=TRUE, eps=FALSE, width=7, height=5, res=100}
 
 \setkeys{Gin}{width=0.7\textwidth}
 \maketitle
@@ -44,12 +44,12 @@ The function also could deal with any other projections when specified as argume
 arguments, see the function documentation by typing \texttt{?transform\_asciigrid}).
 
 You can globally inspect the reprojected longlat CLUMondo grid by:
-<<plot_clupix_glob>>=
-#spplot(CLUlonglat, pch=".")
+<<plot_clupix_glob, eval=FALSE>>=
+spplot(CLUlonglat, pch=".")
 @
 or zoom into central Africa:
-<<plot_clupix_africa>>=
-#spplot(CLUlonglat, pch=".",xlim=c(-10,30), ylim=c(-20,20))
+<<plot_clupix_africa, eval=FALSE>>=
+spplot(CLUlonglat, pch=".",xlim=c(-10,30), ylim=c(-20,20))
 @
 Because of the transformation, the grid is not regular anymore. The function therefore, returns a 
 data.frame with spatial points (SpatialPointsDataFrame).
@@ -81,11 +81,11 @@ cells
 used within LPJmL. To figure out, which of the cells of our generated regular grid represent these 
 original cells we can use the 
 function \texttt{matchInputGrid}:
-<<matchgrid>>=
-#lpj_long_clupos <- matchInputGrid(
-#  coordinates(cluagg_grid), 
-#  lpj_ingrid
-#)
+<<matchgrid, eval=FALSE>>=
+lpj_long_clupos <- matchInputGrid(
+  coordinates(cluagg_grid), 
+  lpj_ingrid
+)
 @
 \texttt{lpj\_long\_clupos} than contains the integer numbers (positions) of the original LPJmL cells 
 within our set up low resolution grid.
@@ -100,9 +100,9 @@ that cell anyway. Furthermore, it is counted
 how many CLUMondo pixels of each land use system are located within a grid cell. This number divided by 
 the absolute number of CLUMondo pixels within a grid
 cell provides the fraction of grid cell area this land use system is covering.
-<<resampling>>=
-#CLUtoLPJ2040long <- resample_grid(CLUlonglat, lpj_ingrid, 
-#                    cells=lpj_long_clupos)
+<<resampling, eval=FALSE>>=
+CLUtoLPJ2040long <- resample_grid(CLUlonglat, lpj_ingrid, 
+                    cells=lpj_long_clupos)
 @
 
 Because Eckert IV projection has equivalent areas, but not longlat projection, there are up to 48 
@@ -138,6 +138,7 @@ img <- gridPlot(
 \caption{Number of CLUMondo pixels within a LPJmL grid cell.\label{fig:cluperlpj}}
 \end{figure}
 
+\SweaveOpts{concordance=TRUE, pdf=FALSE, png=TRUE, eps=FALSE, width=7, height=7, res=100}
 \setkeys{Gin}{width=0.49\textwidth}
 \begin{figure}[tb]
 \centering
@@ -165,6 +166,7 @@ Green points: CLUMondo cell centers, Black lines: LPJ grid cells, Red points: LP
 or high number of CLUMondo pixels. \label{fig:gridzoom}}
 \end{figure}
 
+
 \section{Validation of resampling algorithm}
 Validation can easily be performed by visualization of the resulting aggregated maps and comparing to 
 original maps from: Van Asselen, S., Verburg, P.H. 
@@ -184,6 +186,7 @@ reds     <- colorRampPalette(c("gray", brewer.pal(9, "Reds")))
 oranges  <- colorRampPalette(c("gray", brewer.pal(9, "Oranges")))
 @
 
+\SweaveOpts{concordance=TRUE, pdf=FALSE, png=TRUE, eps=FALSE, width=7, height=5, res=100}
 <<valforest, fig=TRUE, echo=TRUE>>=
 img_forest  <- gridPlot(values=forest,cex=1.5,  
                         main="Fraction of Dense Forest", 
