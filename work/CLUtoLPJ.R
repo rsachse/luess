@@ -28,12 +28,12 @@ CLUtoLPJ2040long <- out
 
 
 tt <- system.time(
-  out1      <- resample_grid(CLUlonglat, lpjgrid, cells=40000:50000)
+  out1      <- resample_grid(CLUlonglat, lpjgrid, cells=lpj_long_clupos)
 )
 print(tt)
 
 tt <- system.time(
-  out2      <- resample_grid(CLUlonglat, lpjgrid, cells=40000:50000, parallel=TRUE, cores=2)
+  out2      <- resample_grid(CLUlonglat, lpjgrid, cells=lpj_long_clupos, parallel=TRUE, cores=2)
 )
 print(tt)
 

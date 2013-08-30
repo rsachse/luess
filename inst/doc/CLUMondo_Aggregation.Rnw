@@ -213,8 +213,25 @@ img_cropint <- gridPlot(values=cropint, cex=1.5,
                         main="fraction of intensive cropland", 
                         col=oranges(1000), mar=c(5,4,4,7))
 @
-\section{Final remarks about changes in latest package versions}
-\subsection{resample\_grid() output format}
+\section{Changes and new functionality in latest package versions}
+\subsection{v0.17.0: Parallelization for faster grid resampling}
+Since version v0.17.0 the function \texttt{resample\_grid()} is capable of using multiple cores
+for calculation. This speeds up the function significantly. The packages \texttt{foreach} and 
+\texttt{doParallel} are needed for this. Multiple core usage is invoked by providing the arguments \texttt{parallel=TRUE} and a number of \texttt{cores} to use:
+
+<<multicore, eval=FALSE>>=
+system.time(
+  out1 <- resample_grid(CLUlonglat, lpjgrid, cells=40000:42000)
+)
+system.time(
+  out2 <- resample_grid(CLUlonglat, lpjgrid, cells=40000:42000, 
+                        parallel=TRUE, cores=2)
+)
+identical(out1, out2)
+@
+
+
+\subsection{v0.16.0: resample\_grid() output format}
 The function \texttt{resample\_grid()} returns objects of SpatialPointsDataFrame since version v0.16.0. Pixel type fractions data for this output can be accessed and plotted as follows:
 <<plotsp, fig=TRUE>>=
 grid_lr <- generate_grid(cellcentre.offset=c(-179.75, -59.75))
