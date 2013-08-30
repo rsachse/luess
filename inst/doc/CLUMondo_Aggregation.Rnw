@@ -237,6 +237,7 @@ The old output format of the versions before v0.16.0 can be obtained by specifyi
 \texttt{verbose=TRUE}:
 <<verbresample>>=
 out <- resample_grid(smallarea, grid_lr, verbose=TRUE)
+names(out)
 @
 
 \end{document}
