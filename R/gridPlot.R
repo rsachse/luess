@@ -48,7 +48,7 @@
 #' @seealso \code{\link[plot3D]{image2D}} in package \pkg{plot3D}
 #' 
 #' @examples
-#' ## count CLUMondo cells in aggregated 0.5° cells of LPJ
+#' ## count CLUMondo cells in aggregated 0.5 degree cells of LPJ
 #' nrc  <- sapply(CLUtoLPJ2040long$hrcells, length)
 #' coor <- cbind(CLUtoLPJ2040long$xcoord, CLUtoLPJ2040long$ycoord)
 #' mySpectral <- colorRampPalette(c(brewer.pal(11, "Spectral"), "navy"))

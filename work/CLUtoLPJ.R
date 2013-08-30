@@ -6,7 +6,7 @@ smallarea <- grid_hr
 spplot(grid_hr)
 grid_lr <- generate_grid(cellcentre.offset=c(-179.75, -59.75))
 system.time(
-  out     <- resample_grid(grid_hr, grid_lr)
+  out     <- resample_grid(grid_hr, grid_lr, verbose=TRUE)
 )
 coor    <- cbind(out$xcoord, out$ycoord)
 
