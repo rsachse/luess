@@ -14,9 +14,11 @@ output after driving LPJmL using translated CLUMondo model output.
 
 Install the package
 -----------------------------------------------------------------------------
-The package depends on the R add-on packages: sp, rgdal, maptools, plot3D, RColorBrewer. You need to install them first.
+The package depends on the R add-on packages: sp, rgdal, maptools, plot3D, RColorBrewer. You need to install them first. 
+plot3D is available from r-forge repositories.
 
-	install.packages(c("sp", "rgdal", "maptools", "plot3D", "RColorBrewer"))
+	install.packages(c("sp", "rgdal", "maptools", "RColorBrewer"))
+	install.packages("plot3D", repos="http://r-forge.r-project.org")
 
 You can install the package directly from github by using the devtools package. If you don't already have devtools
 installed, type into the R command line:
