@@ -111,7 +111,7 @@ NULL
 NULL
 #' Artificial Land Use Systems Map for Testing Purposes
 #' 
-#' The SpatialPointsDataFrame includeds cells with 6 different artificial
+#' The SpatialPointsDataFrame includes cells with 6 different artificial
 #' land use systems and is used for testing and validation purposes.
 #'
 #' @name smallarea
