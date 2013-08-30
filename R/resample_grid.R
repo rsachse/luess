@@ -81,25 +81,28 @@ resample_grid <- function(
   parallel=FALSE,
   cores=4
 ){
-  print("Resampling grid, this may take a while!")
+  print("Resampling grid.")
   res         <- over(geometry(grid_hr), grid_lr)
   if(is.null(cells)){
     cells     <- unique(res)
   }
   uniquelu    <- sort(unique(grid_hr@data[,datacolumn]))
-  
   if(parallel==FALSE){
-    out         <- lapply(
-      cells, 
-      function(x,res, datacolumn, grid_hr){
-        #print(paste("processing cell", x-min(cells),"of", max(cells)-min(cells)))
-        #(paste("processing cell", x))
-        CLUcells <- which(res == x)
-        out      <- grid_hr@data[CLUcells, datacolumn]
-        return(out)
-      }, 
-      res=res, datacolumn=datacolumn, grid_hr=grid_hr
-    )
+    odat <- data.frame(LU=grid_hr@data[,1], ID=res)
+    oag  <- aggregate(list(odat$LU), list(odat$ID), c)
+    id   <- match(cells, oag[,1])
+    out  <- oag[id,2]
+#     out         <- lapply(
+#       cells, 
+#       function(x,res, datacolumn, grid_hr){
+#         #print(paste("processing cell", x-min(cells),"of", max(cells)-min(cells)))
+#         #(paste("processing cell", x))
+#         CLUcells <- which(res == x)
+#         out      <- grid_hr@data[CLUcells, datacolumn]
+#         return(out)
+#       }, 
+#       res=res, datacolumn=datacolumn, grid_hr=grid_hr
+#     )
   } else {
     require(foreach)
     require(doParallel)
@@ -124,7 +127,7 @@ resample_grid <- function(
     }, 
     uniquelu=uniquelu
   )
-  print("Re-sampling finished.")
+  print("Resampling finished.")
   if(verbose==TRUE){
   return(
     list(
@@ -140,6 +143,7 @@ resample_grid <- function(
     cr <- CRSargs(grid_lr@proj4string)
     cc <- SpatialPoints(cbind(coordinates(grid_lr)[cells,1], coordinates(grid_lr)[cells,2]), proj4string = CRS(cr))
     dd <- SpatialPointsDataFrame(cc, as.data.frame(t(outlcall)))
+    row.names(dd@data) <- 1:nrow(dd@data)
     return(dd)
   }
 }
