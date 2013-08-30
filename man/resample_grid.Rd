@@ -74,7 +74,10 @@ coor    <- cbind(out$xcoord, out$ycoord)
 par(mfrow=c(3,2))
 for(i in 1:6){
   img     <- out$lufrac[i,]
-  img1    <- gridPlot(values=img, coordinates=coor, main=paste("Fraction Type",i,"Land Use"), zlim=c(0,1), mar=c(5,4,4,8), xlim=c(128,150), ylim=c(-60,-50))
+  img1    <- gridPlot(values=img, coordinates=coor, main=paste("Fraction Type",i,"Land Use"),
+    zlim=c(0,1), mar=c(5,4,4,8), xlim=c(128,150), ylim=c(-60,-50),
+    cex=1.5
+  )
 }
 }
 \author{
