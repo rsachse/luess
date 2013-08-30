@@ -19,6 +19,12 @@
 #' @param verbose if \code{TRUE} an arbitrary list with 7 slots is returned providing all intermediate
 #' results. if \code{FALSE} a SpatialPointsDataFrame is returned.
 #' 
+#' @param parallel logical; when \code{TRUE} the packages \pkg{foreach} and \pkg{doParallel} 
+#' will be used for parallelizing the calculation on multiple cores
+#' 
+#' @param cores integer; number of cores to use for parallelization; only relevant 
+#' when \code{parallel=TRUE}.
+#' 
 #' @return 
 #' By default an object of class SpatialPointsDataFrame is returned with \code{length(luid)} columns and 
 #' \code{length(cells)} rows. Each column represents an original pixel type. The data specifies the 
@@ -66,24 +72,44 @@
 #'     cex=1.5
 #'   )
 #' }
-resample_grid <- function(grid_hr, grid_lr, cells=NULL, datacolumn=1, verbose=FALSE){
+resample_grid <- function(
+  grid_hr, 
+  grid_lr, 
+  cells=NULL, 
+  datacolumn=1, 
+  verbose=FALSE, 
+  parallel=FALSE,
+  cores=4
+){
   print("Resampling grid, this may take a while!")
   res         <- over(geometry(grid_hr), grid_lr)
   if(is.null(cells)){
     cells     <- unique(res)
   }
   uniquelu    <- sort(unique(grid_hr@data[,datacolumn]))
-  out         <- lapply(
-    cells, 
-    function(x,res, datacolumn, grid_hr){
-      #print(paste("processing cell", x-min(cells),"of", max(cells)-min(cells)))
-      #(paste("processing cell", x))
-      CLUcells <- which(res == x)
-      out      <- grid_hr@data[CLUcells, datacolumn]
-      return(out)
-    }, 
-    res=res, datacolumn=datacolumn, grid_hr=grid_hr
-  )
+  
+  if(parallel==FALSE){
+    out         <- lapply(
+      cells, 
+      function(x,res, datacolumn, grid_hr){
+        #print(paste("processing cell", x-min(cells),"of", max(cells)-min(cells)))
+        #(paste("processing cell", x))
+        CLUcells <- which(res == x)
+        out      <- grid_hr@data[CLUcells, datacolumn]
+        return(out)
+      }, 
+      res=res, datacolumn=datacolumn, grid_hr=grid_hr
+    )
+  } else {
+    require(foreach)
+    require(doParallel)
+    registerDoParallel(cores=cores)
+    myfunc <- function(i){
+      CLUcells <- which(res == cells[i])
+      grid_hr@data[CLUcells, datacolumn]
+    }
+    out <- foreach(i=1:length(cells)) %dopar% myfunc(i)
+  }
   outlc      <- lapply(out, table)
   outlcall   <- sapply(
     outlc, 

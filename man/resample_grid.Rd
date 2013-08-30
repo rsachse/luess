@@ -3,7 +3,8 @@
 \title{Resampling of a high resolution grid for further use with a grid of coarser resolution}
 \usage{
   resample_grid(grid_hr, grid_lr, cells = NULL,
-    datacolumn = 1, verbose = FALSE)
+    datacolumn = 1, verbose = FALSE, parallel = FALSE,
+    cores = 4)
 }
 \arguments{
   \item{grid_hr}{SpatialPointsDataFrame containing the
@@ -24,6 +25,14 @@
   \item{verbose}{if \code{TRUE} an arbitrary list with 7
   slots is returned providing all intermediate results. if
   \code{FALSE} a SpatialPointsDataFrame is returned.}
+
+  \item{parallel}{logical; when \code{TRUE} the packages
+  \pkg{foreach} and \pkg{doParallel} will be used for
+  parallelizing the calculation on multiple cores}
+
+  \item{cores}{integer; number of cores to use for
+  parallelization; only relevant when
+  \code{parallel=TRUE}.}
 }
 \value{
   By default an object of class SpatialPointsDataFrame is

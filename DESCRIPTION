@@ -1,9 +1,10 @@
 Package: luess
 Type: Package
 Title: Estimation of Ecosystem Services from LPJmL Model Output
-Version: 0.16.4
-Date: 2013-08-29
+Version: 0.17.0
+Date: 2013-08-30
 Depends: sp, rgdal, maptools, plot3D, RColorBrewer
+Suggests: foreach, doParallel
 Author: Rene Sachse <rene.sachse@uni-potsdam.de>
 Maintainer: Rene Sachse <rene.sachse@uni-potsdam.de>
 Description: Estimation of Ecosystem Services from LPJmL Model Output
