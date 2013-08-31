@@ -7,8 +7,8 @@ tt <- system.time(
 )
 print(tt)
 
-forest <- gridPlot(out1@data[,19])
-natgr  <- gridPlot(out1@data[,24])
+forest <- gridPlot(out1@data[,19], coordinates(out1))
+natgr  <- gridPlot(out1@data[,24], coordinates(out1))
 
 
 
