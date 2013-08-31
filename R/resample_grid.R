@@ -20,10 +20,12 @@
 #' results. if \code{FALSE} a SpatialPointsDataFrame is returned.
 #' 
 #' @param parallel logical; when \code{TRUE} the packages \pkg{foreach} and \pkg{doParallel} 
-#' will be used for parallelizing the calculation on multiple cores
+#' will be used for parallelizing the calculation on multiple cores. Please note: parallelization 
+#' on 4 cores is slower by one magnitude than the latest implemented single core algorithm.
 #' 
 #' @param cores integer; number of cores to use for parallelization; only relevant 
-#' when \code{parallel=TRUE}.
+#' when \code{parallel=TRUE}. Please note: parallelization 
+#' on 4 cores is slower by one magnitude than the latest implemented single core algorithm.
 #' 
 #' @return 
 #' By default an object of class SpatialPointsDataFrame is returned with \code{length(luid)} columns and 
