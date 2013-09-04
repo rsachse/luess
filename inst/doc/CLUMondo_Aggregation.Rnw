@@ -1,6 +1,7 @@
 \documentclass[
   parskip=half,
-  headings=small
+  headings=small,
+  toc=bib
 ]{scrartcl}
 \usepackage[utf8x]{inputenc}
 \usepackage[T1]{fontenc}
@@ -9,6 +10,8 @@
 \usepackage{csquotes}
 %\usepackage{booktabs}
 %\usepackage{amsmath}
+\usepackage{natbib}
+\bibliographystyle{apalike}
 \usepackage{microtype}
 \usepackage{hyperref}
 \addtokomafont{captionlabel}{\footnotesize\sffamily\bfseries} 
@@ -38,7 +41,8 @@ Therefore, some commands are out-commented.
 library(luess)
 #CLUlonglat <- transform_asciigrid("land_systems.asc")
 @
-\texttt{transform\_asciigrid()} reads CLUMondo output grids and transforms them from Eckert~IV projection 
+\texttt{transform\_asciigrid()} reads CLUMondo output grids \citep{Asselen2012, Verburg2013}
+and transforms them from Eckert~IV projection 
 (areas equivalent) to longlat format (geographic coordinates, equirectangular projection, plate carrée). 
 The function also could deal with any other projections when specified as argument (for using function 
 arguments, see the function documentation by typing \texttt{?transform\_asciigrid}).
@@ -168,10 +172,8 @@ or high number of CLUMondo pixels. \label{fig:gridzoom}}
 
 
 \section{Validation of resampling algorithm}
-Validation can easily be performed by visualization of the resulting aggregated maps and comparing to 
-original maps from: Van Asselen, S., Verburg, P.H. 
-(2012) A Land System representation for global assessments and land-use modeling. Global Change Biology. 
-DOI: 10.1111/j.1365-2486.2012.02759.x.
+Validation can be performed by visualization of the resulting aggregated maps and comparing to 
+th original maps from \citet{Asselen2012} and \citet{Verburg2013}.
 
 \setkeys{Gin}{width=0.7\textheight}
 <<val>>=
@@ -264,4 +266,5 @@ out <- resample_grid(smallarea, grid_lr, verbose=TRUE)
 names(out)
 @
 
+\bibliography{luesslit}
 \end{document}
