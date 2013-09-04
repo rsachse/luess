@@ -173,7 +173,7 @@ or high number of CLUMondo pixels. \label{fig:gridzoom}}
 
 \section{Validation of resampling algorithm}
 Validation can be performed by visualization of the resulting aggregated maps and comparing to 
-th original maps from \citet{Asselen2012} and \citet{Verburg2013}.
+the original maps from \citet{Asselen2012} and \citet{Verburg2013}.
 
 \setkeys{Gin}{width=0.7\textheight}
 <<val>>=
