@@ -146,7 +146,7 @@ gridPlot <- function(
       )
     }
   }
-  return(
+  invisible(
     list(
       x=seq(ext_lon[1],ext_lon[2],by=res), 
       y=seq(ext_lat[1],ext_lat[2],by=res), 
