@@ -5,7 +5,7 @@
   gridPlot(values, coordinates = lpj_ingrid, res = 0.5,
     main = "", clab = "",
     col = terrain.colors(1000)[1000:1], plot = TRUE,
-    addcountries = FALSE, axes = TRUE, cex = 2.5,
+    addcountries = FALSE, axes = TRUE, cex = 1.5,
     mar = c(5, 4, 4, 6), xlim = c(-180, 180),
     ylim = c(-60, 90), zlim = NULL, colkey = TRUE, ...)
 }

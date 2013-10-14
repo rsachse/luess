@@ -92,7 +92,7 @@ gridPlot <- function(
   plot         = TRUE, 
   addcountries = FALSE, 
   axes         = TRUE,
-  cex          = 2.5,
+  cex          = 1.5,
   mar          = c(5,4,4,6),
   xlim         = c(-180,180),
   ylim         = c(-60,90),
