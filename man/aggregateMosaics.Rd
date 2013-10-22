@@ -20,7 +20,7 @@ the mosaics in consist of}
   if \code{data} is an object of class
   SpatialPointsDataFrame also an object of
   SpatialPointsDataFrame is returned. Otherwise a simple
-  data frame with basic landuse classes is returned.
+  matrix with basic landuse classes is returned.
 }
 \description{
   The function disentangles multiple mosaics into its basic

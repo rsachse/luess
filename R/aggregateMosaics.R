@@ -15,7 +15,7 @@
 #' @return 
 #' if \code{data} is an object of class SpatialPointsDataFrame 
 #' also an object of SpatialPointsDataFrame is returned. Otherwise
-#' a simple data frame with basic landuse classes is returned.
+#' a simple matrix with basic landuse classes is returned.
 #' 
 #' @author Rene Sachse \email{rene.sachse@@uni-potsdam.de}
 #'
