@@ -274,8 +274,8 @@ spplot(outDisentangle, col.regions=rev(terrain.colors(100)), colorkey=TRUE)
 
 \section{Changes and new functionality in latest package versions}
 \subsection{v0.17.1: resample\_grid() faster without parallelization}
-Since version v0.17.1 the function \texttt{resample\_grid()} internally uses \texttt{agg
-regate()} to count original pixel types. This is one magnitude
+Since version v0.17.1 the function \texttt{resample\_grid()} internally uses 
+\texttt{aggregate()} to count original pixel types. This is one magnitude
 faster than the parallelized loop-variant of the previous versions. Therefore the option 
 \texttt{parallel=TRUE} is deprecated as long as only a low
 number of cores (less than approx. 20 cores) are available.
