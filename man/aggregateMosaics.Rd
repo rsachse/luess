@@ -7,9 +7,10 @@ the mosaics in consist of}
 }
 \arguments{
   \item{data}{data.frame or SpatialPointsDataFrame
-  providing classes of the mosaics for each grid cell.
-  Directly compatible to output of
-  \code{\link[luess]{resample_grid}}.}
+  providing fractions of the mosaic classes for each grid
+  cell. Directly compatible to output of
+  \code{\link[luess]{resample_grid}}. Each row needs to sum
+  up to exactly 1.}
 
   \item{mosaicFractions}{data.frame providing fractions of
   basic land use classes which form the mosaics. Needs to

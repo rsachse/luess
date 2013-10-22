@@ -5,8 +5,9 @@
 #' the mosaics in one grid cell consist.
 #' 
 #' @param data data.frame or SpatialPointsDataFrame providing 
-#' classes of the mosaics for each grid cell. 
+#' fractions of the mosaic classes for each grid cell. 
 #' Directly compatible to output of \code{\link[luess]{resample_grid}}.
+#' Each row needs to sum up to exactly 1.
 #' 
 #' @param mosaicFractions data.frame providing fractions of basic land use classes
 #' which form the mosaics. Needs to have as many rows as \code{data} has columns; 
