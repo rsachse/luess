@@ -100,9 +100,9 @@ for(i in 1:6){
 \seealso{
   \code{\link[sp]{over}} in package \pkg{sp}
 }
-\keyword{aggregation,}
 \keyword{CLUMondo}
 \keyword{LPJmL,}
+\keyword{aggregation,}
 \keyword{regridding,}
 \keyword{warping,}
 

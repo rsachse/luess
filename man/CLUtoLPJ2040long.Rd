@@ -14,10 +14,10 @@
   modeling. Global Change Biology. DOI:
   10.1111/j.1365-2486.2012.02759.x.
 }
-\keyword{cells,}
 \keyword{CLUMondo}
+\keyword{LPJmL,}
+\keyword{cells,}
 \keyword{datasets}
 \keyword{grid}
 \keyword{grid,}
-\keyword{LPJmL,}
 

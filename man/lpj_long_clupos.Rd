@@ -7,10 +7,10 @@
   within the input grid used for CLUMondo coupling. It
   includes 67420 land cells of the new LPJmL version.
 }
-\keyword{cells,}
 \keyword{CLUMondo}
+\keyword{LPJmL,}
+\keyword{cells,}
 \keyword{datasets}
 \keyword{grid}
 \keyword{grid,}
-\keyword{LPJmL,}
 

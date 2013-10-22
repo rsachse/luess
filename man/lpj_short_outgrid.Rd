@@ -8,8 +8,8 @@
   which had a reduced number of output cells due to no soil
   information for some cells.
 }
+\keyword{LPJmL,}
 \keyword{cells,}
 \keyword{datasets}
 \keyword{grid}
-\keyword{LPJmL,}
 

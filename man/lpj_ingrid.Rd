@@ -7,8 +7,8 @@
   grid cells. It includes 67420 cells with land use
   information.
 }
+\keyword{LPJmL,}
 \keyword{cells,}
 \keyword{datasets}
 \keyword{grid}
-\keyword{LPJmL,}
 

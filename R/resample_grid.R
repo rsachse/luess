@@ -94,17 +94,6 @@ resample_grid <- function(
     oag  <- aggregate(list(odat$LU), list(odat$ID), c)
     id   <- match(cells, oag[,1])
     out  <- oag[id,2]
-#     out         <- lapply(
-#       cells, 
-#       function(x,res, datacolumn, grid_hr){
-#         #print(paste("processing cell", x-min(cells),"of", max(cells)-min(cells)))
-#         #(paste("processing cell", x))
-#         CLUcells <- which(res == x)
-#         out      <- grid_hr@data[CLUcells, datacolumn]
-#         return(out)
-#       }, 
-#       res=res, datacolumn=datacolumn, grid_hr=grid_hr
-#     )
   } else {
     require(foreach)
     require(doParallel)

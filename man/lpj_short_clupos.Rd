@@ -9,10 +9,10 @@
   had a reduced number of output cells due to no soil
   information for some cells.
 }
-\keyword{cells,}
 \keyword{CLUMondo}
+\keyword{LPJmL,}
+\keyword{cells,}
 \keyword{datasets}
 \keyword{grid}
 \keyword{grid,}
-\keyword{LPJmL,}
 

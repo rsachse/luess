@@ -39,6 +39,6 @@ plot(lpjgrid)
   \code{\link[sp]{GridTopology}, \link[sp]{SpatialGrid},
   \link[sp]{CRS}} in package \pkg{sp}
 }
-\keyword{grid}
 \keyword{LPJmL,}
+\keyword{grid}
 

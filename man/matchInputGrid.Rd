@@ -33,11 +33,11 @@
 \author{
   Rene Sachse \email{rene.sachse@uni-potsdam.de}
 }
-\keyword{cells,}
 \keyword{CLUMondo}
-\keyword{grid}
-\keyword{grid,}
 \keyword{LPJ,}
 \keyword{LPJml,}
+\keyword{cells,}
+\keyword{grid}
+\keyword{grid,}
 \keyword{positions,}
 

@@ -7,8 +7,8 @@
   different artificial land use systems and is used for
   testing and validation purposes.
 }
-\keyword{cells,}
 \keyword{CLUMondo}
+\keyword{cells,}
 \keyword{datasets}
 \keyword{grid}
 \keyword{grid,}
