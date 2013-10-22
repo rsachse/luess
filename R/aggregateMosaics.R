@@ -55,9 +55,13 @@ aggregateMosaics <- function(
   if(ncol(dat) != nrow(mosaicFractions)){
     stop("mosaicFractions requires nrow(mosaicFractions) == ncol(data)")
   }
+  checkDataFractions <- any(rowSums(dat) !=1)
+  if(checkDataFractions == TRUE){
+    stop("Data fractions don't sum up to 1!")
+  }
   checkMosaicFractions <- any(rowSums(mosaicFractions) != 1)
   if(checkMosaicFractions == TRUE){
-    stop("Mosaic fractions don't sum up to 1")
+    stop("Mosaic fractions don't sum up to 1!")
   }
   ## matrix multiplication (this line is doing the actual transformation/aggregation)
   res <- as.matrix(dat) %*% as.matrix(mosaicFractions)
