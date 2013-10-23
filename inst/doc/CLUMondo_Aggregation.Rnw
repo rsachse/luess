@@ -121,8 +121,12 @@ the absolute number of CLUMondo pixels within a grid
 cell provides the fraction of grid cell area this land use system is covering.
 <<resampling, eval=FALSE>>=
 CLUtoLPJ2040long <- resample_grid(CLUlonglat, lpj_ingrid, 
-                    cells=lpj_long_clupos)
+                    cells=lpj_long_clupos, verbose=TRUE)
 @
+
+The option \texttt{verbose=TRUE} returns a list with output. The recent versions of the package
+return an opject of class SpatialPointsDataFrame as output. See section~\ref{txt:resampleOutput}
+for details how to handle data of that format.
 
 Because Eckert IV projection has equivalent areas, but not longlat projection, there are 
 up to 48 
@@ -300,6 +304,7 @@ identical(out1, out2)
 
 
 \subsection{v0.16.0: resample\_grid() output format}
+\label{txt:resampleOutput}
 The function \texttt{resample\_grid()} returns objects of SpatialPointsDataFrame since 
 version v0.16.0. Pixel type fractions data for this output can be accessed and plotted 
 as follows:
