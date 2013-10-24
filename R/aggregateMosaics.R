@@ -1,5 +1,5 @@
 #' Disentangling multiple mosaics in one grid cell into basic landuse classes 
-#' the mosaics in consist of
+#' they consist of
 #'
 #' The function disentangles multiple mosaics into its basic land use classes of which
 #' the mosaics in one grid cell consist.
