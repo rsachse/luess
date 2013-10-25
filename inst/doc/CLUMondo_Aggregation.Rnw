@@ -125,7 +125,7 @@ CLUtoLPJ2040long <- resample_grid(CLUlonglat, lpj_ingrid,
 @
 
 The option \texttt{verbose=TRUE} returns a list with output. The recent versions of the package
-return an opject of class SpatialPointsDataFrame as output. See section~\ref{txt:resampleOutput}
+return an object of class SpatialPointsDataFrame as output. See section~\ref{txt:resampleOutput}
 for details how to handle data of that format.
 
 Because Eckert IV projection has equivalent areas, but not longlat projection, there are 
