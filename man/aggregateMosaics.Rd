@@ -1,7 +1,6 @@
 \name{aggregateMosaics}
 \alias{aggregateMosaics}
-\title{Disentangling multiple mosaics in one grid cell into basic landuse classes
-they consist of}
+\title{Disentangling multiple mosaics in a grid cell into their basic landuse classes}
 \usage{
   aggregateMosaics(data, mosaicFractions)
 }
