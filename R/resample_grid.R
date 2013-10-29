@@ -83,7 +83,7 @@ resample_grid <- function(
   parallel=FALSE,
   cores=4
 ){
-  print("Resampling grid.")
+  message("Resampling grid.")
   res         <- over(geometry(grid_hr), grid_lr)
   if(is.null(cells)){
     cells     <- unique(res)
@@ -118,7 +118,7 @@ resample_grid <- function(
     }, 
     uniquelu=uniquelu
   )
-  print("Resampling finished.")
+  message("Resampling finished.")
   if(verbose==TRUE){
   return(
     list(

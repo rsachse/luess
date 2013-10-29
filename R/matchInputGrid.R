@@ -25,7 +25,7 @@ matchInputGrid <- function(grid.in, grid.out){
   nn <- length(grid.out)/2
   pos_in_input <- array(data=NA,dim=nn)
   for (c in 1:nn){
-    print(paste("matching cell", c, "of", nn))
+    #message(paste("matching cell", c, "of", nn))
     x_temp <- which(grid.in[,1]==grid.out[c,1], arr.ind=TRUE)
     y_temp <- which(grid.in[,2]==grid.out[c,2], arr.ind=TRUE)
     pos_in_input[c] <- intersect(x_temp, y_temp)

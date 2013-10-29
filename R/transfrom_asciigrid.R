@@ -25,14 +25,16 @@ transform_asciigrid <- function(
   proj4_output="+proj=longlat",
   plotresult=FALSE
 ){
-  print(paste("reading file", file))
+  message(paste("reading file", file))
   CLUeck4    <- read.asciigrid(file, proj4string=CRS(proj4_input))
-  print("performing spatial re-projection")
-  CLUlonglat <- spTransform(CLUeck4, CRS(proj4_output))
+  message("performing spatial re-projection")
+  suppressWarnings({
+    CLUlonglat <- spTransform(CLUeck4, CRS(proj4_output))
+  })
   if(plotresult == TRUE){
     print("plotting re-projected map")
     spplot(CLUlonglat, pch=".")
   }
-  print(paste("finished processing", file))
+  message(paste("finished re-projecting", file))
   return(CLUlonglat)
 }
