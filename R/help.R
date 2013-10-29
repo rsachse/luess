@@ -58,9 +58,9 @@ NULL
 #' @docType data
 #' @keywords LPJmL, grid cells, grid, CLUMondo 
 NULL
-#' Assignment of CLUMondo Land Use Systems to LPJmL Grid Cells for the year 2040
+#' Assignment of CLUMondo Land Use Systems to LPJmL Grid Cells for the 2040 OEPC scenario
 #' 
-#' The data includes assignments of CLUMondoy Land Use Systems of the year 2040 
+#' The data includes assignments of CLUMondoy Land Use Systems of the 2040 OEPC scenario 
 #' to the old LPJmL grid, containing 59199 cells.
 #'
 #' @name CLUtoLPJ2040
@@ -81,9 +81,9 @@ NULL
 #' @docType data
 #' @keywords LPJmL, grid cells, grid 
 NULL
-#' Assignment of CLUMondo Land Use Systems to LPJmL Grid Cells for the year 2040
+#' Assignment of CLUMondo Land Use Systems to LPJmL Grid Cells for the 2040 OEPC scenario 
 #' 
-#' The data includes assignments of CLUMondoy Land Use Systems of the year 2040 
+#' The data includes assignments of CLUMondoy Land Use Systems of the 2040 OEPC scenario 
 #' to new LPJmL grid, containing 67420 cells.
 #'
 #' @name CLUtoLPJ2040long

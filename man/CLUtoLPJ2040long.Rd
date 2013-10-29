@@ -1,11 +1,11 @@
 \docType{data}
 \name{CLUtoLPJ2040long}
 \alias{CLUtoLPJ2040long}
-\title{Assignment of CLUMondo Land Use Systems to LPJmL Grid Cells for the year 2040}
+\title{Assignment of CLUMondo Land Use Systems to LPJmL Grid Cells for the 2040 OEPC scenario}
 \description{
   The data includes assignments of CLUMondoy Land Use
-  Systems of the year 2040 to new LPJmL grid, containing
-  67420 cells.
+  Systems of the 2040 OEPC scenario to new LPJmL grid,
+  containing 67420 cells.
 }
 \references{
   A full documentation of the data can be found in: Van
