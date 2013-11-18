@@ -14,13 +14,9 @@ output after driving LPJmL using translated CLUMondo model output.
 
 Install the package
 -----------------------------------------------------------------------------
-The package depends on the R add-on packages: sp, rgdal, maptools, plot3D, RColorBrewer. You need to install them first. 
-plot3D is available from r-forge repositories.
+The package depends on the R add-on packages: sp, rgdal, maptools, plot3D, RColorBrewer. 
 
-	install.packages(c("sp", "rgdal", "maptools", "RColorBrewer"))
-	install.packages("plot3D", repos="http://r-forge.r-project.org")
-
-You can install the package directly from github by using the devtools package. If you don't already have devtools
+You can install luess directly from github by using the devtools package. If you don't already have devtools
 installed, type into the R command line:
 
 	install.packages("devtools")
@@ -30,8 +26,11 @@ Afterwards you can install luess by typing:
 	library(devtools)
 	install_github("luess", username="rsachse")
 	
+The packages luess depends on will be downloaded and installed automatically from the CRAN Servers.
+	
 You also can download the source package or precompiled Windows binary packages 
 from the [github releases page](https://github.com/rsachse/luess/releases).
+
 
 Documentation
 -----------------------------------------------------------------------------
