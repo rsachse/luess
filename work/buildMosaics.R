@@ -66,8 +66,8 @@ readMosaicFiles <- function(path="./mosaics/", rel=TRUE){
   return(cluMosaics)
 }
 
-cluMosaics      <- readMosaicFiles()
-cluMosaics_area <- readMosaicFiles(rel=FALSE)
+CLUMosaics      <- readMosaicFiles()
+CLUMosaics_area <- readMosaicFiles(rel=FALSE)
 
-save(cluMosaics, file="cluMosaics.rda")
-save(cluMosaics_area, file="cluMosaics_area.rda")
+save(CLUMosaics, file="CLUMosaics.rda")
+save(CLUMosaics_area, file="CLUMosaics_area.rda")
