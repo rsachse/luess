@@ -2,9 +2,8 @@
 \alias{generate_grid}
 \title{Generates a Spatial Grid}
 \usage{
-  generate_grid(cellcentre.offset = c(-179.75, -55.75),
-    cellsize = c(0.5, 0.5), cells.dim = c(720, 280),
-    proj4 = "+proj=longlat")
+generate_grid(cellcentre.offset = c(-179.75, -55.75), cellsize = c(0.5,
+  0.5), cells.dim = c(720, 280), proj4 = "+proj=longlat")
 }
 \arguments{
   \item{cellcentre.offset}{numeric; vector with the
@@ -21,11 +20,11 @@
   documentation}
 }
 \value{
-  Returns a SpatialGrid.
+Returns a SpatialGrid.
 }
 \description{
-  The function generates a Spatial Grid. Default values
-  provide a grid fitting to the LPJ model requirements.
+The function generates a Spatial Grid. Default values
+provide a grid fitting to the LPJ model requirements.
 }
 \examples{
 lpjgrid <- generate_grid()
@@ -33,11 +32,11 @@ lpj_coord <- coordinates(lpjgrid)
 plot(lpjgrid)
 }
 \author{
-  Rene Sachse \email{rene.sachse@uni-potsdam.de}
+Rene Sachse \email{rene.sachse@uni-potsdam.de}
 }
 \seealso{
-  \code{\link[sp]{GridTopology}, \link[sp]{SpatialGrid},
-  \link[sp]{CRS}} in package \pkg{sp}
+\code{\link[sp]{GridTopology}, \link[sp]{SpatialGrid},
+\link[sp]{CRS}} in package \pkg{sp}
 }
 \keyword{LPJmL,}
 \keyword{grid}
