@@ -55,8 +55,11 @@ aggregateMosaics <- function(
   if(ncol(dat) != nrow(mosaicFractions)){
     stop("mosaicFractions requires nrow(mosaicFractions) == ncol(data)")
   }
-  checkDataFractions <- any(rowSums(dat) !=1)
-  if(checkDataFractions == TRUE){
+  #checkDataFractions <- any(rowSums(dat) !=1)
+  rsums <- rowSums(dat)
+  names(rsums) <- NULL
+  checkDataFractions <- all.equal(rsums, rep(1,nrow(dat)))
+  if(checkDataFractions == FALSE){
     stop("Data fractions don't sum up to 1!")
   }
   checkMosaicFractions <- any(rowSums(mosaicFractions) != 1)
