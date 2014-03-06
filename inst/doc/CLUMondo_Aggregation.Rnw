@@ -16,7 +16,7 @@
 \usepackage{hyperref}
 \addtokomafont{captionlabel}{\footnotesize\sffamily\bfseries} 
 \addtokomafont{caption}{\footnotesize\sffamily}               
-\title{Aggregating CLUMondo grids}
+\title{Aggregating and Translating CLUMondo Grids to LPJmL}
 \author{René Sachse \texttt{rene.sachse@uni-potsdam.de}}
 %\VignetteIndexEntry{Aggregating CLUMondo grids}
 %\VignetteDepends{sp, maptools, RColorBrewer} 
@@ -217,7 +217,7 @@ reds     <- colorRampPalette(c("gray", brewer.pal(9, "Reds")))
 oranges  <- colorRampPalette(c("gray", brewer.pal(9, "Oranges")))
 @
 
-\SweaveOpts{concordance=TRUE, pdf=FALSE, png=TRUE, eps=FALSE, width=7, height=5, res=100}
+\SweaveOpts{concordance=TRUE, pdf=FALSE, png=TRUE, eps=FALSE, width=6, height=4, res=100}
 <<valforest, fig=TRUE, echo=TRUE>>=
 img_forest  <- gridPlot(values=forest,cex=1.5,  
                         main="Fraction of Dense Forest", 
@@ -249,12 +249,21 @@ img_cropint <- gridPlot(values=cropint, cex=1.5,
 @
 
 \section{Disentangling CLUMondo Mosaics}
-CLUMondo provides different classes of landscape mosaics. To disentangle the underlying
-real land use classes per grid cell, the function \texttt{aggregateMosaics()} can be 
-used. In the current version no detailed mosaic data for CLUMondo is available (e.g. how 
-much percent of the mosaic types are natural vegetation, agricultural land, etc...). 
-Therefore, the function only is used with arbitrary examples for demonstration purposes 
-at the moment.
+CLUMondo provides 30 different classes of landscape mosaics \citep{Verburg2013}. 
+Each mosaic consists of one of the five basic landuse classes: trees, buildt up area, bare area, cropland or pasture. 
+For LPJmL we sum up trees, built up area and bare area to an area of natural vegetation (LPJmL does not consider 
+urban areas at the moment; however since this area
+is increasing in the future, this might be an important enhancement). 
+The decision what kind of plant functional types (PFTs) are growing on land, whether it is trees, grass or nothing (bare) is decided by LPJmL on its own on areas 
+reserved for potential natural vegetation. Therefore, I summed up tree area and bare area for the area of potential natural vegetation.
+After aggregation for LPJmL we have the three classes: natveg, cropland and pasture remaining. Natveg and pasture translates directly to LPJmL, 
+while cropland needs to be translated to 13 different crop functional types (CFTs) later.
+
+To disentangle the underlying
+real land use classes per grid cell, the generic function \texttt{aggregateMosaics()} or a LPJmL specific 
+function for CLUMondo aggregation \texttt{aggregateMosaicsClumondo()} can be 
+used. Since the mosaic composition in CLUMondo is different in each of the 24 world regions, the function 
+\texttt{aggregateMosaicsClumondo()} already applies different tables during the aggregation to all world regions.
 
 We assume a small artifical map of 6 arbitrary mosaic types:
 <<plotSmallarea, fig=TRUE, echo=TRUE>>=
@@ -276,33 +285,33 @@ outDisentangle <- aggregateMosaics(outMosaic, mosaicFractions)
 spplot(outDisentangle, col.regions=rev(terrain.colors(100)), colorkey=TRUE)
 @
 
-\section{Changes and new functionality in latest package versions}
-\subsection{v0.17.1: resample\_grid() faster without parallelization}
-Since version v0.17.1 the function \texttt{resample\_grid()} internally uses 
-\texttt{aggregate()} to count original pixel types. This is one magnitude
-faster than the parallelized loop-variant of the previous versions. Therefore the option 
-\texttt{parallel=TRUE} is deprecated as long as only a low
-number of cores (less than approx. 20 cores) are available.
-\subsection{v0.17.0: Parallelization for faster grid resampling}
-Since version v0.17.0 the function \texttt{resample\_grid()} is capable of using 
-multiple cores
-for calculation. This speeds up the function significantly. 
-The packages \texttt{foreach} and 
-\texttt{doParallel} are needed for this. Multiple core usage is invoked by providing the 
-arguments \texttt{parallel=TRUE} and a number of \texttt{cores} to use:
+An example for aggregating the CLUMondo Land System map of the year 2000 is as easy as feeding the function \texttt{aggregateMosaicsClumondo()} with 
+the output of the resampling-algorithm (\texttt{out}), the mosaic composition tables of all world regions (\texttt{CLUMosaics}) and with the LPJmL grid containing information for every pixel about the worldregion it belongs to (\texttt{lpjGrid}):
 
-<<multicore, eval=FALSE>>=
-system.time(
-  out1 <- resample_grid(CLUlonglat, lpjgrid, cells=40000:42000)
-)
-system.time(
-  out2 <- resample_grid(CLUlonglat, lpjgrid, cells=40000:42000, 
-                        parallel=TRUE, cores=2)
-)
-identical(out1, out2)
+<<aggClu, echo=TRUE>>=
+out <- resample_grid(CLUlonglat, generate_grid(), cells=lpj_long_clupos)
+cluAgg <- aggregateMosaicsClumondo(out, CLUMosaics, lpjGrid)
+@
+
+<<aggCluFig1, fig=TRUE, echo=TRUE>>=
+gridPlot(cluAgg@data[,"pasture"], zlim=c(0,1), main="pasture")
+@
+
+<<aggCluFig2, fig=TRUE, echo=TRUE>>=
+gridPlot(cluAgg@data[,"cropland"], zlim=c(0,1), main="cropland")
+@
+
+<<aggCluFig3, fig=TRUE, echo=TRUE>>=
+gridPlot(cluAgg@data[,"natveg"], zlim=c(0,1), main="natveg")
 @
 
 
+
+\section{Translating CLUMondo Land Use to Crop Funtional Types}
+\subsection{A Method based on an existing and most recent land use map}
+\ldots{} not implemented yet.
+
+\section{Changes and new functionality in latest package versions}
 \subsection{v0.16.0: resample\_grid() output format}
 \label{txt:resampleOutput}
 The function \texttt{resample\_grid()} returns objects of SpatialPointsDataFrame since 
@@ -331,6 +340,34 @@ The old output format of the versions before v0.16.0 can be obtained by specifyi
 out <- resample_grid(smallarea, grid_lr, verbose=TRUE)
 names(out)
 @
+
+\subsection{v0.17.0: Parallelization for faster grid resampling}
+Since version v0.17.0 the function \texttt{resample\_grid()} is capable of using 
+multiple cores
+for calculation. This speeds up the function significantly. 
+The packages \texttt{foreach} and 
+\texttt{doParallel} are needed for this. Multiple core usage is invoked by providing the 
+arguments \texttt{parallel=TRUE} and a number of \texttt{cores} to use:
+
+<<multicore, eval=FALSE>>=
+system.time(
+  out1 <- resample_grid(CLUlonglat, lpjgrid, cells=40000:42000)
+)
+system.time(
+  out2 <- resample_grid(CLUlonglat, lpjgrid, cells=40000:42000, 
+                        parallel=TRUE, cores=2)
+)
+identical(out1, out2)
+@
+
+\subsection{v0.17.1: resample\_grid() faster without parallelization}
+Since version v0.17.1 the function \texttt{resample\_grid()} internally uses 
+\texttt{aggregate()} to count original pixel types. This is one magnitude
+faster than the parallelized loop-variant of the previous versions. Therefore the option 
+\texttt{parallel=TRUE} is deprecated as long as only a low
+number of cores (less than approx. 20 cores) are available.
+
+
 
 \bibliography{luesslit}
 \end{document}
