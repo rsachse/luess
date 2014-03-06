@@ -81,6 +81,16 @@ NULL
 #' @docType data
 #' @keywords LPJmL, grid cells, grid 
 NULL
+#' Coordinates of LPJmL grid cells and information about countries and world regions.
+#' 
+#' The SpatialPointsDataFrame provides coordinates of LPJmL grid cells.
+#' It includes 67420 cells with information on the country, region and corresponding
+#' CLUMondo world region.
+#'
+#' @name lpjGrid
+#' @docType data
+#' @keywords LPJmL, grid cells, grid 
+NULL
 #' Assignment of CLUMondo Land Use Systems to LPJmL Grid Cells for the 2040 OEPC scenario 
 #' 
 #' The data includes assignments of CLUMondoy Land Use Systems of the 2040 OEPC scenario 

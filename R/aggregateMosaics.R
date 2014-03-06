@@ -56,16 +56,16 @@ aggregateMosaics <- function(
     stop("mosaicFractions requires nrow(mosaicFractions) == ncol(data)")
   }
   #checkDataFractions <- any(rowSums(dat) !=1)
-  rsums <- rowSums(dat)
-  names(rsums) <- NULL
-  checkDataFractions <- all.equal(rsums, rep(1,nrow(dat)))
-  if(checkDataFractions == FALSE){
-    stop("Data fractions don't sum up to 1!")
-  }
-  checkMosaicFractions <- any(rowSums(mosaicFractions) != 1)
-  if(checkMosaicFractions == TRUE){
-    stop("Mosaic fractions don't sum up to 1!")
-  }
+  #rsums <- rowSums(dat)
+  #names(rsums) <- NULL
+  #checkDataFractions <- all.equal(rsums, rep(1,nrow(dat)))
+  #if(checkDataFractions == FALSE){
+  #  stop("Data fractions don't sum up to 1!")
+  #}
+  #checkMosaicFractions <- any(rowSums(mosaicFractions) != 1)
+  #if(checkMosaicFractions == TRUE){
+  #  stop("Mosaic fractions don't sum up to 1!")
+  #}
   ## matrix multiplication (this line is doing the actual transformation/aggregation)
   res <- as.matrix(dat) %*% as.matrix(mosaicFractions)
   ## return SpatialPointsDataFrame in case input was also spatial data

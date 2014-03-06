@@ -48,7 +48,33 @@ readMosaicFiles <- function(path="./mosaics/", rel=TRUE){
         "tree", 
         "bare"
       ), 
-      regions[order(id)]
+      #regions[order(id)]
+      c(
+        "Canada",
+        "USA",
+        "Mexico",
+        "RestofCentralAmerica",
+        "RestofSouthAmerica",
+        "Brazil",
+        "WesternEurope",
+        "EasternEurope",
+        "Ukraine",
+        "Turkey",
+        "NorthernAfrica",
+        "EasternAfrica",
+        "WesternAfrica",
+        "SouthernAfrica",
+        "Stans",
+        "Russia",
+        "MiddleEast",
+        "India",
+        "China",
+        "Japan",
+        "Korea",
+        "SouthEastAsia",
+        "Indonesia",
+        "Oceania"
+      )
     )
   )
   
