@@ -1,5 +1,5 @@
 ## load package
-\require(luess)
+require(luess)
 
 
 ## read CLUMondo world region assignment of pixels

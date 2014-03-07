@@ -26,7 +26,8 @@ transform_asciigrid <- function(
   plotresult=FALSE
 ){
   message(paste("reading file", file))
-  CLUeck4    <- read.asciigrid(file, proj4string=CRS(proj4_input))
+  #CLUeck4    <- read.asciigrid(file, proj4string=CRS(proj4_input))
+  CLUeck4 <- readGDAL(file, p4s=proj4_input)
   message("performing spatial re-projection")
   suppressWarnings({
     CLUlonglat <- spTransform(CLUeck4, CRS(proj4_output))

@@ -2,7 +2,7 @@
 \alias{matchInputGrid}
 \title{Identify positions of output grid cells in the input grid}
 \usage{
-  matchInputGrid(grid.in, grid.out)
+matchInputGrid(grid.in, grid.out)
 }
 \arguments{
   \item{grid.in}{array with 2 dimensions or object of class
@@ -14,14 +14,14 @@
   cell centers of the output grid}
 }
 \value{
-  vector of integers giving the positions of the output
-  grid cells in the input grid
+vector of integers giving the positions of the output grid
+cells in the input grid
 }
 \description{
-  The function identifies positions of cells of the output
-  grid within the input grid. This is helpful in cases the
-  output grid has a smaller number of cells than the input
-  grid.
+The function identifies positions of cells of the output
+grid within the input grid. This is helpful in cases the
+output grid has a smaller number of cells than the input
+grid.
 }
 \examples{
 \dontrun{
@@ -31,7 +31,7 @@
 }
 }
 \author{
-  Rene Sachse \email{rene.sachse@uni-potsdam.de}
+Rene Sachse \email{rene.sachse@uni-potsdam.de}
 }
 \keyword{CLUMondo}
 \keyword{LPJ,}

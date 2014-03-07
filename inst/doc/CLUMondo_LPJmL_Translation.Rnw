@@ -1,0 +1,124 @@
+\documentclass[
+  parskip=half,
+  headings=small,
+  toc=bib
+]{scrartcl}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[section]{placeins}
+\usepackage[english]{babel}
+\usepackage{csquotes}
+\usepackage{placeins}
+%\usepackage{booktabs}
+%\usepackage{amsmath}
+\usepackage{natbib}
+\bibliographystyle{apalike}
+\usepackage{microtype}
+\usepackage{hyperref}
+\addtokomafont{captionlabel}{\footnotesize\sffamily\bfseries} 
+\addtokomafont{caption}{\footnotesize\sffamily}               
+\title{Translation of CLUMondo output to LPJmL input}
+\author{René Sachse \texttt{rene.sachse@uni-potsdam.de}}
+%\VignetteIndexEntry{Translation of CLUMondo output to LPJmL input}
+%\VignetteDepends{sp, maptools, RColorBrewer} 
+%\VignetteKeyword{CLUMondo} 
+%\VignetteKeyword{LPJmL} 
+%\VignetteKeyword{grid} 
+%\VignetteKeyword{projection} 
+%\VignetteKeyword{land use} 
+\begin{document}
+%\SweaveOpts{concordance=TRUE}
+\SweaveOpts{concordance=TRUE, pdf=FALSE, png=TRUE, eps=FALSE, width=7, height=14, res=100}
+
+\setkeys{Gin}{height=0.9\textheight}
+\maketitle
+%\tableofcontents
+\section{Comparing CLUMondo's areas of cropland and pasture with reported maps}
+
+CLUMondo land use systems of the year 2000 were aggregated to the basic landuses: cropland, pasture and area for natural vegetation and compared to the maps used by LPJmL as standard input. For the 
+aggregation 24 land system lookup tables, one for each of the CLUMondos world regions, were used.
+<<cluagg, echo=FALSE>>=
+library(luess)
+#clu2000     <- transform_asciigrid("../../work/clu2000.txt")
+#clu2040     <- transform_asciigrid("../../work/clu2040.txt")
+#out2000     <- resample_grid(clu2000, generate_grid(), cells=lpj_long_clupos)
+#out2040     <- resample_grid(clu2040, generate_grid(), cells=lpj_long_clupos)
+#save(clu2000, clu2040, out2000, out2040, file="../../work/clu2000_clu2040.rda")
+load("../../work/clu2000_clu2040.rda")
+cluAgg      <- aggregateMosaicsClumondo(out2000, CLUMosaics, lpjGrid)
+cluAgg2040  <- aggregateMosaicsClumondo(out2040, CLUMosaics, lpjGrid)
+@
+
+LPJmL's standard landuse data set is based on \citet{Portmann2010}. These MICRA2000 maps 
+of \citet{Portmann2010} reduced the 175 defined crops 
+of \citet{Monfreda2008} to a number of 26 groups of crops. For the use with LPJmL, modification 
+were done to the maps as described by \citet{Bondeau2007} and \citet{Fader2010}.
+
+%Reading in the landuse map for the 
+%year 2000 used by LPJmL:
+<<readlpj, echo=FALSE>>=
+cftfrac   <- getLPJ("N:/vmshare/landuse/landuse.bin", 2000, 2000, 1700, 32, 2, sizeof_header=43)
+pftfrac   <- getLPJ("N:/vmshare/landuse/fpc.bin", 2000, 2000, 1901, 10, 4, double(), byrow=FALSE)
+natvegLPJ <- pftfrac[1,,1] + rowSums(cftfrac[1,,])/1000
+@
+
+\begin{figure}[htb]
+\centering
+<<cluagg, fig=TRUE, echo=FALSE>>=
+require(RColorBrewer)
+myPalette <- colorRampPalette(rev(c(brewer.pal(11, "RdYlBu"), "darkblue")))
+cropLPJ <- (rowSums(cftfrac[1,,]) - cftfrac[1,,14])/1000
+cropCLU <- cluAgg@data[,"cropland"]
+cropCLU2040 <- cluAgg2040@data[,"cropland"]
+cropDelta <- cropCLU - cropLPJ
+cropDelta2040 <- cropCLU2040 - cropCLU
+
+#absrange <- max(abs(c(min(cropDelta), max(cropDelta))))
+par(mfrow=c(3,1))
+gridPlot(cropLPJ, main="Cropland without pasture MICRA2000")
+gridPlot(cropCLU, zlim=c(0,1), main="Cropland CLUMondo")
+gridPlot(cropDelta, main=expression(paste(Delta,"cropland = ",CLUMondo-MICRA2000)), zlim=c(-1,1),col=myPalette(100))
+@
+\caption{Fractions of the area covered with cropland as provided by \citet{Portmann2010} (MICRA2000) and by CLUMondo for the 
+year 2000. The difference map reveals areas where both maps deviate from each other. 
+\label{fig:cropcompare}}
+\end{figure}
+
+<<clucrop2040, fig=TRUE, echo=FALSE>>=
+gridPlot(cropDelta2040, main=expression(paste(Delta,"cropland = ",CLUMondo2000-CLUMondo2040)), zlim=c(-1,1),col=myPalette(100))
+@
+
+
+
+<<clupasture, fig=TRUE, echo=FALSE>>=
+require(RColorBrewer)
+myPalette <- colorRampPalette(rev(c(brewer.pal(11, "RdYlBu"), "darkblue")))
+pastLPJ <- cftfrac[1,,14]/1000
+pastCLU <- cluAgg@data[,"pasture"]
+pastCLU2040 <- cluAgg2040@data[,"pasture"]
+pastDelta <- pastCLU - pastLPJ
+pastDelta2040 <- pastCLU2040 - pastCLU
+#absrange <- max(abs(c(min(cropDelta), max(cropDelta))))
+par(mfrow=c(3,1))
+gridPlot(pastLPJ, main="Pasture MICRA2000")
+gridPlot(pastCLU, zlim=c(0,1), main="Pasture CLUMondo")
+gridPlot(pastDelta, main=expression(paste(Delta,"pasture = ",CLUMondo-MICRA2000)), zlim=c(-1,1),col=myPalette(100))
+@
+\caption{Fractions of the area covered with pasture as provided by \citet{Portmann2010} (MICRA2000) and by CLUMondo for the 
+year 2000. The difference map reveals areas where both maps deviate from each other. 
+\label{fig:pasturecompare}}
+\end{figure}
+
+
+<<clupast2040, fig=TRUE, echo=FALSE>>=
+gridPlot(pastDelta2040, main=expression(paste(Delta,"pasture = ",CLUMondo2000-CLUMondo2040)), zlim=c(-1,1),col=myPalette(100))
+@
+
+
+\FloatBarrier
+\section{Comparing translation of CLUMondo cropland in specific crops with reported maps}
+\ldots
+
+\bibliography{luesslit}
+
+\end{document}
