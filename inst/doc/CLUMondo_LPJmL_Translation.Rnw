@@ -10,7 +10,7 @@
 \usepackage{csquotes}
 \usepackage{placeins}
 %\usepackage{booktabs}
-%\usepackage{amsmath}
+\usepackage{amsmath}
 \usepackage{natbib}
 \bibliographystyle{apalike}
 \usepackage{microtype}
@@ -35,7 +35,7 @@
 %\tableofcontents
 %\listoffigures
 
-\section{Comparing CLUMondo's areas of cropland and pasture with reported maps}
+\section{Comparing CLUMondo's areas of cropland and pasture to reported maps}
 
 CLUMondo land use systems of the year 2000 were aggregated to the basic landuses: cropland, pasture and area for natural vegetation and compared to the maps used by LPJmL as standard input. For the 
 aggregation 24 land system lookup tables, one for each of the CLUMondos world regions, were used.
@@ -64,6 +64,11 @@ pftfrac   <- getLPJ("N:/vmshare/landuse/fpc.bin", 2000, 2000, 1901, 10, 4, doubl
 natvegLPJ <- pftfrac[1,,1] + rowSums(cftfrac[1,,])/1000
 @
 
+Comparing the land fraction which is asigned to cropland by CLUMondo to the MICRA2000 data shows that CLUMondo aggregation delivers
+comparable land fractions (Fig.~\ref{fig:cropcompare}) for most world regions. The differences in most areas might be acceptable. However, for the world region USA the translation to cropland does not work very well and the pattern does not match the expected one. Firstly, Alaska is assigned lots of cropland. That is causing a sharp break in land use to the neighbouring Canada which has almost no cropland in this northern region. I think something like Canada's land use look up table should be applied to Alaska than the one from the USA, which is located much more south. Secondly, in the western parts of the USA  should be the fewest cropland areas but CLUMondo predicts the highest amount of cropland there. Additionally, in the central parts of the USA should be located the highest amount of cropland area according to MICRA2000 but the CLUMondo values stay much below the expected values.
+
+So what do we do about Alaska and the USA in general? Is something wrong with the look-up table I used (the rest of the world looks better without these sharp breaks between world regions)?
+
 \begin{figure}[htb]
 \centering
 <<cluagg, fig=TRUE, echo=FALSE>>=
@@ -86,7 +91,15 @@ year 2000. The difference map reveals areas where both maps deviate from each ot
 \label{fig:cropcompare}}
 \end{figure}
 
+Another major problem is the amount of pasture used in the CLUMondo data set (Fig.~\ref{fig:pasturecompare})! While the pattern of areas with dense pastures somehow match, there is too less pasture where it should be and too much everywhere else. The difference map looks really troublesome. Whole Russia is coverd by 20\% pasture and in the middle of the Brazilian rain forests the CLUMondo map shows 30\% pasture.
 
+The problem of overestimated pastures might be the following: Originally the fractions of buildt up area, cropland area, pasture area, tree area and bare area of the look up tables did not sum up to 100\%. The lookup table for Southeast Asia which Peter provided was an 
+excel sheet. There I could see, that the areas were corrected to sum up to 100\%. For that, the missing area was split up to pasture and bare area according to equation~\ref{eq:pasturecorr} and \ref{eq:barecorr}. Is this calculation really intended and correct? Might it lead to better results to leave the original value for pastures and to assign all remaining area to bare? Peter, what can we do about this pasture problem? Can you provide different look-up tables with the original areas for pasture so that I can try?
+
+\begin{align}
+pasture & = \dfrac{pasture}{pasture + bare} * (9.25^2 - (build + crop + tree))\\[3mm]\label{eq:pasturecorr}
+bare & = \dfrac{bare}{pasture + bare} * (9.25^2 - (build + crop + tree))\\[3mm]\label{eq:barecorr}
+\end{align}
 
 
 \begin{figure}[htb]
@@ -127,7 +140,7 @@ gridPlot(pastDelta2040, main=expression(paste(Delta,"pasture = ",CLUMondo2000-CL
 \end{figure}
 
 \FloatBarrier
-\section{Comparing translation of CLUMondo cropland in specific crops with reported maps}
+\section{Comparing the translation of CLUMondo cropland into specific crops}
 \ldots
 
 \bibliography{luesslit}
