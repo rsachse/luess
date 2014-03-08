@@ -15,6 +15,9 @@
 #' @param worldregions SpatialPointsDataFrame providing the column CLUWORDREGION. Needs to have same order as \code{data}. 
 #' Region names in this column need to correspond to dimnames in \code{mosaics}.
 #'  
+#' @param fixUS logical; when TRUE the lookup table of Canada is used for the USA. This is just a workaround until the falsy 
+#' lookup table for the US can be replaced by a working one.
+#'  
 #' @return 
 #' Returns an object of class SpatialPointsDataFrame. 
 #' 
@@ -33,13 +36,23 @@
 #' gridPlot(cluAgg@@data[,"cropland"], zlim=c(0,1), main="cropland")
 #' gridPlot(cluAgg@@data[,"natveg"], zlim=c(0,1), main="natveg")
 #' gridPlot(rowSums(cluAgg@@data), main="cover")
-aggregateMosaicsClumondo <- function(data, mosaics, worldregions){
+aggregateMosaicsClumondo <- function(data, mosaics, worldregions, fixUS=TRUE){
   id <- match(paste(coordinates(worldregions)[,1], coordinates(worldregions)[,2]), paste(coordinates(data)[,1], coordinates(data)[,2]))
   checkcoords <- identical(id, 1:67420)  
   if(checkcoords == FALSE){
     stop("Order of coordinates of data and worldregions not the same!")
   }
   
+  if(fixUS==TRUE){
+    ##DIRTY HACK!!! Fix USA look up table for the moment
+    #cropUS <- mosaics[,"crop","USA"]
+    #pastUS <- mosaics[,"pasture","USA"]
+    #mosaics[,"crop","USA"] <- pastUS
+    #mosaics[,"pasture","USA"] <- cropUS
+    ## Just using the look-up table of Canada
+    mosaics[,,"USA"] <- mosaics[,,"Canada"] 
+    ##
+  }
   nrOfRegions <- dim(mosaics)[3]
   cluAgg <- array(NA, dim=c(nrow(data),3), dimnames=list(1:nrow(data),c("natveg", "cropland", "pasture")))
   

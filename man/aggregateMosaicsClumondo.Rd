@@ -2,7 +2,8 @@
 \alias{aggregateMosaicsClumondo}
 \title{Aggregating CLUMondo mosaics to basic landuse classes (natveg, pasture, cropland) for the whole globe}
 \usage{
-aggregateMosaicsClumondo(data, mosaics, worldregions)
+  aggregateMosaicsClumondo(data, mosaics, worldregions,
+    fixUS = TRUE)
 }
 \arguments{
   \item{data}{SpatialPointsDataFrame providing fractions of
@@ -20,15 +21,20 @@ aggregateMosaicsClumondo(data, mosaics, worldregions)
   column CLUWORDREGION. Needs to have same order as
   \code{data}. Region names in this column need to
   correspond to dimnames in \code{mosaics}.}
+
+  \item{fixUS}{logical; when TRUE the lookup table of
+  Canada is used for the USA. This is just a workaround
+  until the falsy lookup table for the US can be replaced
+  by a working one.}
 }
 \value{
-Returns an object of class SpatialPointsDataFrame.
+  Returns an object of class SpatialPointsDataFrame.
 }
 \description{
-The function aggregates CLUMondo mosaics into its basic
-land use classes: natveg, pasture and cropland. Since
-CLUMondo is split in 24 world regions, the function applies
-the specific mosaic tables for each region.
+  The function aggregates CLUMondo mosaics into its basic
+  land use classes: natveg, pasture and cropland. Since
+  CLUMondo is split in 24 world regions, the function
+  applies the specific mosaic tables for each region.
 }
 \examples{
 out <- resample_grid(CLUlonglat, generate_grid(), cells=lpj_long_clupos)
@@ -39,13 +45,13 @@ gridPlot(cluAgg@data[,"natveg"], zlim=c(0,1), main="natveg")
 gridPlot(rowSums(cluAgg@data), main="cover")
 }
 \author{
-Rene Sachse \email{rene.sachse@uni-potsdam.de}
+  Rene Sachse \email{rene.sachse@uni-potsdam.de}
 }
 \seealso{
-\code{\link[luess]{aggregateMosaics}},
-\code{\link[luess]{resample_grid}} and
-\code{\link[sp]{SpatialPointsDataFrame}} in package
-\pkg{sp}
+  \code{\link[luess]{aggregateMosaics}},
+  \code{\link[luess]{resample_grid}} and
+  \code{\link[sp]{SpatialPointsDataFrame}} in package
+  \pkg{sp}
 }
 \keyword{CLUMondo}
 \keyword{LPJmL}
