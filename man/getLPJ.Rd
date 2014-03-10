@@ -2,9 +2,9 @@
 \alias{getLPJ}
 \title{Reads binary LPJmL input and output files}
 \usage{
-  getLPJ(filename, first_year_ts, last_year_ts, first_year,
-    nband, sizeof_data, typeof_data = integer(),
-    sizeof_header = 0, ncell = 67420, byrow = TRUE)
+getLPJ(filename, first_year_ts, last_year_ts, first_year, nband, sizeof_data,
+  typeof_data = integer(), sizeof_header = 0, ncell = 67420,
+  byrow = TRUE)
 }
 \arguments{
   \item{filename}{character string; file name}
@@ -38,12 +38,12 @@
   (\code{FALSE}) which is standard for the output files.}
 }
 \value{
-  returns an array of dimensions \code{[years, pixels,
-  nbands]}
+returns an array of dimensions \code{[years, pixels,
+nbands]}
 }
 \description{
-  The function reads binary LPJmL input and output files
-  into an array structure.
+The function reads binary LPJmL input and output files into
+an array structure.
 }
 \examples{
 \dontrun{
@@ -52,10 +52,10 @@
 }
 }
 \author{
-  Rene Sachse \email{rene.sachse@uni-potsdam.de}
+Rene Sachse \email{rene.sachse@uni-potsdam.de}
 }
 \seealso{
-  \code{\link{seek}, \link{readBin}}
+\code{\link{seek}, \link{readBin}}
 }
 \keyword{LPJml,}
 \keyword{binary}
