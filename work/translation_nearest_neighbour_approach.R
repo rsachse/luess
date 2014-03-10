@@ -94,6 +94,8 @@ require(luess)
 
 load("clu2000_clu2040.rda")
 
+
+cluAgg      <- aggregateMosaicsClumondo(out2000, CLUMosaics, lpjGrid)
 cftfrac   <- getLPJ("N:/vmshare/landuse/landuse.bin", 2000, 2001, 1700, 32, 2, sizeof_header=43)
 system.time({bar <- translateCluToLpj(lpjGrid, range=2.5, landuse=cftfrac, years=1, cells=13000:14000)})
 
