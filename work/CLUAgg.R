@@ -1,6 +1,47 @@
 ## load package
 require(luess)
+require(RColorBrewer)
+myPalette <- colorRampPalette(rev(c(brewer.pal(11, "RdYlBu"), "darkblue")))
 
+
+### workaround: using Canada look up table for USA
+load("./clu2000_clu2040.rda")
+
+cftfrac   <- getLPJ("N:/vmshare/landuse/landuse.bin", 2000, 2000, 1700, 32, 2, sizeof_header=43)
+pftfrac   <- getLPJ("N:/vmshare/landuse/fpc.bin", 2000, 2000, 1901, 10, 4, double(), byrow=FALSE)
+natvegLPJ <- pftfrac[1,,1] + rowSums(cftfrac[1,,])/1000
+
+cluAgg      <- aggregateMosaicsClumondo(out2000, CLUMosaics, lpjGrid)
+cropLPJ <- (rowSums(cftfrac[1,,]) - cftfrac[1,,14])/1000
+cropCLU <- cluAgg@data[,"cropland"]
+cropDelta <- cropCLU - cropLPJ
+
+#par(mfrow=c(3,1))
+gridPlot(cropLPJ, main="Cropland without pasture MICRA2000")
+
+png("cropland_canada_for_US.png", width=3000, height=2000, res=600)
+gridPlot(cropCLU, zlim=c(0,1), main="Cropland CLUMondo")
+dev.off()
+
+png("delta_cropland_canada_for_US.png", width=3000, height=2000, res=600)
+gridPlot(cropDelta, main=expression(paste(Delta,"cropland = ",CLUMondo-MICRA2000)), zlim=c(-1,1),col=myPalette(100))
+dev.off()
+
+
+pastLPJ <- cftfrac[1,,14]/1000
+pastCLU <- cluAgg@data[,"pasture"]
+pastDelta <- pastCLU - pastLPJ
+
+png("pasture_canada_for_US.png", width=3000, height=2000, res=600)
+gridPlot(pastCLU, zlim=c(0,1), main="Pasture CLUMondo")
+dev.off()
+
+png("delta_pasture_canada_for_US.png", width=3000, height=2000, res=600)
+gridPlot(pastDelta, main=expression(paste(Delta,"pasture = ",CLUMondo-MICRA2000)), zlim=c(-1,1),col=myPalette(100))
+dev.off()
+
+
+################# old
 
 ## read CLUMondo world region assignment of pixels
 dat <- read.csv2("worldregion.csv", stringsAsFactors=FALSE)
