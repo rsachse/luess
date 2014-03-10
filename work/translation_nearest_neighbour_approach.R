@@ -48,43 +48,47 @@ getNearPoints <- function(coords, coordsGrid, range){
 
 
 
-translateCluToLpj <- function(grid, range, landuse, cells=1:10, cft=c(1:13,15:16,17:29,31:32), year=1, scaleFactor=1000){
+translateCluToLpj <- function(grid, range, landuse, cells=1:10, cft=c(1:13,15:16,17:29,31:32), years=1, scaleFactor=1000){
+  ## extract coordinates
   coordsGrid <- coordinates(grid)
   
+  ## specify all cells if no specific cells mentioned
   if(is.null(cells)){
     cells <- 1:nrow(coordsGrid)
   }
   
-  getNearPointsInternal <- function(coords, range){
-    rangeCoords <- calcRangePoint(coords[1], coords[2], range) 
-    idPoints    <- which(coordsGrid[,1] <= rangeCoords[2] & coordsGrid[,1] >= rangeCoords[1] & coordsGrid[,2] <= rangeCoords[4] & coordsGrid[,2] >= rangeCoords[3])
-    return(idPoints)
-  }
-
+  ## determine cells in the near
   idPoints <- apply(
     coordsGrid[cells,], 
     1,
-    getNearPointsInternal, 
+    getNearPoints,
+    coordsGrid=coordsGrid,
     range=range
   )  
+
+  ## empty data structure
+  res <- array(NA, dim=c(length(years), length(cells), dim(landuse)[3]))
   
-  res <- array(NA, dim=c(length(year), length(cells), dim(landuse)[3]))
-  
-  for(i in 1:length(cells)){
-    landuseArea <-  landuse[year, idPoints[[i]] ,cft]
-    cmeans      <- colMeans(landuseArea)
-    cmeans      <- cmeans/sum(cmeans)
-    res[year, i, cft] <- cmeans
+  ## average landuse from neighbouring cells
+  for(year in 1:length(years)){
+    for(i in 1:length(cells)){
+      landuseArea <-  landuse[year, idPoints[[i]] ,cft]
+      cmeans      <- colMeans(landuseArea)
+      cmeans      <- cmeans/sum(cmeans)
+      res[year, i, cft] <- cmeans
+    }
   }
   
+  ## scale fraction with a constant factor (LPJ specific)
   res <- res * scaleFactor
   
+  ## return results
   return(res)
 }
 
 
-
-system.time({bar <- myapply(lpjGrid, range=2.5, landuse=cftfrac, cells=13000:13100)})
+cftfrac   <- getLPJ("N:/vmshare/landuse/landuse.bin", 2000, 2001, 1700, 32, 2, sizeof_header=43)
+system.time({bar <- translateCluToLpj(lpjGrid, range=2.5, landuse=cftfrac, years=1:2, cells=13000:13100)})
 
 
 
