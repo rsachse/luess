@@ -39,23 +39,71 @@ calcRangePoint <- function(x, y, range){
   return(res)
 }
 
-getNearPoints <- function(coords, grid, range){
-  coordsGrid  <- coordinates(grid)
+getNearPoints <- function(coords, coordsGrid, range){
   rangeCoords <- calcRangePoint(coords[1], coords[2], range) 
-  idPoints    <- which(coordsGrid[,1] <= rangeCoords["xu"] & coordsGrid[,1] >= rangeCoords["xl"] & coordsGrid[,2] <= rangeCoords["yu"] & coordsGrid[,2] >= rangeCoords["yl"])
+  idPoints    <- which(coordsGrid[,1] <= rangeCoords[2] & coordsGrid[,1] >= rangeCoords[1] & coordsGrid[,2] <= rangeCoords[4] & coordsGrid[,2] >= rangeCoords[3])
   return(idPoints)
 }
 
 
+
+
+translateCluToLpj <- function(grid, range, landuse, cells=1:10, cft=c(1:13,15:16,17:29,31:32), year=1, scaleFactor=1000){
+  coordsGrid <- coordinates(grid)
+  
+  if(is.null(cells)){
+    cells <- 1:nrow(coordsGrid)
+  }
+  
+  getNearPointsInternal <- function(coords, range){
+    rangeCoords <- calcRangePoint(coords[1], coords[2], range) 
+    idPoints    <- which(coordsGrid[,1] <= rangeCoords[2] & coordsGrid[,1] >= rangeCoords[1] & coordsGrid[,2] <= rangeCoords[4] & coordsGrid[,2] >= rangeCoords[3])
+    return(idPoints)
+  }
+
+  idPoints <- apply(
+    coordsGrid[cells,], 
+    1,
+    getNearPointsInternal, 
+    range=range
+  )  
+  
+  res <- array(NA, dim=c(length(year), length(cells), dim(landuse)[3]))
+  
+  for(i in 1:length(cells)){
+    landuseArea <-  landuse[year, idPoints[[i]] ,cft]
+    cmeans      <- colMeans(landuseArea)
+    cmeans      <- cmeans/sum(cmeans)
+    res[year, i, cft] <- cmeans
+  }
+  
+  res <- res * scaleFactor
+  
+  return(res)
+}
+
+
+
+system.time({bar <- myapply(lpjGrid, range=2.5, landuse=cftfrac, cells=13000:13100)})
+
+
+
+
+
 ## testing the functions
+system.time({bar <- myapply(lpjGrid, 5)})
+
+
+
+
 grid <- grid <- coordinates(landuseCLU)
 range <- 1.01
 coords <- coordinates(landuseCLU)[70,]
 
 
-bar <- apply(coordinates(landuseCLU), 1, getNearPoints, grid=coordinates(landuseCLU), range=2.7)
+bar <- apply(coordinates(landuseCLU), 1, getNearPoints, coordGrid=coordinates(landuseCLU), range=2.7)
 
-X11()
+#X11()
 for(i in 1:length(bar)){
   coords <- coordinates(landuseCLU)[bar[[i]],]
   thePoint <- coordinates(landuseCLU)[i,]
@@ -64,4 +112,51 @@ for(i in 1:length(bar)){
   points(thePoint[1], thePoint[2], pch=15, col="red")
 }
 
+####
+
+tp <- 13000
+plot(lpjGrid, pch=".")
+bar <- apply(
+  coordinates(lpjGrid)[tp:(tp+10),], 
+  1, 
+  getNearPoints, 
+  coordsGrid=coordinates(lpjGrid), 
+  range=2.5
+)
+
+
+grid <- coordinates(lpjGrid)
+points(grid[bar[[1]],1], grid[bar[[1]],2], pch=15, col="green", cex=0.3)
+points(grid[tp,1], grid[tp,2], pch = 15, col="red")
+
+
+lgrid <- coordinates(lpjGrid)
+grid <- NULL
+for(i in 1:nrow(lgrid)){
+  grid[i] <- list(lgrid[i,])
+}
+
+
+require(parallel)
+cl <- makeCluster(getOption("cl.cores", 4))
+system.time({
+bar <- clusterApply(
+  cl=cl,
+  grid, 
+  getNearPoints, 
+  grid=lgrid, 
+  range=5
+)
+})
+
+
+system.time({
+  bar <- apply(
+    lgrid[1:1000,], 
+    1,
+    getNearPoints, 
+    coordsGrid=lgrid, 
+    range=5
+  )
+})
 
