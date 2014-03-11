@@ -9,7 +9,7 @@
 #' some kind of suitability check for cropland already (Asselen & Verburg, 2013), so we 
 #' assume the area to be suitable for agriculture.
 #' 
-#' @param grid SpatialPointsDataFrame with the grid and at least the column \code{CLUWORLREGION}
+#' @param grid SpatialPointsDataFrame with the grid and at least the column \code{CLUWORLDREGION}
 #' 
 #' @param range range in degrees which defines the radius of neighbourhood
 #' 
