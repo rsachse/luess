@@ -7,7 +7,7 @@ translateCluToLpj(grid, range, landuse, landuseClu, cells = NULL,
 }
 \arguments{
   \item{grid}{SpatialPointsDataFrame with the grid and at
-  least the column \code{CLUWORLREGION}}
+  least the column \code{CLUWORLDREGION}}
 
   \item{range}{range in degrees which defines the radius of
   neighbourhood}

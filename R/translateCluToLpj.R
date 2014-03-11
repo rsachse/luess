@@ -179,6 +179,10 @@ averageLanduse <- function(landuse, landuseClu, cft, cells, years, idPoints, gri
   for(year in 1:length(years)){
     #message(paste("processing year", year, "of", length(years)))
     ## calculate landuse means per world region
+    ## lots of if conditions are for catching excemptions where there is only one
+    ## or no row left in the array
+    ## in these cases the landuse fractions are taken as mean values for the whole
+    ## world region
     rowSumsLanduse <- rowSums(landuse[year,,cft])
     removeLanduse <- which(rowSumsLanduse == 0)
     if(length(removeLanduse) > 0){
@@ -195,8 +199,13 @@ averageLanduse <- function(landuse, landuseClu, cft, cells, years, idPoints, gri
     for(i in 1:length(cells)){
       #message(paste("processing cell", i, "of", length(cells)))
       landuseArea <- landuse[year, idPoints[[i]] ,cft]
-      rowSumsLanduseArea <- rowSums(landuseArea)
-      idRemove    <- which( rowSumsLanduseArea == 0)
+      dimLanduseArea <- dim(landuseArea)
+      if(length(dimLanduseArea) > 1){
+        rowSumsLanduseArea <- rowSums(landuseArea)
+        idRemove    <- which( rowSumsLanduseArea == 0)
+      } else {
+        idRemove <- NULL
+      }
       if(length(idRemove)>0){
         landuseArea <- landuseArea[-idRemove,]
       }
