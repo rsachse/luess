@@ -51,10 +51,11 @@
 #'   load("clu2000_clu2040.rda")
 #'   cluAgg    <- aggregateMosaicsClumondo(out2000, CLUMosaics, lpjGrid)
 #'   cftfrac   <- getLPJ("N:/vmshare/landuse/landuse.bin", 2000, 2001, 1700, 32, 2, sizeof_header=43)
-#'   system.time({bar <- translateCluToLpj(lpjGrid, range=2.5, landuse=cftfrac, landuseClu=cluAgg, cells=30000:35000, scaleFactor=1000)})
+#'   system.time({bar <- translateCluToLpj(lpjGrid, range=2.5, landuse=cftfrac, landuseClu=cluAgg, cells=30000:31000, scaleFactor=1000)})
 #' 
-#'   gridPlot(bar[1,,4], coordinates(lpjGrid[30000:35000,]), zlim=c(0,400), main="CLU translated")
-#'   gridPlot(cftfrac[1,30000:35000,4], coordinates(lpjGrid[30000:35000,]), zlim=c(0,400), main="MIRCA2000")
+#'   gridPlot(rowSums(bar[1,,]), coordinates(lpjGrid[30000:31000,]), zlim=c(0,1000), main="CLU translated")
+#'   cft <- c(1:13, 15:16, 17:29, 31:32)
+#'   gridPlot(rowSums(cftfrac[1,30000:31000,cft]), coordinates(lpjGrid[30000:31000,]), zlim=c(0,1000), main="MIRCA2000")
 #' }
 #'
 #' ## grid with pixels
@@ -183,15 +184,15 @@ averageLanduse <- function(landuse, landuseClu, cft, cells, years, idPoints, gri
     ## or no row left in the array
     ## in these cases the landuse fractions are taken as mean values for the whole
     ## world region
-    rowSumsLanduse <- rowSums(landuse[year,,cft])
-    removeLanduse <- which(rowSumsLanduse == 0)
+    rowSumsLanduse      <- rowSums(landuse[year,,cft])
+    removeLanduse       <- which(rowSumsLanduse == 0)
     if(length(removeLanduse) > 0){
-      landuseShort <- landuse[year,-removeLanduse,cft]
-      landuseShort <- landuseShort/rowSums(landuseShort)
+      landuseShort      <- landuse[year,-removeLanduse,cft]
+      landuseShort      <- landuseShort/rowSums(landuseShort)
       cmeanWorldRegions <- aggregate(landuseShort, list(grid@data[-removeLanduse,"CLUWORLDREGION"]), mean)
     } else{
-      landuseShort <- landuse[year,,cft]
-      landuseShort <- landuseShort/rowSums(landuseShort)
+      landuseShort      <- landuse[year,,cft]
+      landuseShort      <- landuseShort/rowSums(landuseShort)
       cmeanWorldRegions <- aggregate(landuseShort, list(grid@data[,"CLUWORLDREGION"]), mean)
     }
     #cmeanWorldRegions[,c(15,15+16)] <- 0 #set pasture to 0
@@ -210,7 +211,13 @@ averageLanduse <- function(landuse, landuseClu, cft, cells, years, idPoints, gri
         landuseArea <- landuseArea[-idRemove,]
       }
       nrowLanduseArea <- nrow(landuseArea)
-      if(length(nrowLanduseArea) > 0){
+      useLocal <- TRUE
+      if((length(nrowLanduseArea) > 0) == FALSE){
+        useLocal <- FALSE
+      } else {
+        if(nrowLanduseArea == 0){useLocal <- FALSE}
+      }
+      if(useLocal == TRUE){
         rowSumsLanduseArea <- rowSums(landuseArea)
         landuseArea <- landuseArea/rowSumsLanduseArea
         cmeans      <- colMeans(landuseArea)
@@ -220,8 +227,9 @@ averageLanduse <- function(landuse, landuseClu, cft, cells, years, idPoints, gri
       #if(sumCmeans == 0){
         theRegion <- grid@data[cells[i],"CLUWORLDREGION"]
         cmeans    <- cmeanWorldRegions[cmeanWorldRegions[,1]==theRegion, 2:(1+length(cft))]
-        cmeans <- unlist(cmeans)
+        cmeans    <- unlist(cmeans)
         sumCmeans <- sum(cmeans)
+        #print(sumCmeans)
       }
       ## rescale to 1
       cmeans      <- cmeans/sumCmeans
@@ -230,9 +238,10 @@ averageLanduse <- function(landuse, landuseClu, cft, cells, years, idPoints, gri
     }
     ## split up CLU-fraction
     #message("reached split calc")
-    for(icft in 1:dim(res)[3]){
-      res[year,,icft] <- res[year,,icft] * landuseClu@data[cells,"cropland"]
-    }
+    #for(icft in cft){
+    #  res[year,,icft] <- res[year,,icft] * landuseClu@data[cells,"cropland"]
+    #}
+    res[year,,] <- res[year,,] * landuseClu@data[cells, "cropland"] 
   }
   ##return results
   #res <- ifelse(is.nan(res), 0, res)

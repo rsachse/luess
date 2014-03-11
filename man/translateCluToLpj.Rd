@@ -59,10 +59,11 @@ needs to be updated to handle lists for landuseClu.
   load("clu2000_clu2040.rda")
   cluAgg    <- aggregateMosaicsClumondo(out2000, CLUMosaics, lpjGrid)
   cftfrac   <- getLPJ("N:/vmshare/landuse/landuse.bin", 2000, 2001, 1700, 32, 2, sizeof_header=43)
-  system.time({bar <- translateCluToLpj(lpjGrid, range=2.5, landuse=cftfrac, landuseClu=cluAgg, cells=30000:35000, scaleFactor=1000)})
+  system.time({bar <- translateCluToLpj(lpjGrid, range=2.5, landuse=cftfrac, landuseClu=cluAgg, cells=30000:31000, scaleFactor=1000)})
 
-  gridPlot(bar[1,,4], coordinates(lpjGrid[30000:35000,]), zlim=c(0,400), main="CLU translated")
-  gridPlot(cftfrac[1,30000:35000,4], coordinates(lpjGrid[30000:35000,]), zlim=c(0,400), main="MIRCA2000")
+  gridPlot(rowSums(bar[1,,]), coordinates(lpjGrid[30000:31000,]), zlim=c(0,1000), main="CLU translated")
+  cft <- c(1:13, 15:16, 17:29, 31:32)
+  gridPlot(rowSums(cftfrac[1,30000:31000,cft]), coordinates(lpjGrid[30000:31000,]), zlim=c(0,1000), main="MIRCA2000")
 }
 
 ## grid with pixels
