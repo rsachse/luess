@@ -24,13 +24,13 @@
 #'
 #' @keywords LPJ, LPJmL
 writeLpjLanduse <- function(data, fileOut, header){
-  fileOut <- file(fileOut, "rb")
+  fileOut <- file(fileOut, "wb")
   writeLpjHeader(fileOut, header)
   nYears <- dim(data)[1]
   for(i in 1:nYears){
     message(paste("Writing year",i,"of",nYears,"."))
     ## transpose rows=cfts, columns=pixels
-    landuse <- t(data[1,,]) 
+    landuse <- t(data[i,,]) 
     ## as.vector first reads columns 
     ## -> all cfts for a pixel than next pixel
     writeBin(as.vector(as.integer(landuse)), fileOut, size=2) 
