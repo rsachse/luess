@@ -1,12 +1,12 @@
 #' Writes a new binary LPJmL landuse input file 
 #'
-#' The function writes a new binary LPJmL landuse input file.
+#' The function writes a new or appends a binary LPJmL landuse input file. 
 #'   
-#' @param data array with the dimenions \code{[years, pixels, cfts]}   
+#' @param data Array with three dimensions: \code{[years, pixels, cfts]}.   
 #'   
 #' @param fileOut A character string naming the file to write to.
 #' 
-#' @param header a list providing the 10 elements of a valid header: 
+#' @param header A list providing the 10 elements of a valid header: 
 #' \enumerate{
 #'   \item header name
 #'   \item header version
@@ -22,10 +22,10 @@
 #'  The header is only needed when \code{where} is \code{NULL} otherwise no new file
 #'  needs to be created and the existing file already has a header.
 #' 
-#' @param append logical, specifying wheter the data should be appended to an existing file
+#' @param append logical, specifying whether the data should be appended to an existing file
 #' or not. If \code{FALSE} a new file will be created.
 #' 
-#' @author PIK, modified by Rene Sachse (rene.sachse@@uni-potsdam.de)
+#' @author Rene Sachse (rene.sachse@@uni-potsdam.de)
 #'
 #' @keywords LPJ, LPJmL
 writeLpjLanduse <- function(data, fileOut, header=NULL, append=FALSE){
