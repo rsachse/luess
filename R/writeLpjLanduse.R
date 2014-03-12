@@ -19,13 +19,25 @@
 #'   \item resolution
 #'   \item scaling
 #'  }
+#'  The header is only needed when \code{where} is \code{NULL} otherwise no new file
+#'  needs to be created and the existing file already has a header.
+#' 
+#' @param append logical, specifying wheter the data should be appended to an existing file
+#' or not. If \code{FALSE} a new file will be created.
 #' 
 #' @author PIK, modified by Rene Sachse (rene.sachse@@uni-potsdam.de)
 #'
 #' @keywords LPJ, LPJmL
-writeLpjLanduse <- function(data, fileOut, header){
-  fileOut <- file(fileOut, "wb")
-  writeLpjHeader(fileOut, header)
+writeLpjLanduse <- function(data, fileOut, header=NULL, append=FALSE){
+  if(append == FALSE){
+    mode <- "wb"
+  } else {
+    mode <- "ab"
+  }
+  fileOut <- file(fileOut, mode)
+  if(append==FALSE){
+    writeLpjHeader(fileOut, header)
+  } 
   nYears <- dim(data)[1]
   for(i in 1:nYears){
     message(paste("Writing year",i,"of",nYears,"."))
