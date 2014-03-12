@@ -1,4 +1,5 @@
 require(luess)
+require(qualV)
 load("clu2000_clu2040.rda")
 cluAgg    <- aggregateMosaicsClumondo(out2000, CLUMosaics, lpjGrid)
 cftFrac   <- getLPJ("N:/vmshare/landuse/landuse.bin", 2000, 2000, 1700, 32, 2, sizeof_header=43)
@@ -92,8 +93,8 @@ plot(ranges, EF, type="b", ylim=c(0.5,1), log="x")
 # 
 # 
 # #pdf(paste("CLUtoLPJ_translation_range",range,".pdf",sep=""))
-# gridPlot(out_trans_2_5[1,,13], coordinates(lpjGrid), main="CLU translated CFT 1", zlim=c(0,1000))
-# gridPlot(cftFrac[1,,13], coordinates(lpjGrid), main="MIRCA2000 CFT 1", zlim=c(0,1000))
+ gridPlot(out_trans_2_5[,1], coordinates(lpjGrid), main="CLU translated CFT 1", zlim=c(0,1000))
+ gridPlot(cftFrac[,1], coordinates(lpjGrid), main="MIRCA2000 CFT 1", zlim=c(0,1000))
 # #dev.off()
 # 
 # 
