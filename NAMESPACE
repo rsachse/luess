@@ -1,1 +1,2 @@
+useDynLib("luess")
 exportPattern("^[[:alpha:]]+")

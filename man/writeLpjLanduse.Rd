@@ -2,7 +2,8 @@
 \alias{writeLpjLanduse}
 \title{Writes a new binary LPJmL landuse input file}
 \usage{
-writeLpjLanduse(data, fileOut, header = NULL, append = FALSE)
+  writeLpjLanduse(data, fileOut, header = NULL,
+    append = FALSE)
 }
 \arguments{
   \item{data}{Array with three dimensions: \code{[years,
@@ -24,11 +25,11 @@ writeLpjLanduse(data, fileOut, header = NULL, append = FALSE)
   new file will be created.}
 }
 \description{
-The function writes a new or appends a binary LPJmL landuse
-input file.
+  The function writes a new or appends a binary LPJmL
+  landuse input file.
 }
 \author{
-Rene Sachse (rene.sachse@uni-potsdam.de)
+  Rene Sachse (rene.sachse@uni-potsdam.de)
 }
 \keyword{LPJ,}
 \keyword{LPJmL}

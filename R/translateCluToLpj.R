@@ -30,6 +30,10 @@
 #' @param scaleFactor numeric factor to comply with LPJmL input data requirements (1000 for 
 #' landuse fractions)
 #' 
+#' @param method character naming the method how to determine the nearest pixels. At the moment only 
+#' rectangular areas are possible. \code{method="LPJmL"} uses a FORTRAN90 function which is 20% faster than the 
+#' generic R method which is used in all other cases.
+#' 
 #' @details Note: the function only works for the first year. For more years, one would need to 
 #' pass landuseClu as a list, with one SpatialPointsDataFrame for each year. And the algorithm
 #' needs to be updated to handle lists for landuseClu.
@@ -119,7 +123,8 @@ translateCluToLpj <- function(
   cells=NULL,
   cft=c(1:13,15:16,17:29,31:32), 
   years=1, 
-  scaleFactor=1000
+  scaleFactor=1000,
+  method="generic"
 ){
   checkGrids <- identical(paste(coordinates(grid)[,1],coordinates(grid)[,2]), paste(coordinates(landuseClu)[,1],coordinates(landuseClu)[,2]))
   if(checkGrids == FALSE){
@@ -133,13 +138,32 @@ translateCluToLpj <- function(
   }
   ## determine cells in the near
   message("calculation of range for all pixels (time consuming step!)")
-  idPoints <- apply(
-    coordsGrid[cells,], 
-    1,
-    getNearPoints,
-    coordsGrid=coordsGrid,
-    range=range
-  )  
+  
+  
+  if(method=="LPJmL"){
+    idPoints <- list()
+    for(i in 1:length(cells)){
+      print(i)
+      theCell <- cells[i]
+      idPoints[i] <- list(whichLPJmL(coordsGrid[theCell,], coordsGrid[,1], coordsGrid[,2], range))
+    }
+    #idPoints <- apply(
+    #  coordsGrid[cells,], 
+    #  1,
+    #  whichLPJmL,
+    #  vecA=coordsGrid[,1],
+    #  vecB=coordsGrid[,2],
+    #  range=range
+    #)  
+  } else{
+    idPoints <- apply(
+      coordsGrid[cells,], 
+      1,
+      getNearPoints,
+      coordsGrid=coordsGrid,
+      range=range
+    )  
+  }
   
   ## average landuse from neighbouring cells
   message("averaging landuse from nearby pixels")

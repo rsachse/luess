@@ -2,7 +2,7 @@
 \alias{writeLpjHeader}
 \title{Writes the header to a new binary LPJmL input file}
 \usage{
-writeLpjHeader(fileOut, header)
+  writeLpjHeader(fileOut, header)
 }
 \arguments{
   \item{fileOut}{A \code{\link{connections}} object
@@ -15,11 +15,11 @@ writeLpjHeader(fileOut, header)
   scaling }}
 }
 \description{
-The function writes the header of a new binary LPJmL input
-file.
+  The function writes the header of a new binary LPJmL
+  input file.
 }
 \author{
-PIK, modified by Rene Sachse (rene.sachse@uni-potsdam.de)
+  PIK, modified by Rene Sachse (rene.sachse@uni-potsdam.de)
 }
 \keyword{LPJ,}
 \keyword{LPJmL}
