@@ -2,7 +2,7 @@
 \alias{translateCluToLpj}
 \title{Translates CLUMondo Cropland Area into specific LPJmL Crop Functional Types}
 \usage{
-  translateCluToLpj(grid, range, landuse, landuseClu,
+  translateCluToLpj(grid, rectRange, landuse, landuseClu,
     cells = NULL, cft = c(1:13, 15:16, 17:29, 31:32),
     years = 1, scaleFactor = 1000, method = "generic")
 }
@@ -10,8 +10,8 @@
   \item{grid}{SpatialPointsDataFrame with the grid and at
   least the column \code{CLUWORLDREGION}}
 
-  \item{range}{range in degrees which defines the radius of
-  neighbourhood}
+  \item{rectRange}{range in degrees which defines the
+  radius of neighborhood}
 
   \item{landuse}{\code{array[years, pixels, cfts]} of the
   MIRCA2000 landuse maps}

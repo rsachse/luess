@@ -2,7 +2,7 @@
 \alias{whichLPJmL}
 \title{Determine Pixels within a certain range}
 \usage{
-  whichLPJmL(coor, vecA, vecB, range)
+  whichLPJmL(coor, vecA, vecB, rectRange)
 }
 \arguments{
   \item{coor}{numeric, vector of 2 providing the x- and
@@ -28,8 +28,8 @@
   length of 67420.
 }
 \examples{
-idOld <- getNearPoints(coordinates(lpjGrid)[2000,], coordinates(lpjGrid), 2.5)
-idNew <- whichLPJmL(coordinates(lpjGrid)[2000,], coordinates(lpjGrid)[,1], coordinates(lpjGrid)[,2], 2.5)
+idOld <- getNearPoints(coordinates(lpjGrid)[20000,], coordinates(lpjGrid), 2.5)
+idNew <- whichLPJmL(coordinates(lpjGrid)[20000,], coordinates(lpjGrid)[,1], coordinates(lpjGrid)[,2], 2.5)
 identical(idOld, idNew)
 
 system.time({
