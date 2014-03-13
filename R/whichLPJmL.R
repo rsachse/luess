@@ -10,8 +10,8 @@
 #' @param range numeric, range of the window
 #' @return the function returns a vector of all pixel-IDs which are within the specified rectangular range
 #' @examples 
-#' idOld <- getNearPoints(coordinates(lpjGrid)[20000,], coordinates(lpjGrid), 2.5)
-#' idNew <- whichLPJmL(coordinates(lpjGrid)[20000,], coordinates(lpjGrid)[,1], coordinates(lpjGrid)[,2], 2.5)
+#' idOld <- getNearPoints(coordinates(lpjGrid)[2000,], coordinates(lpjGrid), 2.5)
+#' idNew <- whichLPJmL(coordinates(lpjGrid)[2000,], coordinates(lpjGrid)[,1], coordinates(lpjGrid)[,2], 2.5)
 #' identical(idOld, idNew)
 #' 
 #' system.time({
@@ -21,7 +21,7 @@
 #' system.time({
 #'   for(i in 1:100) idNew <- whichLPJmL(coordinates(lpjGrid)[2000,], coordinates(lpjGrid)[,1], coordinates(lpjGrid)[,2], 2.5)
 #' })
-whichLPJmL <- function(coor, vecA, vecB, rectRange){
+whichLPJmL <- function(coor, vecA, vecB, range){
   xCor <- coor[1]
   yCor <- coor[2]
   vecLength <- length(vecA)
@@ -31,7 +31,7 @@ whichLPJmL <- function(coor, vecA, vecB, rectRange){
     yCor       = as.double(yCor),
     vecA       = as.double(vecA),
     vecB       = as.double(vecB),
-    rectRange  = as.double(rectRange),
+    range      = as.double(range),
     vecResult  = logical(vecLength)
   )
   ids <- 1:vecLength

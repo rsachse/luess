@@ -11,7 +11,7 @@
 #' 
 #' @param grid SpatialPointsDataFrame with the grid and at least the column \code{CLUWORLDREGION}
 #' 
-#' @param rectRange range in degrees which defines the radius of neighborhood
+#' @param range range in degrees which defines the radius of neighbourhood
 #' 
 #' @param landuse \code{array[years, pixels, cfts]} of the MIRCA2000 landuse maps
 #' 
@@ -55,7 +55,7 @@
 #'   load("clu2000_clu2040.rda")
 #'   cluAgg    <- aggregateMosaicsClumondo(out2000, CLUMosaics, lpjGrid)
 #'   cftfrac   <- getLPJ("N:/vmshare/landuse/landuse.bin", 2000, 2001, 1700, 32, 2, sizeof_header=43)
-#'   system.time({bar <- translateCluToLpj(lpjGrid, rectRange=2.5, landuse=cftfrac, landuseClu=cluAgg, cells=30000:31000, scaleFactor=1000)})
+#'   system.time({bar <- translateCluToLpj(lpjGrid, range=2.5, landuse=cftfrac, landuseClu=cluAgg, cells=30000:31000, scaleFactor=1000)})
 #' 
 #'   gridPlot(rowSums(bar[1,,]), coordinates(lpjGrid[30000:31000,]), zlim=c(0,1000), main="CLU translated")
 #'   cft <- c(1:13, 15:16, 17:29, 31:32)
@@ -86,7 +86,7 @@
 #' landuseLPJ[1,151:200,3] <- 1 - landuseLPJ[1,151:200,1] - landuseLPJ[1,151:200,2]
 #'
 #' ## translate
-#' res <- translateCluToLpj(landgrid, rectRange=0.7, landuseLPJ, landuseCLU, cft=1:3, scaleFactor=1)
+#' res <- translateCluToLpj(landgrid, range=0.7, landuseLPJ, landuseCLU, cft=1:3, scaleFactor=1)
 #'
 #' ## visualize
 #' par(mfrow=c(2,3))
@@ -117,7 +117,7 @@
 
 translateCluToLpj <- function(
   grid, 
-  rectRange, 
+  range, 
   landuse, 
   landuseClu,
   cells=NULL,
@@ -141,11 +141,11 @@ translateCluToLpj <- function(
   
   
   if(method=="LPJmL"){
-    idPoints <- NULL
+    idPoints <- list()
     for(i in 1:length(cells)){
       print(i)
       theCell <- cells[i]
-      idPoints[i] <- list(whichLPJmL(coordsGrid[theCell,], coordsGrid[,1], coordsGrid[,2], rectRange))
+      idPoints[i] <- list(whichLPJmL(coordsGrid[theCell,], coordsGrid[,1], coordsGrid[,2], range))
     }
     #idPoints <- apply(
     #  coordsGrid[cells,], 
@@ -161,7 +161,7 @@ translateCluToLpj <- function(
       1,
       getNearPoints,
       coordsGrid=coordsGrid,
-      range=rectRange
+      range=range
     )  
   }
   
