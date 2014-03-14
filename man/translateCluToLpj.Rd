@@ -3,8 +3,7 @@
 \title{Translates CLUMondo Cropland Area into specific LPJmL Crop Functional Types}
 \usage{
 translateCluToLpj(grid, range, landuse, landuseClu, cells = NULL,
-  cft = c(1:13, 15:16, 17:29, 31:32), years = 1, scaleFactor = 1000,
-  method = "generic")
+  cft = c(1:13, 15:16, 17:29, 31:32), years = 1, scaleFactor = 1000)
 }
 \arguments{
   \item{grid}{SpatialPointsDataFrame with the grid and at

@@ -123,8 +123,7 @@ translateCluToLpj <- function(
   cells=NULL,
   cft=c(1:13,15:16,17:29,31:32), 
   years=1, 
-  scaleFactor=1000,
-  method="generic"
+  scaleFactor=1000
 ){
   checkGrids <- identical(paste(coordinates(grid)[,1],coordinates(grid)[,2]), paste(coordinates(landuseClu)[,1],coordinates(landuseClu)[,2]))
   if(checkGrids == FALSE){
@@ -138,33 +137,14 @@ translateCluToLpj <- function(
   }
   ## determine cells in the near
   message("calculation of range for all pixels (time consuming step!)")
-  
-  
-  if(method=="LPJmL"){
-    idPoints <- list()
-    for(i in 1:length(cells)){
-      print(i)
-      theCell <- cells[i]
-      idPoints[i] <- list(whichLPJmL(coordsGrid[theCell,], coordsGrid[,1], coordsGrid[,2], range))
-    }
-    #idPoints <- apply(
-    #  coordsGrid[cells,], 
-    #  1,
-    #  whichLPJmL,
-    #  vecA=coordsGrid[,1],
-    #  vecB=coordsGrid[,2],
-    #  range=range
-    #)  
-  } else{
-    idPoints <- apply(
-      coordsGrid[cells,], 
-      1,
-      getNearPoints,
-      coordsGrid=coordsGrid,
-      range=range
-    )  
-  }
-  
+  idPoints <- apply(
+    coordsGrid[cells,], 
+    1,
+    getNearPoints,
+    coordsGrid=coordsGrid,
+    range=range
+  )  
+
   ## average landuse from neighbouring cells
   message("averaging landuse from nearby pixels")
   res <- averageLanduse(landuse, landuseClu, cft, cells, years, idPoints, grid)
