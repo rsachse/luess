@@ -6,7 +6,8 @@
 #'   
 #' @param fileOut A character string naming the file to write to.
 #' 
-#' @param header A list providing the 10 elements of a valid header: 
+#' @param header When \code{NULL} no header is written and data is appended to an existing file. Otherwise a
+#' list providing the 10 elements of a valid header need to be given: 
 #' \enumerate{
 #'   \item header name
 #'   \item header version
@@ -19,25 +20,17 @@
 #'   \item resolution
 #'   \item scaling
 #'  }
-#'  The header is only needed when \code{where} is \code{NULL} otherwise no new file
-#'  needs to be created and the existing file already has a header.
-#' 
-#' @param append logical, specifying whether the data should be appended to an existing file
-#' or not. If \code{FALSE} a new file will be created.
-#' 
+#'   
 #' @author Rene Sachse (rene.sachse@@uni-potsdam.de)
 #'
 #' @keywords LPJ, LPJmL
-writeLpjLanduse <- function(data, fileOut, header=NULL, append=FALSE){
-  if(append == FALSE){
-    mode <- "wb"
-  } else {
-    mode <- "ab"
-  }
-  fileOut <- file(fileOut, mode)
-  if(append==FALSE){
-    writeLpjHeader(fileOut, header)
+writeLpjLanduse <- function(data, fileOut, header=NULL){
+  if(!is.null(header)){
+    fileCon <- file(fileOut, "wb")
+    writeLpjHeader(fileCon, header)
+    close(fileCon)
   } 
+  fileCon <- file(fileOut, open="ab")
   nYears <- dim(data)[1]
   for(i in 1:nYears){
     message(paste("Writing year",i,"of",nYears,"."))
@@ -45,8 +38,8 @@ writeLpjLanduse <- function(data, fileOut, header=NULL, append=FALSE){
     landuse <- t(data[i,,]) 
     ## as.vector first reads columns 
     ## -> all cfts for a pixel than next pixel
-    writeBin(as.vector(as.integer(landuse)), fileOut, size=2) 
+    writeBin(as.vector(as.integer(landuse)), fileCon, size=2) 
   }
-  close(fileOut)
+  close(fileCon)
   message("Done.")
 }

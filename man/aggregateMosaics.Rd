@@ -2,7 +2,7 @@
 \alias{aggregateMosaics}
 \title{Disentangling multiple mosaics in a grid cell into their basic landuse classes}
 \usage{
-  aggregateMosaics(data, mosaicFractions)
+aggregateMosaics(data, mosaicFractions)
 }
 \arguments{
   \item{data}{data.frame or SpatialPointsDataFrame
@@ -17,15 +17,15 @@
   needs to sum up to exactly 1.}
 }
 \value{
-  if \code{data} is an object of class
-  SpatialPointsDataFrame also an object of
-  SpatialPointsDataFrame is returned. Otherwise a simple
-  matrix with basic landuse classes is returned.
+if \code{data} is an object of class SpatialPointsDataFrame
+also an object of SpatialPointsDataFrame is returned.
+Otherwise a simple matrix with basic landuse classes is
+returned.
 }
 \description{
-  The function disentangles multiple mosaics into its basic
-  land use classes of which the mosaics in one grid cell
-  consist.
+The function disentangles multiple mosaics into its basic
+land use classes of which the mosaics in one grid cell
+consist.
 }
 \examples{
 mosaicFractions <- data.frame(
@@ -44,12 +44,12 @@ outDisentangle <- aggregateMosaics(outMosaic, mosaicFractions)
 outDisentangle
 }
 \author{
-  Rene Sachse \email{rene.sachse@uni-potsdam.de}
+Rene Sachse \email{rene.sachse@uni-potsdam.de}
 }
 \seealso{
-  \code{\link[luess]{resample_grid}} and
-  \code{\link[sp]{SpatialPointsDataFrame}} in package
-  \pkg{sp}
+\code{\link[luess]{resample_grid}} and
+\code{\link[sp]{SpatialPointsDataFrame}} in package
+\pkg{sp}
 }
 \keyword{CLUMondo}
 \keyword{LPJmL}

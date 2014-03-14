@@ -2,12 +2,11 @@
 \alias{gridPlot}
 \title{Plotting of grids, maps and contours.}
 \usage{
-  gridPlot(values, coordinates = lpj_ingrid, res = 0.5,
-    main = "", clab = "",
-    col = terrain.colors(1000)[1000:1], plot = TRUE,
-    addcountries = FALSE, axes = TRUE, cex = 1.5,
-    mar = c(5, 4, 4, 6), xlim = c(-180, 180),
-    ylim = c(-60, 90), zlim = NULL, colkey = TRUE, ...)
+gridPlot(values, coordinates = lpj_ingrid, res = 0.5, main = "",
+  clab = "", col = terrain.colors(1000)[1000:1], plot = TRUE,
+  addcountries = FALSE, axes = TRUE, cex = 1.5, mar = c(5, 4, 4, 6),
+  xlim = c(-180, 180), ylim = c(-60, 90), zlim = NULL, colkey = TRUE,
+  ...)
 }
 \arguments{
   \item{values}{numeric vector; values to be plotted at
@@ -53,14 +52,14 @@
   \code{\link[plot3D]{image2D}}}
 }
 \value{
-  Returns a list with \code{x} x-coordinates, \code{y}
-  y-coordinates and and matrix \code{z} containing the data
-  values. If \code{plot==TRUE} also a map will be plotted
+Returns a list with \code{x} x-coordinates, \code{y}
+y-coordinates and and matrix \code{z} containing the data
+values. If \code{plot==TRUE} also a map will be plotted
 }
 \description{
-  The function arranges data for plots of color maps of
-  georeferenced data points. The plot can also be produced
-  by this function.
+The function arranges data for plots of color maps of
+georeferenced data points. The plot can also be produced by
+this function.
 }
 \examples{
 ## count CLUMondo cells in aggregated 0.5 degree cells of LPJ
@@ -99,10 +98,10 @@ img_natgrass<- gridPlot(values=natgrass, main="fraction of natural grassland", m
 img_cropint <- gridPlot(values=cropint,  main="fraction of intensive cropland", col=oranges(1000), mar=c(5,4,4,8))
 }
 \author{
-  Rene Sachse \email{rene.sachse@uni-potsdam.de}
+Rene Sachse \email{rene.sachse@uni-potsdam.de}
 }
 \seealso{
-  \code{\link[plot3D]{image2D}} in package \pkg{plot3D}
+\code{\link[plot3D]{image2D}} in package \pkg{plot3D}
 }
 \keyword{maps}
 \keyword{plot}
