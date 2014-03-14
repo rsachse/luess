@@ -66,7 +66,11 @@ load("out_trans_2_5.rda")
 load("out_trans_2_5_2040.rda")
 
 lu2000 <- fillArray(out_trans_2_5, nYears=41)
-lu2040 <- fillArray(out_trans_2_5_2040, nYears=41)
 
-writeLpjLanduse(lu2000, "landuseOECD2000_v02.bin", header=NULL)
-writeLpjLanduse(lu2040, "landuseOECD2040_v02.bin", header=NULL)
+lu2040 <- array(NA, dim=c(41,67420,32))
+lu2040[1:10,,]  <- fillArray(out_trans_2_5, nYears=10)
+lu2040[11:41,,] <- fillArray(out_trans_2_5_2040, nYears=31)
+
+
+writeLpjLanduse(lu2000, "landuseOECD2000_v03.bin", header=NULL)
+writeLpjLanduse(lu2040, "landuseOECD2040_v03.bin", header=NULL)
