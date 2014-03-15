@@ -65,12 +65,21 @@ fillArray <- function(dat, nYears=35, nPixels=67420, nCfts=32){
 load("out_trans_2_5.rda")
 load("out_trans_2_5_2040.rda")
 
-lu2000 <- fillArray(out_trans_2_5, nYears=41)
+
+#lu2000 <- fillArray(out_trans_2_5, nYears=41)
+
+require(simecol)
 
 lu2040 <- array(NA, dim=c(41,67420,32))
-lu2040[1:10,,]  <- fillArray(out_trans_2_5, nYears=10)
-lu2040[11:41,,] <- fillArray(out_trans_2_5_2040, nYears=31)
+for(i in 1:32){
+  message(paste("approxing crop", i, "of", 32))
+  lusmall <- array(0, dim=c(2,67421))
+  lusmall[,1] <- c(1,41)
+  lusmall[1,2:67421] <- out_trans_2_5[1,,i]
+  lusmall[2,2:67421] <- out_trans_2_5_2040[1,,i]
+  lu2040[,,i] <- approxTime(lusmall, 1:41)[,2:67421]
+}
 
 
-writeLpjLanduse(lu2000, "landuseOECD2000_v03.bin", header=NULL)
-writeLpjLanduse(lu2040, "landuseOECD2040_v03.bin", header=NULL)
+#writeLpjLanduse(lu2000, "landuseOECD2000_v03.bin", header=NULL)
+writeLpjLanduse(lu2040, "landuseOECD2040_v04.bin", header=NULL)
