@@ -20,7 +20,7 @@ areaCell <- function(grid, res=0.5, dist.lat=111) {
   y<-array(dist.lat*res, dim=ncell)#distance between two circles of latitude
   x<-array(0,dim=ncell) #distance between two meridians
   #calculate distance between two meridians according to latitude
-  x <- 0.5 * cos(grid[,2]/180*pi)*pi/180*6371 #to calculate the distance between longitude
+  x <- res * cos(grid[,2]/180*pi)*pi/180*6371 #to calculate the distance between longitude
   # cell area km^2
   area.of.cell <- x * y
   return(area.of.cell)
