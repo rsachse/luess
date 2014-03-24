@@ -9,14 +9,19 @@ resample_grid(grid_hr, grid_lr, cells = NULL, datacolumn = 1,
   \item{grid_hr}{SpatialPointsDataFrame containing the
   geometry of cellcenters of the original high resolution
   grid. Other input geometries might be possible but have
-  not been tested so far.}
+  not been tested so far. Needs to have a column providing
+  the land system information. This might be numeric or
+  character strings.}
 
   \item{grid_lr}{SpatialGrid of the new grid}
 
-  \item{cells}{Only calculations for these cells will be
-  returned (e.g. if these are cells with landcover). If
-  \code{NULL} values for all cells with available data will
-  be calculated.}
+  \item{cells}{Vector of integers. Only calculations for
+  these cells will be returned. The numbers specify which
+  of the cells of \code{grid_lr} will be used. Also the
+  order is specified by this vector, e.g. \code{c(234, 21,
+  305)} would return results for cell 234, 21 and 305 in
+  that order. If \code{NULL} values for all cells with
+  available data will be calculated.}
 
   \item{datacolumn}{integer specifing which column of the
   SpaitalPointsDataFrame contains the data of interest}

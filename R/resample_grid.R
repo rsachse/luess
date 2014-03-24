@@ -6,12 +6,16 @@
 #' 
 #' @param grid_hr SpatialPointsDataFrame containing the geometry of cellcenters 
 #' of the original high resolution grid. Other input geometries might be possible 
-#' but have not been tested so far.
+#' but have not been tested so far. Needs to have a column providing the land system
+#' information. This might be numeric or character strings.
 #'  
 #' @param grid_lr SpatialGrid of the new grid
 #' 
-#' @param cells Only calculations for these cells will be returned (e.g. if these are cells
-#' with landcover). If \code{NULL} values for all cells with available data will be calculated.   
+#' @param cells Vector of integers. Only calculations for these cells will be returned. 
+#' The numbers specify which of the cells of \code{grid_lr} will be used. Also 
+#' the order is specified by this vector, e.g. \code{c(234, 21, 305)} would return
+#' results for cell 234, 21 and 305 in that order. If \code{NULL} values for all 
+#' cells with available data will be calculated.   
 #' 
 #' @param datacolumn integer specifing which column of the SpaitalPointsDataFrame contains the
 #' data of interest
@@ -104,16 +108,23 @@ resample_grid <- function(
     }
     out <- foreach(i=1:length(cells)) %dopar% myfunc(i)
   }
+  #print((str(out)))
   outlc      <- lapply(out, table)
   outlcall   <- sapply(
     outlc, 
     function(x,uniquelu){
-      idLU          <- as.integer(unlist(dimnames(x)))
-      if(any(uniquelu == 0)){
-        idLU <- idLU + 1
-      }
       lufrac        <- numeric(length(uniquelu))
-      lufrac[idLU]  <- x/sum(x)
+      names(lufrac) <- paste("LU_",as.character(uniquelu),sep="")      
+      idLU          <- as.integer(unlist(dimnames(x)))
+      if(length(idLU) > 0){
+        idLU          <- paste("LU_", as.character(unlist(dimnames(x))), sep="")
+        #print(idLU)
+        #if(any(uniquelu == 0)){
+        #  idLU <- idLU + 1
+        #}
+        lufrac[idLU]  <- x/sum(x)
+        #print(lufrac)
+      }
       return(lufrac)
     }, 
     uniquelu=uniquelu

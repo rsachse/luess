@@ -133,7 +133,7 @@ gridPlot <- function(
     )
     if(addcountries==TRUE){
       data(wrld_simpl)
-      plot(wrld_simpl,add = T, lwd = 1.2)
+      plot(wrld_simpl,add = T, lwd = 0.8)
     }
     if(colkey==TRUE){
       colkey(

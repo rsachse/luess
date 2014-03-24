@@ -45,8 +45,13 @@ EF[7] <- EF(cftFrac, out_trans_7_5)
 EF[8] <- EF(cftFrac, out_trans_10)
 EF[9] <- EF(cftFrac, out_trans_15)
 EF[10] <- EF(cftFrac, out_trans_20)
-plot(ranges, EF, type="b", ylim=c(0.5,1), log="x")
 
+png("EF.png", width=4000, height=3000, res=600)
+par(cex=1.7, mar=c(4,4,1,1))
+plot(ranges, EF, type="b", ylim=c(0.5,1), main="Goodness of Translation",
+     las=1, ylab="Nash-Sutcliffe-Efficiency", xlab="window range (°)", pch=16, lwd=2)
+mtext("window range (°)", 1, line=3, cex=1.7)
+dev.off()
 
 
 ## specific crops
