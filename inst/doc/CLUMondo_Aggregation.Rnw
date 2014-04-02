@@ -18,7 +18,7 @@
 \addtokomafont{caption}{\footnotesize\sffamily}               
 \title{Aggregating and Translating CLUMondo Grids to LPJmL}
 \author{René Sachse \texttt{rene.sachse@uni-potsdam.de}}
-%\VignetteIndexEntry{Aggregating CLUMondo grids}
+%\VignetteIndexEntry{Aggregating and Translating CLUMondo grids}
 %\VignetteDepends{sp, maptools, RColorBrewer} 
 %\VignetteKeyword{CLUMondo} 
 %\VignetteKeyword{LPJmL} 
@@ -250,17 +250,22 @@ img_cropint <- gridPlot(values=cropint, cex=1.5,
 
 \section{Disentangling CLUMondo Mosaics}
 CLUMondo provides 30 different classes of landscape mosaics \citep{Verburg2013}. 
-Each mosaic consists of one of the five basic landuse classes: trees, buildt up area, bare area, cropland or pasture. 
+Each mosaic consists of one of the five land covers: trees, buildt up area, bare area, cropland or pasture. Furthermore,
+the ClUMondo land use systems contain information about the intensity of the management of the cropland and about
+the number of livestocks. At the moment intensity and livestock information is not used for the translation.
+
 For LPJmL we sum up trees, built up area and bare area to an area of natural vegetation (LPJmL does not consider 
 urban areas at the moment; however since this area
 is increasing in the future, this might be an important enhancement). 
 The decision what kind of plant functional types (PFTs) are growing on land, whether it is trees, grass or nothing (bare) is decided by LPJmL on its own on areas 
-reserved for potential natural vegetation. Therefore, I summed up tree area and bare area for the area of potential natural vegetation.
-After aggregation for LPJmL we have the three classes: natveg, cropland and pasture remaining. Natveg and pasture translates directly to LPJmL, 
-while cropland needs to be translated to 13 different crop functional types (CFTs) later.
+reserved for potential natural vegetation. 
+After aggregation for LPJmL we have the three land covers: natveg, cropland and pasture remaining. In principle, natveg and pasture translates directly to LPJmL, 
+while cropland needs to be translated to 13 different crop functional types (CFTs) later. However, CLUMondo pasture was 
+defined differently from the one used in LPJmL standard input data (see extra vignette about translation problems). 
+Maybe we need to add pasture areas from CLUMondo's natural grassland systems without livestock 
+or with only very few livestock to natural vegetation. 
 
-To disentangle the underlying
-real land use classes per grid cell, the generic function \texttt{aggregateMosaics()} or a LPJmL specific 
+To disentangle the underlying land covers per grid cell, the generic function \texttt{aggregateMosaics()} or a LPJmL specific 
 function for CLUMondo aggregation \texttt{aggregateMosaicsClumondo()} can be 
 used. Since the mosaic composition in CLUMondo is different in each of the 24 world regions, the function 
 \texttt{aggregateMosaicsClumondo()} already applies different tables during the aggregation to all world regions.
@@ -305,11 +310,89 @@ gridPlot(cluAgg@data[,"cropland"], zlim=c(0,1), main="cropland")
 gridPlot(cluAgg@data[,"natveg"], zlim=c(0,1), main="natveg")
 @
 
-
+Please note: At the moment the look up table for the USA is wrong. As a workaround the look up table for Canada is used for the 
+US instead for the time being (see extra tranlastion vignette for an explanation of the problem).
 
 \section{Translating CLUMondo Land Use to Crop Funtional Types}
-\subsection{A Method based on an existing and most recent land use map}
-\ldots{} not implemented yet.
+\subsection{A Method based on an existing and recent land use map}
+Which crop functional types are growing on cropland can be looked up on an existing map (e.g. a specific year of 
+the standard landuse input data of LPJmL might be used). For that, the existing map
+is screened in a rectangle around the pixel of interest for crops planted there. The ratio of the different crops on all
+surrounding pixels than is calculated. In case the screened area of the look up map does not have crops, the 
+mean crop ratios of the corresponding CLUMondo world region is calculated and applied. Using this approach, the preference for cultivating specific crops in a specific area stays constant over time and does not consider scenarios with a change of 
+of cultivation preferences. Accuracy of estimating CFTs from neighbour-cells reaches Nash-Sutcliffe-Efficiencies up to 0.9 for small windows, but diminishes with increasing window sizes (Fig.~\ref{pic:EF}). 
+
+\begin{figure}[hp]
+<<screenWindow, fig=TRUE, echo=FALSE>>=
+tp <- 37000
+plot(lpjGrid, pch=".")
+bar <- apply(
+  coordinates(lpjGrid)[tp:(tp+10),],
+  1,
+  getNearPoints,
+  coordsGrid=coordinates(lpjGrid),
+  range=10
+)
+grid <- coordinates(lpjGrid)
+points(grid[bar[[1]],1], grid[bar[[1]],2], pch=15, col="green", cex=0.3)
+points(grid[tp,1], grid[tp,2], pch = 15, col="red")
+@
+\caption{Example of a 10 degree screening window (green) for specific crop functional types around 
+the pixel of interest (red).\label{pic:screenWindow}}
+\end{figure}
+
+\begin{figure}[hp]
+\centering
+\includegraphics[width=0.7\textwidth]{EF}
+\caption{Nash-Sutcliffe-Efficiency of the CFT-assignment to CLUMondo cropland based on
+the year 2000 LPJmL input map in dependency of the window size. 
+All crops, except pasture were included in the statistical calculation. \label{pic:EF}}
+\end{figure}
+
+A complete CLUMondo to LPJmL translation exercise would look as follows:
+<<cluagg, eval=FALSE>>=
+library(luess)
+### read the LPJmL land use map of the year 2000 
+## (adjust path!, landuse file is not included in this package)
+cftFrac   <- getLPJ( "N:/vmshare/landuse/landuse.bin", 
+  2000, 2000, 1700, 32, 2, sizeof_header=43)
+
+### re-project the original CLUMondo landuse map for the year 2040
+clu2040     <- transform_asciigrid("../../work/clu2040.txt")
+
+### resample CLUMondo land use systems for the LPJmL-grid
+out2040     <- resample_grid(clu2040, generate_grid(), cells=lpj_long_clupos)
+
+### aggregate the land covers of the CLUMondo land use systems
+cluAgg2040  <- aggregateMosaicsClumondo(out2040, CLUMosaics, lpjGrid)
+
+### translate cropland to specific CFTs 
+## window size = 2.5 degree, takes some minutes time
+out_trans_2_5 <- translateCluToLpj(
+  lpjGrid, 
+  range=2.5, 
+  landuse=cftFrac, 
+  landuseClu=cluAgg2040, 
+  scaleFactor=1000
+)
+
+### construct land use data set
+## use CLUMondo pasture area directly
+out_trans_2_5[1,,14] <- cluAgg2040@data[,"pasture"]*1000
+
+### write the land use data set to a file
+## get an valid LPJmL header 
+## (adjust path, file not included in this package)
+cftHeader <- readLpjHeader("N:/vmshare/landuse/landuse.bin")
+## update number of years in header (only 1 in this example)
+cftHeader$ny <- 1
+## write file
+writeLpjLanduse(out_trans_2_5, "landuse-new.bin", cftHeader)
+
+### read new file for validation
+cftNew <- getLPJ("landuse-new.bin", 2000,2000,2000,32,2,sizeof_header=43)
+identical(cftNew, out_trans_2_5)
+@
 
 \section{Changes and new functionality in latest package versions}
 \subsection{v0.16.0: resample\_grid() output format}
