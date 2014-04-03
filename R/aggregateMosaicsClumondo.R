@@ -12,7 +12,7 @@
 #' which form the mosaics. Needs to have as many rows as \code{data} has columns; 
 #' each row needs to sum up to exactly 1.
 #'  
-#' @param worldregions SpatialPointsDataFrame providing the column CLUWORDREGION. Needs to have same order as \code{data}. 
+#' @param worldregions SpatialPointsDataFrame providing the column CLUWORLDREGION. Needs to have same order as \code{data}. 
 #' Region names in this column need to correspond to dimnames in \code{mosaics}.
 #'  
 #' @param fixUS logical; when TRUE the lookup table of Canada is used for the USA. This is just a workaround until the falsy 

@@ -17,7 +17,7 @@ aggregateMosaicsClumondo(data, mosaics, worldregions, fixUS = TRUE)
   sum up to exactly 1.}
 
   \item{worldregions}{SpatialPointsDataFrame providing the
-  column CLUWORDREGION. Needs to have same order as
+  column CLUWORLDREGION. Needs to have same order as
   \code{data}. Region names in this column need to
   correspond to dimnames in \code{mosaics}.}
 
