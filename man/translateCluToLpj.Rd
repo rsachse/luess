@@ -32,12 +32,6 @@ translateCluToLpj(grid, range, landuse, landuseClu, cells = NULL,
 
   \item{scaleFactor}{numeric factor to comply with LPJmL
   input data requirements (1000 for landuse fractions)}
-
-  \item{method}{character naming the method how to
-  determine the nearest pixels. At the moment only
-  rectangular areas are possible. \code{method="LPJmL"}
-  uses a FORTRAN90 function which is 20% faster than the
-  generic R method which is used in all other cases.}
 }
 \description{
 The function translates CLUMondo cropland into specific

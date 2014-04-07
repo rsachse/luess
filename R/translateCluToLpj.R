@@ -30,10 +30,6 @@
 #' @param scaleFactor numeric factor to comply with LPJmL input data requirements (1000 for 
 #' landuse fractions)
 #' 
-#' @param method character naming the method how to determine the nearest pixels. At the moment only 
-#' rectangular areas are possible. \code{method="LPJmL"} uses a FORTRAN90 function which is 20% faster than the 
-#' generic R method which is used in all other cases.
-#' 
 #' @details Note: the function only works for the first year. For more years, one would need to 
 #' pass landuseClu as a list, with one SpatialPointsDataFrame for each year. And the algorithm
 #' needs to be updated to handle lists for landuseClu.
