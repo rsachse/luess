@@ -43,6 +43,12 @@
 #' The factor only is used when \code{splitBioenergy == TRUE}. 1 would be grass only, 0 would be only trees, 
 #' 0.5 are 50 percent grass and 50 percent trees.
 #' 
+#' @param idPoints \code{NULL} or a list with a vector of integers for each pixel giving the IDs of all pixels in the neighborhood.
+#' When \code{idPoints} is provided the calculation is much less time consuming.
+#' 
+#' @param saveIdPoints \code{NULL} or a character string naming the file into which \idPoints should be stored for later re-use. 
+#' When \code{NULL}, \code{idPoints} is not saved.
+#' 
 #' @details Note: the function only works for the first year. For more years, one would need to 
 #' pass landuseClu as a list, with one SpatialPointsDataFrame for each year. And the algorithm
 #' needs to be updated to handle lists for landuseClu.
@@ -135,11 +141,13 @@ translateCluToLpj <- function(
   years=1, 
   scaleFactor=1000,
   splitBioenergy=TRUE, 
-  grassTreeRatio=1
+  grassTreeRatio=1, 
+  idPoints=NULL,
+  saveIdPoints=NULL
 ){
   checkGrids <- identical(paste(coordinates(grid)[,1],coordinates(grid)[,2]), paste(coordinates(landuseClu)[,1],coordinates(landuseClu)[,2]))
   if(checkGrids == FALSE){
-    stop(message("grid and lanuseClue don't share the same grid"))
+    stop(message("grid and landuseClue don't share the same grid"))
   }
   cft          <- cftCropland
   isBioenergy  <- ifelse(is.null(cftBioenergy), FALSE, TRUE)
@@ -151,19 +159,27 @@ translateCluToLpj <- function(
 
   ## extract coordinates
   coordsGrid <- coordinates(grid)
+  
   ## specify all cells if no specific cells mentioned
   if(is.null(cells)){
     cells <- 1:nrow(coordsGrid)
   }
+
   ## determine cells in the near
-  message("calculation of range for all pixels (time consuming step!)")
-  idPoints <- apply(
-    coordsGrid[cells,], 
-    1,
-    getNearPoints,
-    coordsGrid=coordsGrid,
-    range=range
-  )  
+  if(is.null(idPoints)){
+    message("calculation of range for all pixels (time consuming step!)")
+    idPoints <- apply(
+      coordsGrid[cells,], 
+      1,
+      getNearPoints,
+      coordsGrid=coordsGrid,
+      range=range
+    )  
+  }
+  
+  if(!is.null(saveIdPoints)){
+    save(idPoints, file=saveIdPoints)
+  }
 
   ## average landuse from neighbouring cells
   message("averaging landuse for cropland from nearby pixels")

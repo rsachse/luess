@@ -2,9 +2,11 @@
 \alias{translateCluToLpj}
 \title{Translates CLUMondo and CLUE Cropland Area into specific LPJmL Crop Functional Types}
 \usage{
-translateCluToLpj(grid, range, landuse, landuseClu, cells = NULL,
-  cftCropland = c(1:13, 17:29), cftBioenergy = NULL, years = 1,
-  scaleFactor = 1000, splitBioenergy = TRUE, grassTreeRatio = 1)
+  translateCluToLpj(grid, range, landuse, landuseClu,
+    cells = NULL, cftCropland = c(1:13, 17:29),
+    cftBioenergy = NULL, years = 1, scaleFactor = 1000,
+    splitBioenergy = TRUE, grassTreeRatio = 1,
+    idPoints = NULL, saveIdPoints = NULL)
 }
 \arguments{
   \item{grid}{SpatialPointsDataFrame with the grid and at
@@ -53,29 +55,41 @@ translateCluToLpj(grid, range, landuse, landuseClu, cells = NULL,
   factor only is used when \code{splitBioenergy == TRUE}. 1
   would be grass only, 0 would be only trees, 0.5 are 50
   percent grass and 50 percent trees.}
+
+  \item{idPoints}{\code{NULL} or a list with a vector of
+  integers for each pixel giving the IDs of all pixels in
+  the neighborhood. When \code{idPoints} is provided the
+  calculation is much less time consuming.}
+
+  \item{saveIdPoints}{\code{NULL} or a character string
+  naming the file into which \idPoints should be stored for
+  later re-use. When \code{NULL}, \code{idPoints} is not
+  saved.}
 }
 \description{
-The function translates CLUMondo and CLUE cropland into
-specific LPJmL crop functional types. Therefore, the
-functions searches in the nearby area of each pixel for
-real landuse on the MIRCA2000 map (Portmann et al. 2010) or
-any other given map. The relations between crops of the
-nearby area are than applied to the area which CLUMondo
-calculated as cropland area. The nearby area is determined
-as an rectangular area. Using this method the crops are
-similar to the crops in the surrounding area in the year
-2000. No climate change or land suitability is checked.
-However, CLUMondo did some kind of suitability check for
-cropland already (Asselen & Verburg, 2013), so we assume
-the area to be suitable for agriculture. For CLUE it is
-also possible to pass the area for bioenergy plants and
-split this area to bioenergy grass and bioenergy trees.
+  The function translates CLUMondo and CLUE cropland into
+  specific LPJmL crop functional types. Therefore, the
+  functions searches in the nearby area of each pixel for
+  real landuse on the MIRCA2000 map (Portmann et al. 2010)
+  or any other given map. The relations between crops of
+  the nearby area are than applied to the area which
+  CLUMondo calculated as cropland area. The nearby area is
+  determined as an rectangular area. Using this method the
+  crops are similar to the crops in the surrounding area in
+  the year 2000. No climate change or land suitability is
+  checked. However, CLUMondo did some kind of suitability
+  check for cropland already (Asselen & Verburg, 2013), so
+  we assume the area to be suitable for agriculture. For
+  CLUE it is also possible to pass the area for bioenergy
+  plants and split this area to bioenergy grass and
+  bioenergy trees.
 }
 \details{
-Note: the function only works for the first year. For more
-years, one would need to pass landuseClu as a list, with
-one SpatialPointsDataFrame for each year. And the algorithm
-needs to be updated to handle lists for landuseClu.
+  Note: the function only works for the first year. For
+  more years, one would need to pass landuseClu as a list,
+  with one SpatialPointsDataFrame for each year. And the
+  algorithm needs to be updated to handle lists for
+  landuseClu.
 }
 \examples{
 \dontrun{
@@ -143,19 +157,19 @@ points(grid[bar[[1]],1], grid[bar[[1]],2], pch=15, col="green", cex=0.3)
 points(grid[tp,1], grid[tp,2], pch = 15, col="red")
 }
 \author{
-Rene Sachse \email{rene.sachse@uni-potsdam.de}
+  Rene Sachse \email{rene.sachse@uni-potsdam.de}
 }
 \references{
-Portmann, F. T., Siebert, S., and Doll, P. (2010). 2010
-MIRCA2000-global monthly irrigated and rainfed crop areas
-around the year 2000: A new high-resolution data set for
-agricultural and hydrological modeling. Global
-Biogeochemical Cycles, 24.
+  Portmann, F. T., Siebert, S., and Doll, P. (2010). 2010
+  MIRCA2000-global monthly irrigated and rainfed crop areas
+  around the year 2000: A new high-resolution data set for
+  agricultural and hydrological modeling. Global
+  Biogeochemical Cycles, 24.
 
-Asselen, S. v. & Verburg, P. H. v. Land cover change or
-land use intensification: simulting land system change with
-a global-scale land change model Global Change Biology,
-2013, 19, 3648-3667
+  Asselen, S. v. & Verburg, P. H. v. Land cover change or
+  land use intensification: simulting land system change
+  with a global-scale land change model Global Change
+  Biology, 2013, 19, 3648-3667
 }
 \keyword{CLUMondo,}
 \keyword{LPJ,}
