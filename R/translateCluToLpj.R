@@ -25,7 +25,7 @@
 #' @param cftCropland integer, ID of the LPJmL CFTs which shall be included in cropland. The default values
 #' do not consider pasture, since the CLUMondo pasture is more grassy land and not comparable to
 #' the MIRCA2000 data set.
-
+#'
 #' @param cftBioenergy \code{NULL} or vector of integer, IDs of the LPJmL CFTs which shall be planted on bioenergy-areas when 
 #' translating CLUE instead of CLUMondo. \code{landuseClu} needs to have a column \code{bioenergy} giving 
 #' the area for bioenergy plants. The default value is \code{NULL}. In that case no special translation
