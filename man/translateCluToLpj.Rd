@@ -1,9 +1,10 @@
 \name{translateCluToLpj}
 \alias{translateCluToLpj}
-\title{Translates CLUMondo Cropland Area into specific LPJmL Crop Functional Types}
+\title{Translates CLUMondo and CLUE Cropland Area into specific LPJmL Crop Functional Types}
 \usage{
 translateCluToLpj(grid, range, landuse, landuseClu, cells = NULL,
-  cft = c(1:13, 15:16, 17:29, 31:32), years = 1, scaleFactor = 1000)
+  cftCropland = c(1:13, 17:29), cftBioenergy = NULL, years = 1,
+  scaleFactor = 1000, splitBioenergy = TRUE, grassTreeRatio = 1)
 }
 \arguments{
   \item{grid}{SpatialPointsDataFrame with the grid and at
@@ -22,31 +23,53 @@ translateCluToLpj(grid, range, landuse, landuseClu, cells = NULL,
   \item{cells}{integer, ID of the pixels which shall be
   processed. If \code{NULL} all pixels are processed}
 
-  \item{cft}{integer, ID of the LPJmL CFTs which shall be
-  included in cropland. The default values do not consider
-  pasture, since the CLUMondo pasture is more grassy land
-  and not comparable to the MIRCA2000 data set.}
+  \item{cftCropland}{integer, ID of the LPJmL CFTs which
+  shall be included in cropland. The default values do not
+  consider pasture, since the CLUMondo pasture is more
+  grassy land and not comparable to the MIRCA2000 data
+  set.}
+
+  \item{cftBioenergy}{\code{NULL} or vector of integer, IDs
+  of the LPJmL CFTs which shall be planted on
+  bioenergy-areas when translating CLUE instead of
+  CLUMondo. \code{landuseClu} needs to have a column
+  \code{bioenergy} giving the area for bioenergy plants.
+  The default value is \code{NULL}. In that case no special
+  translation of bioenergy plants is done.}
 
   \item{years}{integer, number of the years of the landuse
   input which shall be processed}
 
   \item{scaleFactor}{numeric factor to comply with LPJmL
   input data requirements (1000 for landuse fractions)}
+
+  \item{splitBioenergy}{logic, if TRUE \code{landuseClu}
+  needs to have a column \code{bioenergy} giving the area
+  for bioenergy plants. This area is than split to the CFTs
+  \code{c(15:16,31:32)}.}
+
+  \item{grassTreeRatio}{numeric between 0 and 1. Proportion
+  of bioenergy grass and trees on bioenergy area. The
+  factor only is used when \code{splitBioenergy == TRUE}. 1
+  would be grass only, 0 would be only trees, 0.5 are 50
+  percent grass and 50 percent trees.}
 }
 \description{
-The function translates CLUMondo cropland into specific
-LPJmL crop functional types. Therefore, the functions
-searches in the nearby area of each pixel for real landuse
-on the MIRCA2000 map (Portmann et al. 2010). The relations
-between crops of the nearby area are than applied to the
-area which CLUMondo calculated as cropland area. The nearby
-area is determined as an rectangular area. Using this
-method the crops are similar to the crops in the
-surrounding area in the year 2000. No climate change or
-land suitability is checked. However, CLUMondo did some
-kind of suitability check for cropland already (Asselen &
-Verburg, 2013), so we assume the area to be suitable for
-agriculture.
+The function translates CLUMondo and CLUE cropland into
+specific LPJmL crop functional types. Therefore, the
+functions searches in the nearby area of each pixel for
+real landuse on the MIRCA2000 map (Portmann et al. 2010) or
+any other given map. The relations between crops of the
+nearby area are than applied to the area which CLUMondo
+calculated as cropland area. The nearby area is determined
+as an rectangular area. Using this method the crops are
+similar to the crops in the surrounding area in the year
+2000. No climate change or land suitability is checked.
+However, CLUMondo did some kind of suitability check for
+cropland already (Asselen & Verburg, 2013), so we assume
+the area to be suitable for agriculture. For CLUE it is
+also possible to pass the area for bioenergy plants and
+split this area to bioenergy grass and bioenergy trees.
 }
 \details{
 Note: the function only works for the first year. For more
@@ -90,7 +113,7 @@ landuseLPJ[1,51:150,3] <- 1 - landuseLPJ[1,51:150,1] - landuseLPJ[1,51:150,2]
 landuseLPJ[1,151:200,3] <- 1 - landuseLPJ[1,151:200,1] - landuseLPJ[1,151:200,2]
 
 ## translate
-res <- translateCluToLpj(landgrid, range=0.7, landuseLPJ, landuseCLU, cft=1:3, scaleFactor=1)
+res <- translateCluToLpj(landgrid, range=0.7, landuseLPJ, landuseCLU, cftCropland=1:3, scaleFactor=1)
 
 ## visualize
 par(mfrow=c(2,3))

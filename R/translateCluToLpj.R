@@ -1,13 +1,14 @@
-#' Translates CLUMondo Cropland Area into specific LPJmL Crop Functional Types
+#' Translates CLUMondo and CLUE Cropland Area into specific LPJmL Crop Functional Types
 #'
-#' The function translates CLUMondo cropland into specific LPJmL crop functional types. Therefore,
+#' The function translates CLUMondo and CLUE cropland into specific LPJmL crop functional types. Therefore,
 #' the functions searches in the nearby area of each pixel for real landuse on the MIRCA2000 
-#' map (Portmann et al. 2010). The relations between crops of the nearby area are than applied 
+#' map (Portmann et al. 2010) or any other given map. The relations between crops of the nearby area are than applied 
 #' to the area which CLUMondo calculated as cropland area. The nearby area is determined 
 #' as an rectangular area. Using this method the crops are similar to the crops in the surrounding
 #' area in the year 2000. No climate change or land suitability is checked. However, CLUMondo did
 #' some kind of suitability check for cropland already (Asselen & Verburg, 2013), so we 
-#' assume the area to be suitable for agriculture.
+#' assume the area to be suitable for agriculture. For CLUE it is also possible to pass the
+#' area for bioenergy plants and split this area to bioenergy grass and bioenergy trees.
 #' 
 #' @param grid SpatialPointsDataFrame with the grid and at least the column \code{CLUWORLDREGION}
 #' 
@@ -21,14 +22,26 @@
 #' @param cells integer, ID of the pixels which shall be processed. If \code{NULL} all pixels 
 #' are processed
 #' 
-#' @param cft integer, ID of the LPJmL CFTs which shall be included in cropland. The default values
+#' @param cftCropland integer, ID of the LPJmL CFTs which shall be included in cropland. The default values
 #' do not consider pasture, since the CLUMondo pasture is more grassy land and not comparable to
 #' the MIRCA2000 data set.
+
+#' @param cftBioenergy \code{NULL} or vector of integer, IDs of the LPJmL CFTs which shall be planted on bioenergy-areas when 
+#' translating CLUE instead of CLUMondo. \code{landuseClu} needs to have a column \code{bioenergy} giving 
+#' the area for bioenergy plants. The default value is \code{NULL}. In that case no special translation
+#' of bioenergy plants is done.
 #' 
 #' @param years integer, number of the years of the landuse input which shall be processed
 #' 
 #' @param scaleFactor numeric factor to comply with LPJmL input data requirements (1000 for 
 #' landuse fractions)
+#' 
+#' @param splitBioenergy logic, if TRUE \code{landuseClu} needs to have a column \code{bioenergy} giving 
+#' the area for bioenergy plants. This area is than split to the CFTs \code{c(15:16,31:32)}.
+#' 
+#' @param grassTreeRatio numeric between 0 and 1. Proportion of bioenergy grass and trees on bioenergy area. 
+#' The factor only is used when \code{splitBioenergy == TRUE}. 1 would be grass only, 0 would be only trees, 
+#' 0.5 are 50 percent grass and 50 percent trees.
 #' 
 #' @details Note: the function only works for the first year. For more years, one would need to 
 #' pass landuseClu as a list, with one SpatialPointsDataFrame for each year. And the algorithm
@@ -82,7 +95,7 @@
 #' landuseLPJ[1,151:200,3] <- 1 - landuseLPJ[1,151:200,1] - landuseLPJ[1,151:200,2]
 #'
 #' ## translate
-#' res <- translateCluToLpj(landgrid, range=0.7, landuseLPJ, landuseCLU, cft=1:3, scaleFactor=1)
+#' res <- translateCluToLpj(landgrid, range=0.7, landuseLPJ, landuseCLU, cftCropland=1:3, scaleFactor=1)
 #'
 #' ## visualize
 #' par(mfrow=c(2,3))
@@ -117,14 +130,25 @@ translateCluToLpj <- function(
   landuse, 
   landuseClu,
   cells=NULL,
-  cft=c(1:13,15:16,17:29,31:32), 
+  cftCropland=c(1:13,17:29), 
+  cftBioenergy=NULL, #c(15:16,31:32),
   years=1, 
-  scaleFactor=1000
+  scaleFactor=1000,
+  splitBioenergy=TRUE, 
+  grassTreeRatio=1
 ){
   checkGrids <- identical(paste(coordinates(grid)[,1],coordinates(grid)[,2]), paste(coordinates(landuseClu)[,1],coordinates(landuseClu)[,2]))
   if(checkGrids == FALSE){
     stop(message("grid and lanuseClue don't share the same grid"))
   }
+  cft          <- cftCropland
+  isBioenergy  <- ifelse(is.null(cftBioenergy), FALSE, TRUE)
+  
+  ## split bioenergy area to bioenergy grass and trees
+  if( (isBioenergy == TRUE) & (splitBioenergy == TRUE) ){
+    landuse <- splitBioenergy(landuse, scaleFactor, grassTreeRatio, years)
+  }
+
   ## extract coordinates
   coordsGrid <- coordinates(grid)
   ## specify all cells if no specific cells mentioned
@@ -143,7 +167,25 @@ translateCluToLpj <- function(
 
   ## average landuse from neighbouring cells
   message("averaging landuse from nearby pixels")
-  res <- averageLanduse(landuse, landuseClu, cft, cells, years, idPoints, grid)
+  res_cropland <- averageLanduse(landuse, landuseClu, cft, cells, years, idPoints, grid, "cropland")
+  
+  if(isBioenergy == TRUE){
+    ##call average landuse a second time for bioenergy
+    message("averaging landuse for bioenergy from nearby pixels")
+    res_bioenergy <- averageLanduse(landuse, landuseClu, cftBioenergy, cells, years, idPoints, grid, "bioenergy")
+    res_bioenergy <- res_bioenergy*scaleFactor 
+
+    ## unify both result matrices
+    res_cropland[,,cftBioenergy] <- res_bioenergy[,,cftBioenergy] 
+  }
+  
+  ## cropland + bioenergy
+  res <- res_cropland;
+  
+  ## pasture
+  for(i in years){
+    res[i,,14] <- clueLanduse@data$pasture
+  }  
   
   ## scale fraction with a constant factor (LPJ specific)
   res <- res * scaleFactor
@@ -154,6 +196,19 @@ translateCluToLpj <- function(
   return(res)
 }
 
+splitBioenergy <- function(lu, scaleFactor, grassTreeRatio = 1, years=1){
+  message("splitting up area for bioenergy plants")
+  for(year in years){
+    irrigationFraction <- rowSums(lu[year,,17:32]) / rowSums(lu[year,,]) #fraction of total cropland which is irrigated
+    irrigationFraction <- ifelse(is.nan(irrigationFraction), 0, irrigationFraction) #correct NANs caused by division by 0
+    irrigationFraction <- irrigationFraction  * scaleFactor
+    lu[year,,31] <- irrigationFraction * grassTreeRatio              #later multiplied with fraction of energy-area -> cropland + energy + natveg + pasture == 1
+    lu[year,,32] <- irrigationFraction * (1-grassTreeRatio) 
+    lu[year,,15] <- (1*scaleFactor - irrigationFraction) * grassTreeRatio     #later multiplied with fraction of energy-area -> cropland + energy + natveg + pasture == 1
+    lu[year,,16] <- (1*scaleFactor - irrigationFraction) * (1-grassTreeRatio) #later multiplied with fraction of energy-area -> cropland + energy + natveg + pasture == 1
+    }
+  return(lu)
+}
 
 calcRangePoint <- function(x, y, range){
   res <- c(
@@ -173,7 +228,7 @@ getNearPoints <- function(coords, coordsGrid, range){
   return(idPoints)
 }
 
-averageLanduse <- function(landuse, landuseClu, cft, cells, years, idPoints, grid){
+averageLanduse <- function(landuse, landuseClu, cft, cells, years, idPoints, grid, luCol){
   ## empty data structure
   res <- array(0, dim=c(length(years), length(cells), dim(landuse)[3]))
   ## average landuse from neighbouring cells - loop over all years
@@ -239,9 +294,11 @@ averageLanduse <- function(landuse, landuseClu, cft, cells, years, idPoints, gri
     ## split up CLU-fraction
     #message("reached split calc")
     #for(icft in cft){
-    #  res[year,,icft] <- res[year,,icft] * landuseClu@data[cells,"cropland"]
+    #  res[year,,icft] <- res[year,,icft] * landuseClu@data[cells, luCol]
     #}
-    res[year,,] <- res[year,,] * landuseClu@data[cells, "cropland"] 
+    
+    ## cropland
+    res[year,,] <- res[year,,] * landuseClu@data[cells, luCol] 
   }
   ##return results
   #res <- ifelse(is.nan(res), 0, res)
