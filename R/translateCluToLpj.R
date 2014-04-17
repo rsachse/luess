@@ -41,13 +41,14 @@
 #' 
 #' @param grassTreeRatio numeric between 0 and 1. Proportion of bioenergy grass and trees on bioenergy area. 
 #' The factor only is used when \code{splitBioenergy == TRUE}. 1 would be grass only, 0 would be only trees, 
-#' 0.5 are 50 percent grass and 50 percent trees.
+#' 0.7 would result in 70 percent grass and 30 percent trees.
 #' 
 #' @param idPoints \code{NULL} or a list with a vector of integers for each pixel giving the IDs of all pixels in the neighborhood.
-#' When \code{idPoints} is provided the calculation is much less time consuming.
+#' When \code{idPoints} is provided the calculation is much less time consuming. When \code{NULL} the nearest pixels are 
+#' calculated based on the maximal allowed distance given by \code{range}.
 #' 
-#' @param saveIdPoints \code{NULL} or a character string naming the file into which \idPoints should be stored for later re-use. 
-#' When \code{NULL}, \code{idPoints} is not saved.
+#' @param saveIdPoints \code{NULL} or a character string naming the file into which \code{idPoints}
+#' should be stored for later re-use. When \code{NULL}, \code{idPoints} is not saved.
 #' 
 #' @details Note: the function only works for the first year. For more years, one would need to 
 #' pass landuseClu as a list, with one SpatialPointsDataFrame for each year. And the algorithm
@@ -179,6 +180,7 @@ translateCluToLpj <- function(
   
   if(!is.null(saveIdPoints)){
     save(idPoints, file=saveIdPoints)
+    message(paste("saved nearest pixels to file:", saveIdPoints))
   }
 
   ## average landuse from neighbouring cells
