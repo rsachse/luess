@@ -182,9 +182,11 @@ translateCluToLpj <- function(
   res <- res_cropland;
   
   ## pasture
-  for(i in years){
-    res[i,,14] <- clueLanduse@data$pasture
-  }  
+  if(dim(landuse)[3] == 32){#check first if landuse is really LPJ --> enables simpler testing without pasture
+    for(i in years){
+      res[i,,14] <- clueLanduse@data$pasture
+    }  
+  }
   
   ## scale fraction with a constant factor (LPJ specific)
   res <- res * scaleFactor
