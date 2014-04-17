@@ -166,7 +166,7 @@ translateCluToLpj <- function(
   )  
 
   ## average landuse from neighbouring cells
-  message("averaging landuse from nearby pixels")
+  message("averaging landuse for cropland from nearby pixels")
   res_cropland <- averageLanduse(landuse, landuseClu, cft, cells, years, idPoints, grid, "cropland")
   
   if(isBioenergy == TRUE){
