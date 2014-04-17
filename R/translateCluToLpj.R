@@ -173,7 +173,6 @@ translateCluToLpj <- function(
     ##call average landuse a second time for bioenergy
     message("averaging landuse for bioenergy from nearby pixels")
     res_bioenergy <- averageLanduse(landuse, landuseClu, cftBioenergy, cells, years, idPoints, grid, "bioenergy")
-    res_bioenergy <- res_bioenergy*scaleFactor 
 
     ## unify both result matrices
     res_cropland[,,cftBioenergy] <- res_bioenergy[,,cftBioenergy] 
@@ -201,11 +200,11 @@ splitBioenergy <- function(lu, scaleFactor, grassTreeRatio = 1, years=1){
   for(year in years){
     irrigationFraction <- rowSums(lu[year,,17:32]) / rowSums(lu[year,,]) #fraction of total cropland which is irrigated
     irrigationFraction <- ifelse(is.nan(irrigationFraction), 0, irrigationFraction) #correct NANs caused by division by 0
-    irrigationFraction <- irrigationFraction  * scaleFactor
-    lu[year,,31] <- irrigationFraction * grassTreeRatio              #later multiplied with fraction of energy-area -> cropland + energy + natveg + pasture == 1
-    lu[year,,32] <- irrigationFraction * (1-grassTreeRatio) 
-    lu[year,,15] <- (1*scaleFactor - irrigationFraction) * grassTreeRatio     #later multiplied with fraction of energy-area -> cropland + energy + natveg + pasture == 1
-    lu[year,,16] <- (1*scaleFactor - irrigationFraction) * (1-grassTreeRatio) #later multiplied with fraction of energy-area -> cropland + energy + natveg + pasture == 1
+    irrigationFraction <- irrigationFraction  
+    lu[year,,31] <- irrigationFraction * grassTreeRatio       * scaleFactor              #later multiplied with fraction of energy-area -> cropland + energy + natveg + pasture == 1
+    lu[year,,32] <- irrigationFraction * (1-grassTreeRatio)   * scaleFactor 
+    lu[year,,15] <- (1 - irrigationFraction) * grassTreeRatio * scaleFactor    #later multiplied with fraction of energy-area -> cropland + energy + natveg + pasture == 1
+    lu[year,,16] <- (1 - irrigationFraction) * (1-grassTreeRatio) *scaleFactor #later multiplied with fraction of energy-area -> cropland + energy + natveg + pasture == 1
     }
   return(lu)
 }
