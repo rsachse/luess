@@ -3,7 +3,7 @@ luess
 
 luess (landuse ecosystem services) is a R package for estimation of ecosystem services based on LPJmL model output. 
 It provides functions to re-project CLUMondo model output to other geographic projections and to aggregrate CLUMondo 
-grid cells to any other grid. The functionality encompasses the translation of CLUMondo and CLUE cropland to LPJmL crop functional types and the ability to write LPJmL input files. Furhtermore, CLUE bioenergy areas can be split to LPJmL bioenergy plants. Implementation of calculation of ecosystem services is only sparse at the moment.
+grid cells to any other grid. The functionality encompasses the translation of CLUMondo and CLUE cropland to LPJmL crop functional types and the ability to write LPJmL input files. Furthermore, CLUE bioenergy areas can be split to LPJmL bioenergy plants. Implementation of calculation of ecosystem services is only sparse at the moment.
 
 
 Install the package
