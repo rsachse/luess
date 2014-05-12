@@ -2,7 +2,7 @@
 \alias{aggregateMosaicsClumondo}
 \title{Aggregating CLUMondo mosaics to basic landuse classes (natveg, pasture, cropland) for the whole globe}
 \usage{
-aggregateMosaicsClumondo(data, mosaics, worldregions, fixUS = TRUE)
+aggregateMosaicsClumondo(data, mosaics, worldregions, fixUS = FALSE)
 }
 \arguments{
   \item{data}{SpatialPointsDataFrame providing fractions of

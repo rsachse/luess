@@ -36,7 +36,7 @@
 #' gridPlot(cluAgg@@data[,"cropland"], zlim=c(0,1), main="cropland")
 #' gridPlot(cluAgg@@data[,"natveg"], zlim=c(0,1), main="natveg")
 #' gridPlot(rowSums(cluAgg@@data), main="cover")
-aggregateMosaicsClumondo <- function(data, mosaics, worldregions, fixUS=TRUE){
+aggregateMosaicsClumondo <- function(data, mosaics, worldregions, fixUS=FALSE){
   id <- match(paste(coordinates(worldregions)[,1], coordinates(worldregions)[,2]), paste(coordinates(data)[,1], coordinates(data)[,2]))
   checkcoords <- identical(id, 1:67420)  
   if(checkcoords == FALSE){
