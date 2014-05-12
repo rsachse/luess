@@ -148,7 +148,7 @@ translateCluToLpj <- function(
 ){
   checkGrids <- identical(paste(coordinates(grid)[,1],coordinates(grid)[,2]), paste(coordinates(landuseClu)[,1],coordinates(landuseClu)[,2]))
   if(checkGrids == FALSE){
-    stop(message("grid and landuseClue don't share the same grid"))
+    stop(message("grid and landuseClu don't share the same grid"))
   }
   cft          <- cftCropland
   isBioenergy  <- ifelse(is.null(cftBioenergy), FALSE, TRUE)
@@ -202,7 +202,7 @@ translateCluToLpj <- function(
   ## pasture
   if(dim(landuse)[3] == 32){#check first if landuse is really LPJ --> enables simpler testing without pasture
     for(i in years){
-      res[i,,14] <- clueLanduse@data$pasture
+      res[i,,14] <- landuseClu@data$pasture
     }  
   }
   
