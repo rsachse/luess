@@ -200,7 +200,7 @@ translateCluToLpj <- function(
   res <- res_cropland;
   
   ## pasture
-  if(dim(landuse)[3] == 32){#check first if landuse is really LPJ --> enables simpler testing without pasture
+  if(dim(landuse)[3] >= 32){#check first if landuse is really LPJ --> enables simpler testing without pasture
     for(i in years){
       res[i,,14] <- landuseClu@data$pasture[cells]
     }  
