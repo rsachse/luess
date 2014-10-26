@@ -57,7 +57,7 @@ aggregateMosaicsClumondo <- function(data, mosaics, worldregions, fixUS=FALSE){
   cluAgg <- array(NA, dim=c(nrow(data),3), dimnames=list(1:nrow(data),c("natveg", "cropland", "pasture")))
   
   for(i in 1:nrOfRegions){
-    cluOri              <- mosaics[,4:8,i]
+    cluOri              <- mosaics[,c("crop", "pasture"),i]
     theRegion           <- dimnames(mosaics)[[3]][i]
     theRows             <- which(worldregions@data$CLUWORLDREGION == theRegion)
     message(paste("Processing CLUMondo World Region Nr.", i, "of", nrOfRegions, ":", theRegion))
