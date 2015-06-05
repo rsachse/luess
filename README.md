@@ -18,7 +18,7 @@ installed, type into the R command line:
 Afterwards you can install luess by typing:
 
 	library(devtools)
-	install_github("luess", username="rsachse")
+	install_github("rsachse/luess")
 	
 The packages luess depends on will be downloaded and installed automatically from the CRAN Servers.
 	
